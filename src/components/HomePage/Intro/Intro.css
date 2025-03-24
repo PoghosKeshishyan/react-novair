@@ -1,0 +1,21 @@
+.Intro {
+    height: 464px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    display: flex;
+    align-items: flex-start;
+}
+
+.Intro img {
+    margin-top: -80px;
+    margin-bottom: -50px;
+}
+
+.Intro .text {
+    font-family: var(--second-family);
+    font-weight: 400;
+    font-size: 28px;
+    color: #fff;
+}
