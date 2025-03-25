@@ -1,3 +1,7 @@
+header {
+    background: #fff;
+}
+
 header .row {
     padding: 20px 0;
 }
@@ -8,10 +12,47 @@ header .row .menu .navbar {
     border-right: 1px solid #b3b3b3;
 }
 
+header .row .menu .navbar li {
+    position: relative;
+}
+
 header .row .menu .navbar li .nav-link {
     font-family: var(--font-family);
     font-weight: 500;
     color: #22292f;
+}
+
+header .row .menu .navbar .sub-menu {
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 0 40px -16px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    width: max-content;
+    position: absolute;
+    top: 110%;
+    opacity: 0;
+    transition: opacity .1s linear;
+}
+
+header .row .menu .navbar li:hover .sub-menu {
+    opacity: 1;
+}
+
+header .row .menu .sub-menu .sub-menu-link {
+    display: block;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 16px;
+}
+
+header .row .menu .sub-menu li:last-child .sub-menu-link {
+    margin-bottom: 0;
+}
+
+header .row .menu .change-language {
+    position: relative;
 }
 
 header .row .menu .change-language .current-lang {
@@ -19,12 +60,45 @@ header .row .menu .change-language .current-lang {
     font-family: var(--font-family);
     font-size: 14px;
     line-height: 120%;
+    cursor: pointer;
 }
 
 header .row .menu .change-language .current-lang p {
     margin: 0 5px;
 }
 
-header .sub-menu {
-    display: none;
+header .row .menu .change-language .sub-menu {
+    position: absolute;
+    top: 110%;
+    left: 16px;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 0 40px -16px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    opacity: 0;
+    transition: opacity .1s linear;
+}
+
+header .row .menu .change-language:hover .sub-menu {
+    opacity: 1;
+}
+
+header .row .menu .change-language .sub-menu .lang {
+    margin-bottom: 16px;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 120%;
+    cursor: pointer;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+header .row .menu .change-language .sub-menu .lang p {
+    font-family: var(--third-family);
+}
+
+header .row .menu .change-language .sub-menu .lang a {
+    color: #000;
 }

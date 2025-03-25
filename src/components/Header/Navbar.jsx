@@ -17,8 +17,7 @@ export default function Navbar() {
                 <a href="#" className="nav-link">Information</a>
 
                 <ul className="sub-menu">
-                    <li><a href="#" className="sub-menu-link">Passengers and baggage transportation
-                        conditions</a></li>
+                    <li><a href="#" className="sub-menu-link">Passengers and baggage transportation conditions</a></li>
                     <li><a href="#" className="sub-menu-link">Fares</a></li>
                     <li><a href="#" className="sub-menu-link">Legal information</a></li>
                     <li><a href="#" className="sub-menu-link">Passenger transportation</a></li>
