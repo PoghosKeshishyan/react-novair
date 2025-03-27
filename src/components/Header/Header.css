@@ -20,6 +20,7 @@ header .row .menu .navbar li .nav-link {
     font-family: var(--font-family);
     font-weight: 500;
     color: #22292f;
+    padding-bottom: 5px;
 }
 
 header .row .menu .navbar .sub-menu {
@@ -30,12 +31,6 @@ header .row .menu .navbar .sub-menu {
     width: max-content;
     position: absolute;
     top: 110%;
-    opacity: 0;
-    transition: opacity .1s linear;
-}
-
-header .row .menu .navbar li:hover .sub-menu {
-    opacity: 1;
 }
 
 header .row .menu .sub-menu .sub-menu-link {
@@ -45,6 +40,23 @@ header .row .menu .sub-menu .sub-menu-link {
     font-size: 14px;
     color: #000;
     margin-bottom: 16px;
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #000;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform .3s ease;
+    }
+
+    &:hover::after {
+        transform: scaleX(1);
+    }
 }
 
 header .row .menu .sub-menu li:last-child .sub-menu-link {
@@ -61,6 +73,7 @@ header .row .menu .change-language .current-lang {
     font-size: 14px;
     line-height: 120%;
     cursor: pointer;
+    padding-bottom: 1px;
 }
 
 header .row .menu .change-language .current-lang p {
@@ -69,18 +82,13 @@ header .row .menu .change-language .current-lang p {
 
 header .row .menu .change-language .sub-menu {
     position: absolute;
-    top: 110%;
+    top: 100%;
     left: 16px;
     border-radius: 10px;
     padding: 24px;
     box-shadow: 0 0 40px -16px rgba(0, 0, 0, 0.2);
     background: #fff;
-    opacity: 0;
     transition: opacity .1s linear;
-}
-
-header .row .menu .change-language:hover .sub-menu {
-    opacity: 1;
 }
 
 header .row .menu .change-language .sub-menu .lang {
@@ -101,4 +109,55 @@ header .row .menu .change-language .sub-menu .lang p {
 
 header .row .menu .change-language .sub-menu .lang a {
     color: #000;
+}
+
+
+/* =========================== media queries =========================== */
+
+@media (max-width: 670px) {
+    header {
+        position: relative;
+        height: 90px;
+    }
+
+    header .row {
+        position: relative;
+        padding: 15px 0;
+        padding-bottom: 30px;
+    }
+
+    header .row .logo img {
+        width: 65px;
+    }
+
+    header .row .menu .navbar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-right: 0;
+        border: none;
+    }
+
+    header .row .menu .navbar li .nav-link {
+        font-size: 12px;
+    }
+
+    header .row .menu .navbar .sub-menu {
+        padding: 15px;
+    }
+
+    header .row .menu .navbar .sub-menu .sub-menu-link {
+        font-size: 12px;
+    }
+
+    header .row .menu .change-language .sub-menu {
+        padding: 10px 5px;
+    }
+    
+    header .row .menu .change-language .sub-menu .lang {
+        gap: 4px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
 }

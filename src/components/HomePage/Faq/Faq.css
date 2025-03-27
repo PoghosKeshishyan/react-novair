@@ -34,3 +34,11 @@
     line-height: 140%;
     color: #a2a2a2;
 }
+
+/* =========================== media queries =========================== */
+
+@media (max-width: 450px) {
+    .Faq .faq-item .faq-header .faq-question {
+        font-size: 16px;
+    }
+}

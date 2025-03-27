@@ -78,3 +78,23 @@
     margin-left: 53px;
     margin-bottom: 22px;
 }
+
+/* =========================== media queries =========================== */
+
+@media (max-width: 1120px) {
+    .WhyChooseUs .row {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .WhyChooseUs .row .image,
+    .WhyChooseUs .row .image .girl-img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 650px) {
+    .WhyChooseUs {
+        margin-top: -80px;
+    }
+}

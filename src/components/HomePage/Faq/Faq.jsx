@@ -44,9 +44,10 @@ export default function Faq() {
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
+                            onClick={() => toggleFAQ(index)}
                             className={`faq-item ${openIndex === index ? "open" : ""}`}
                         >
-                            <div className="faq-header flex-between" onClick={() => toggleFAQ(index)}>
+                            <div className="faq-header flex-between">
                                 <p className="faq-question">{faq.question}</p>
                                 {
                                     openIndex === index ?
