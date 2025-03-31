@@ -14,7 +14,7 @@ export default function From() {
       if (!dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
       }
-    } catch{}
+    } catch { }
   }
 
   return (

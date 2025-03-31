@@ -1,5 +1,5 @@
 
-export default function PassangersDropdown({ showDropdown, passangersCount, handlerPlusBtn, handlerMinusBtn, submitBookingSearch }) {
+export default function PassangersDropdown({ showDropdown, passangersCount, handlerPlusBtn, handlerMinusBtn, setShowDropdown }) {
     return (
         <div className={`PassangersDropdown ${showDropdown ? 'show' : ''}`}>
 
@@ -55,7 +55,12 @@ export default function PassangersDropdown({ showDropdown, passangersCount, hand
             </div>
 
             <div className="btn-box">
-                <button onClick={submitBookingSearch}>Done</button>
+                <button onClick={(e) => {
+                    e.stopPropagation();
+                    setShowDropdown(prev => !prev)
+                }}>
+                    Done
+                </button>
             </div>
 
         </div>

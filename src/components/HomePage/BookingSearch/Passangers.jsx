@@ -22,7 +22,7 @@ export default function Passangers() {
       }
     } catch { }
   }
-  
+
   const handlerPlusBtn = (id) => {
     const newPassangersCount = [...passangersCount];
     const index = newPassangersCount.findIndex((item) => item.id === id);
@@ -45,6 +45,16 @@ export default function Passangers() {
     setPassangersCount(newPassangersCount);
   };
 
+  const countPassanger = () => {
+    let count = 0;
+    
+    passangersCount.forEach((item) => {
+      count += item.count;
+    });
+
+    return count;
+  }
+
   const submitBookingSearch = () => {
     console.log(passangersCount);
   }
@@ -54,7 +64,7 @@ export default function Passangers() {
       <p className="title">Passangers</p>
 
       <div className="info">
-        <span>1 passenger</span>
+        <span>{countPassanger()} passenger</span>
       </div>
 
       {showDropdown && <PassangersDropdown
@@ -62,7 +72,7 @@ export default function Passangers() {
         passangersCount={passangersCount}
         handlerPlusBtn={handlerPlusBtn}
         handlerMinusBtn={handlerMinusBtn}
-        submitBookingSearch={submitBookingSearch}
+        setShowDropdown={setShowDropdown}
       />}
     </div>
   )

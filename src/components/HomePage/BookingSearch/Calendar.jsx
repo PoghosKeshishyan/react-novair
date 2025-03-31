@@ -1,13 +1,68 @@
+import { useState, useRef, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Calendar() {
+  const today = new Date();
+  const [startDate, setStartDate] = useState(today);
+  const [endDate, setEndDate] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    window.addEventListener("mousedown", handleClickOutSide);
+  }, []);
+
+  const handleClickOutSide = (e) => {
+    try {
+      if (!dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    } catch { }
+  }
+
+  const handleChange = (dates) => {
+    const [start, end] = dates;
+    setStartDate(start instanceof Date ? start : today);
+    setEndDate(end instanceof Date ? end : null);
+  };
+
   return (
-    <div className="Calendar">
+    <div className="Calendar" ref={dropdownRef} onClick={() => setShowDropdown(true)}>
       <p className="title">Date</p>
 
       <div className="info flex-center">
         <img src="/images/bookingSearch/calendar.svg" alt="calendar" />
-        <span>05.03.2025 - 08.03.2025</span>
+        {/* <span>{startDate} - {endDate}</span> */}
+        <span>
+        {startDate.toLocaleDateString()} - {endDate ? endDate.toLocaleDateString() : "One way"}
+
+        </span>
       </div>
+
+      {showDropdown && <div className="CalendarDropdown">
+        <div className="calendar-header">
+          <div className="left side">
+            <p className="text">Departure date</p>
+            <p className="date">{startDate.toLocaleDateString()}</p>
+          </div>
+
+          <div className="right side">
+            <p className="text">{endDate && "Return date"}</p>
+            <p className="date">{endDate ? endDate.toLocaleDateString() : <span>One way ticket</span>}</p>
+          </div>
+        </div>
+
+        <DatePicker
+          selected={startDate}
+          onChange={handleChange}
+          startDate={startDate}
+          endDate={endDate}
+          selectsRange
+          inline
+          minDate={today}
+        />
+      </div>}
     </div>
   )
 }

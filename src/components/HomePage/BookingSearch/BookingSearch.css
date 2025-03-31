@@ -224,6 +224,106 @@
     cursor: pointer;
 }
 
+
+/* =========================== CALENDAR =========================== */
+
+.CalendarDropdown {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    z-index: 1;
+    width: 375px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.calendar-header {
+    padding: 8px 15px;
+    height: 66px;
+    background: #f5f5fa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.calendar-header .side {
+    width: 50%;
+    text-align: center;
+}
+
+.calendar-header .side .text {
+    font-family: var(--font-family);
+    font-size: 12px;
+    line-height: 150%;
+    color: #27272a;
+    margin-bottom: 2px;
+}
+
+.calendar-header .side .date {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+    color: #27272a;
+}
+
+.calendar-header .side .date span {
+    border-radius: 8px;
+    height: 50px;
+    line-height: 50px;
+    display: block;
+    background: rgba(1, 119, 252, 0.7);
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+}
+
+.react-datepicker {
+    width: 100%;
+    border: none !important;
+}
+
+.react-datepicker__day--disabled {
+    cursor: not-allowed;
+}
+
+.react-datepicker__month-container {
+    width: 100%;
+}
+
+.react-datepicker__header {
+    background-color: #f7f7f7 !important;
+    border-bottom: none !important;
+}
+
+.react-datepicker__day {
+    font-size: 16px;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--range-start,
+.react-datepicker__day--range-end {
+    background-color: #0177fc !important;
+    color: white !important;
+}
+
+.react-datepicker__day--in-selecting-range {
+    background: rgba(26, 148, 255, 0.2) !important;
+    color: #000 !important;
+}
+
+.react-datepicker__day--in-range {
+    background: rgba(26, 148, 255, 0.2);
+    color: #000;
+}
+
+
 /* =========================== media queries =========================== */
 
 @media (max-width: 1240px) {
@@ -274,5 +374,28 @@
 
     .PassangersDropdown .btn-box button {
         width: 100%;
+    }
+
+    .CalendarDropdown {
+        border: 1px solid #000;
+        width: 100%;
+    }
+}
+
+@media (max-width: 450px) {
+    .react-datepicker__day {
+        font-size: 13px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+    }
+}
+
+@media (max-width: 330px) {
+    .react-datepicker__day {
+        font-size: 12px;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
     }
 }
