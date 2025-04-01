@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function Calendar() {
   const today = new Date();
-  const [startDate, setStartDate] = useState(today);
+  const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -23,7 +23,7 @@ export default function Calendar() {
 
   const handleChange = (dates) => {
     const [start, end] = dates;
-    setStartDate(start instanceof Date ? start : today);
+    setStartDate(start instanceof Date ? start : null); 
     setEndDate(end instanceof Date ? end : null);
   };
 
@@ -33,10 +33,10 @@ export default function Calendar() {
 
       <div className="info flex-center">
         <img src="/images/bookingSearch/calendar.svg" alt="calendar" />
-        {/* <span>{startDate} - {endDate}</span> */}
         <span>
-        {startDate.toLocaleDateString()} - {endDate ? endDate.toLocaleDateString() : "One way"}
-
+          {startDate ? startDate.toLocaleDateString() : "Start date"} 
+          - 
+          {endDate ? endDate.toLocaleDateString() : "One way"}
         </span>
       </div>
 
@@ -44,7 +44,7 @@ export default function Calendar() {
         <div className="calendar-header">
           <div className="left side">
             <p className="text">Departure date</p>
-            <p className="date">{startDate.toLocaleDateString()}</p>
+            <p className="date">{startDate ? startDate.toLocaleDateString() : "Select start date"}</p>
           </div>
 
           <div className="right side">
