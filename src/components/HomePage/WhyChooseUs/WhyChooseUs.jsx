@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./WhyChooseUs.css";
 
-export default function WhyChooseUs() {
+export function WhyChooseUs() {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const reasons_list = [

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import Dropdown from "./Dropdown";
+import { Dropdown } from "./Dropdown";
 
-export default function From() {
+export function From({ from, setFrom }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -24,13 +24,13 @@ export default function From() {
 
         <div className="info flex-center">
           <img src="/images/bookingSearch/plane-flight.svg" alt="plane" />
-          <span>Yerevan-Jakarta</span>
+          {from ? <span>Yerevan-Jakarta</span> : <span>Select</span>}
         </div>
       </div>
 
       <div className="right-side">EVN</div>
 
-      {showDropdown && <Dropdown showDropdown={showDropdown} />}
+      {showDropdown && <Dropdown showDropdown={showDropdown} from={from} setFrom={setFrom} />}
     </div>
   )
 }

@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+/NovAir_GroupTrio
+/tickects.pgerd
+/tickects.pgerd.png
+/Фабрика форматов Запись с экрана20250317_155925.mp4
+
 # testing
 /coverage
 
@@ -21,3 +26,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+Фабрика форматов Запись с экрана20250317_155925.mp4

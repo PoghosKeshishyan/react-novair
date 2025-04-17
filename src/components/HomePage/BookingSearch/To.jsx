@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import Dropdown from "./Dropdown";
+import { Dropdown } from "./Dropdown";
 
-export default function To() {
+export function To() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -14,7 +14,7 @@ export default function To() {
       if (!dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
       }
-    } catch{}
+    } catch { }
   }
 
   return (

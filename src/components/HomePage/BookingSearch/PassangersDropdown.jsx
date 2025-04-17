@@ -1,5 +1,5 @@
 
-export default function PassangersDropdown({ showDropdown, passangersCount, handlerPlusBtn, handlerMinusBtn, setShowDropdown }) {
+export function PassangersDropdown({ showDropdown, passangersCount, handlerPlusBtn, handlerMinusBtn, setShowDropdown }) {
     return (
         <div className={`PassangersDropdown ${showDropdown ? 'show' : ''}`}>
 

@@ -1,0 +1,95 @@
+.ReturnTickets .ticket {
+    margin-bottom: 72px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.ReturnTickets .ticket .info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 80px;
+    padding-right: 100px;
+    width: 90%;
+    border-right: 2px dashed #878f8f;
+}
+
+.ReturnTickets .ticket .info .logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 12px;
+    color: #292f2e;
+}
+
+.ReturnTickets .ticket .info .logo img {
+    width: 83px;
+    height: 29px;
+}
+
+.ReturnTickets .ticket .info .time-container {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.ReturnTickets .ticket .info .time-container .time {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 24px;
+    color: #292f2e;
+    margin-bottom: 1rem;
+}
+
+.ReturnTickets .ticket .info .time-container .descr {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 20px;
+    color: #878f8f;
+}
+
+.ReturnTickets .ticket .info .time-container .border-dashed {
+    width: 80px;
+    border: 1px dashed #8A8A8A;
+}
+
+.ReturnTickets .ticket .price {
+    width: 11%;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.ReturnTickets .ticket .price .price_value {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: #024973;
+    margin-bottom: 10px;
+}
+
+.ReturnTickets .ticket .price .btn {
+    border-radius: 10px;
+    padding: 10.5px 35px;
+    background: #0177fc;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
+}

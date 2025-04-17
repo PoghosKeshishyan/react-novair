@@ -1,6 +1,6 @@
 import './Intro.css';
 
-export default function Intro() {
+export function Intro() {
     return (
         <div className="Intro" style={{ backgroundImage: `url(/images/intro/intro-bg.png)` }}>
             <div className="container">

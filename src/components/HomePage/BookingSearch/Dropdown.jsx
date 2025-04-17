@@ -1,6 +1,5 @@
-import React from 'react'
 
-export default function Dropdown({ showDropdown }) {
+export function Dropdown({ showDropdown, from, setFrom }) {
     return (
         <div className={`dropdown ${showDropdown ? 'show' : ''}`}>
             <div className="ticket flex-between">

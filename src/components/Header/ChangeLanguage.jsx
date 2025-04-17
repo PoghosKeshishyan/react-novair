@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function ChangeLanguage() {
+export function ChangeLanguage() {
     const [showDropdown, setShowDropdown] = useState(false);
 
     return (

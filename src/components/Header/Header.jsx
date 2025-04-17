@@ -1,18 +1,18 @@
-import Logo from './Logo';
-import Navbar from './Navbar';
-import ChangeLanguage from './ChangeLanguage';
+import { Logo } from './Logo';
+import { Navbar } from './Navbar';
+import { ChangeLanguage } from './ChangeLanguage';
 import './Header.css';
 
-export default function Header() {
+export function Header() {
     return (
         <header>
             <div className="container">
                 <div className="row flex-between">
                     <Logo />
-                    
+
                     <div className="menu flex-between">
                         <Navbar />
-                        <ChangeLanguage />                        
+                        <ChangeLanguage />
                     </div>
                 </div>
             </div>

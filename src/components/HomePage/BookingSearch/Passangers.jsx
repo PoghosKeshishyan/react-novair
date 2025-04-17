@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import PassangersDropdown from "./PassangersDropdown";
+import { PassangersDropdown } from "./PassangersDropdown";
 
-export default function Passangers() {
+export function Passangers() {
   const [passangersCount, setPassangersCount] = useState([
     { id: 0, name: "Adult", count: 1 },
     { id: 1, name: "Children", count: 0 },
@@ -47,7 +47,7 @@ export default function Passangers() {
 
   const countPassanger = () => {
     let count = 0;
-    
+
     passangersCount.forEach((item) => {
       count += item.count;
     });

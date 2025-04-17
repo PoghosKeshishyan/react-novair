@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function Calendar() {
+export function Calendar() {
   const today = new Date();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
