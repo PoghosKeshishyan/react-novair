@@ -1,0 +1,40 @@
+.BookingResultsPage {
+    margin-top: 120px;
+}
+
+.BookingResultsPage .continue_btn {
+    margin-bottom: 85px;
+    text-align: end;
+}
+
+.BookingResultsPage .continue_btn button {
+    border-radius: 10px;
+    padding: 25px 53px;
+    box-shadow: 0 16px 24px -12px rgba(0, 0, 0, 0.2);
+    background: #0177fc;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
+}
+
+@media (max-width: 860px) {
+    .BookingResultsPage .continue_btn button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 668px) {
+    .BookingResultsPage {
+        margin-top: 0;
+    }
+}

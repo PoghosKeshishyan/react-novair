@@ -1,0 +1,36 @@
+.BookingNavigation {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+}
+
+.BookingNavigation .field {
+    text-align: center;
+}
+
+.BookingNavigation .field p {
+    font-family: var(--second-family);
+    font-weight: 600;
+    color: #22292f;
+    white-space: nowrap;
+}
+
+.BookingNavigation .line {
+    width: 240px;
+    height: 4px;
+    background: #CCE4FE;
+    border-radius: 30px;
+}
+
+.BookingNavigation .line.active {
+    background: #0177fc;
+}
+
+@media (max-width: 600px) {
+    .BookingNavigation .field p {
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,100 @@
+.ReturnDateSlider {
+    margin-bottom: 20px;
+}
+
+.ReturnDateSlider .flight-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 28px;
+    color: #22292f;
+    margin-bottom: 20px;
+}
+
+.ReturnDateSlider .flight-header img {
+    width: 44px;
+    height: 44px;
+}
+
+.ReturnDateSlider .flight-slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 16px;
+    padding: 8px 16px;
+    box-shadow: 0 24px 40px -16px rgba(0, 0, 0, 0.06);
+    background: #fff;
+    user-select: none;
+}
+
+.ReturnDateSlider .flight-slider img {
+    cursor: pointer;
+}
+
+.ReturnDateSlider .flight-slider .date-list {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 43px;
+    width: 100%;
+}
+
+.ReturnDateSlider .flight-slider .date-list .date-item {
+    padding: 0 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+}
+
+.ReturnDateSlider .flight-slider .date-list .date-item.selected {
+    background-color: #007bff;
+}
+
+.ReturnDateSlider .flight-slider .date-list .date-item .day {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 150%;
+    color: #27272a;
+}
+
+.ReturnDateSlider .flight-slider .date-list .date-item .date {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    color: #808089;
+}
+
+.ReturnDateSlider .flight-slider .date-list .date-item.selected * {
+    color: white;
+}
+
+@media (max-width: 450px) {
+    .ReturnDateSlider .flight-slider .date-list {
+        margin: 0 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .ReturnDateSlider .flight-slider .date-list {
+        justify-content: center;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .ReturnDateSlider .flight-header {
+        font-size: 20px;
+    }
+
+    .ReturnDateSlider .flight-header img {
+        width: 35px;
+        height: 35px;
+    }
+}

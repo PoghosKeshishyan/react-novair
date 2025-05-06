@@ -1,0 +1,26 @@
+.BookingClientInfoPage {
+    margin-top: 92px;
+}
+
+.BookingClientInfoPage .page-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 32px;
+    gap: 50px;
+}
+
+@media (max-width: 1110px) {
+    .BookingClientInfoPage .page-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        margin-bottom: 70px;
+    }
+}
+
+@media (max-width: 668px) {
+    .BookingClientInfoPage {
+        margin-top: 0;
+    }
+}

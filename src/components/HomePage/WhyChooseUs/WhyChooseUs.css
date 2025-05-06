@@ -1,0 +1,105 @@
+.WhyChooseUs .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.WhyChooseUs .image {
+    position: relative;
+    z-index: -1;
+}
+
+.WhyChooseUs .image .map-img {
+    position: absolute;
+    top: -15%;
+    left: -10%;
+    z-index: -1;
+    width: 100%;
+}
+
+.WhyChooseUs .content {
+    width: 100%;
+}
+
+.WhyChooseUs .content .title {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 20px;
+    color: #a2a2a2;
+}
+
+.WhyChooseUs .content .sub_title {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 28px;
+    color: #20242a;
+    width: 364px;
+    margin: 20px 0;
+}
+
+.WhyChooseUs .content .accordion-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.WhyChooseUs .content .accordion-item .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    cursor: pointer;
+}
+
+.WhyChooseUs .content .accordion-item .accordion-header .title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.WhyChooseUs .content .accordion-item .accordion-header .title span {
+    font-family: var(--second-family);
+    font-weight: 600;
+    font-size: 24px;
+    color: #a2a2a2;
+    width: 40px;
+}
+
+.WhyChooseUs .content .accordion-item .accordion-header .title h2 {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 24px;
+    color: #20242a;
+}
+
+.WhyChooseUs .content .accordion-item .accordion-content {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 140%;
+    color: #a2a2a2;
+    margin-left: 53px;
+    margin-bottom: 22px;
+}
+
+/* =========================== media queries =========================== */
+
+@media (max-width: 1120px) {
+    .WhyChooseUs .row {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .WhyChooseUs .row .image,
+    .WhyChooseUs .row .image .girl-img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 650px) {
+    .WhyChooseUs {
+        margin-top: -80px;
+    }
+
+    .WhyChooseUs .content .sub_title {
+        width: 100%;
+    }
+}

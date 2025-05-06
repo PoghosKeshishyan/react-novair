@@ -1,0 +1,9 @@
+.HomePage {
+    margin-top: 92px;
+}
+
+@media (max-width: 668px) {
+    .HomePage {
+        margin-top: 0;
+    }
+}

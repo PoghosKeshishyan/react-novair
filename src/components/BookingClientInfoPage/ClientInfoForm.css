@@ -1,0 +1,384 @@
+.ClientInfoForm {
+    margin-bottom: 40px;
+}
+
+.ClientInfoForm .box {
+    border-radius: 24px;
+    padding: 32px 24px;
+    width: 688px;
+    background: #fff;
+    margin-bottom: 16px;
+    box-shadow: 0 24px 40px -16px rgba(0, 0, 0, 0.06);
+
+    &:last-child {
+        height: 482px;
+        position: relative;
+    }
+}
+
+.ClientInfoForm .box .title {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 20px;
+    color: #22292f;
+    margin-bottom: 24px;
+}
+
+.ClientInfoForm .box:last-child .title {
+    margin-bottom: 0;
+}
+
+.ClientInfoForm .box .fields {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.ClientInfoForm .box .fields .input-box label {
+    font-family: var(--font-family);
+    font-weight: 400;
+    color: #22292f;
+}
+
+.ClientInfoForm .box .fields .input-box label span {
+    color: red;
+}
+
+.ClientInfoForm .box .fields .input-box input,
+.ClientInfoForm .box .fields .input-box select {
+    border: 1px solid #d1d1d1;
+    border-radius: 12px;
+    padding: 12px 16px;
+    width: 310px;
+    height: 48px;
+    display: block;
+    margin-top: 12px;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    color: #22292f;
+}
+
+.ClientInfoForm .box .fields .input-box select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background-position: calc(100% - 16px) center;
+    background-repeat: no-repeat;
+    background-image: url('../../../public/images/arrow-down.svg');
+}
+
+.ClientInfoForm .box .fields .input-box.small input,
+.ClientInfoForm .box .fields .input-box.small select {
+    width: 200px;
+}
+
+/* ======================= telephone-input ======================= */
+
+.react-tel-input {
+    width: 100%;
+}
+
+.react-tel-input .form-control {
+    margin-top: 12px !important;
+    border-radius: 8px;
+    border: 1px solid #1677ff;
+    padding-left: 48px !important;
+    font-size: 16px;
+}
+
+.react-tel-input .selected-flag {
+    border-radius: 8px 0 0 8px;
+    background-color: #f0f0f0;
+}
+
+.react-tel-input .country-list {
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.react-tel-input .selected-flag {
+    background: white;
+}
+
+/* ======================= telephone-input end ======================= */
+
+
+/* ======================= citizenship-input ======================= */
+.citizenship-input {
+    margin-top: 12px;
+    width: 310px;
+}
+
+.citizenship-input .ReactFlagsSelect-module_selectBtn__19wW7 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 10px 16px;
+    border-radius: 12px;
+}
+
+.citizenship-input .ReactFlagsSelect-module_label__27pw9 {
+    font-size: 16px;
+    font-family: Arial;
+}
+
+.ReactFlagsSelect-module_flagsSelect__2pfa2 {
+    padding-bottom: 0 !important;
+}
+
+.citizenship-input .ReactFlagsSelect-module_selectOptions__3LNBJ {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 250px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.citizenship-input .ReactFlagsSelect-module_selectOption__3pcgW {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.ReactFlagsSelect-module_filterBox__3m8EU {
+    padding-top: 0 !important;
+}
+
+.ReactFlagsSelect-module_filterBox__3m8EU input {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 18px 8px !important;
+    height: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #878f8f !important;
+}
+
+/* ======================= citizenship-input end ======================= */
+
+.ClientInfoForm .box .airplane-board {
+    height: 350px;
+    background-image: url(../../../public/images/ariplane-board.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    user-select: none;
+}
+
+.ClientInfoForm .box .airplane-board .seat-row {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    left: 286px;
+
+
+    &:first-child {
+        top: 65px;
+    }
+
+    &:nth-child(2) {
+        top: 127px;
+    }
+
+    &:last-child {
+        top: 231px;
+    }
+}
+
+.ClientInfoForm .box .airplane-board .seat-row .seat {
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.04);
+    background: #fff;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    color: #878f8f;
+    cursor: pointer;
+    transition: none;
+
+    &:hover {
+        background: #878f8f2e;
+        color: #000;
+    }
+}
+
+.ClientInfoForm .box .airplane-board .seat-row .seat.taken {
+    background: #878f8f;
+    color: #fff;
+    font-weight: 500;
+    cursor: not-allowed;
+}
+
+.ClientInfoForm .box .airplane-board .seat-row .seat.selected {
+    background: #0177fc;
+    color: #fff;
+}
+
+.ClientInfoForm .box .price-seat {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 24px;
+}
+
+.ClientInfoForm .box .price-seat .price {
+    font-family: var(--second-family);
+    font-weight: 700;
+    font-size: 18px;
+    color: #22292f;
+}
+
+.ClientInfoForm .box .price-seat .select-seat-btn {
+    border-radius: 10px;
+    width: 147px;
+    height: 50px;
+    font-family: var(--second-family);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.ClientInfoForm .box .price-seat .select-seat-btn.active {
+    background: #0177fc;
+    cursor: pointer;
+    color: #fff;
+}
+
+
+.ClientInfoForm .box .price-seat .seat-number {
+    font-family: var(--second-family);
+    font-weight: 700;
+    font-size: 18px;
+    color: #22292f;
+    width: 25px;
+    text-align: right;
+}
+
+
+@media (max-width: 766px) {
+    .ClientInfoForm .box {
+        width: 100%;
+
+        &:last-child {
+            height: 790px;
+        }
+    }
+
+    .ClientInfoForm .box .fields .input-box,
+    .ClientInfoForm .box .fields .input-box.small input,
+    .ClientInfoForm .box .fields .input-box.small select,
+    .ClientInfoForm .box .fields .input-box input,
+    .ClientInfoForm .box .fields .input-box select,
+    .citizenship-input {
+        width: 100%;
+    }
+
+    .ClientInfoForm .box .airplane-board {
+        background-image: url(../../../public//images/ariplane-board-straight.png);
+        background-size: contain;
+        height: 610px;
+        margin: 24px 0;
+        position: relative;
+    }
+
+    .ClientInfoForm .box .airplane-board .seat-row {
+        flex-direction: column;
+        top: 260px !important;
+
+        &:first-child {
+            left: 59% !important;
+        }
+
+        &:nth-child(2) {
+            left: 49% !important;
+        }
+
+        &:last-child {
+            left: 33% !important;
+        }
+    }
+}
+
+@media (max-width: 686px) {
+    .ClientInfoForm .box .airplane-board .seat-row {
+        &:first-child {
+            left: 61% !important;
+        }
+
+        &:last-child {
+            left: 31% !important;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .ClientInfoForm .box .airplane-board .seat-row {
+        &:last-child {
+            left: 26% !important;
+        }
+    }
+}
+
+@media (max-width: 560px) {
+    .ClientInfoForm .box .airplane-board .seat-row {
+        &:nth-child(2) {
+            left: 46% !important;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .ClientInfoForm .box .airplane-board .seat-row {
+        &:first-child {
+            left: 65% !important;
+        }
+
+        &:last-child {
+            left: 22% !important;
+        }
+    }
+}
+
+@media (max-width: 420px) {
+    .ClientInfoForm .box .airplane-board .seat-row {
+        &:last-child {
+            left: 18% !important;
+        }
+    }
+
+    .ClientInfoForm .box .price-seat {
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .ClientInfoForm .box .price-seat .price {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 375px) {
+    .ClientInfoForm .box .airplane-board .seat-row {
+        &:first-child {
+            left: 70% !important;
+        }
+
+        &:nth-child(2) {
+            left: 48% !important;
+        }
+
+        &:last-child {
+            left: 12% !important;
+        }
+    }
+}
