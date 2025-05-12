@@ -1,31 +1,42 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { LanguageContext } from "../../context/LanguageContext";
 
-export function ChangeLanguage() {
+export function ChangeLanguage({ languages }) {
+    const { changeLanguage, currentLang } = useContext(LanguageContext);
     const [showDropdown, setShowDropdown] = useState(false);
+    const selectedLang = languages.find(lang => lang.code === currentLang) || languages[0];
+
+    const handleLanguageChange = (langCode) => {
+        changeLanguage(langCode);
+        setShowDropdown(false);
+    };
 
     return (
-        <div 
+        <div
             className="change-language"
             onMouseEnter={() => setShowDropdown(true)}
-            onMouseLeave={() => setShowDropdown(false)}
+            // onMouseLeave={() => setShowDropdown(false)}
         >
             <div className="current-lang flex-between">
-                <img src="images/header/flag-en.svg" alt="flag-en" />
-                <p>English</p>
+                <img src={selectedLang.image} alt={`flag-${selectedLang.code}`} />
+                <p>{selectedLang.title}</p>
                 <img src="images/header/lang-arrow.svg" alt="lang-arrow" />
             </div>
 
             {showDropdown && (
                 <div className="sub-menu">
-                    <div className="lang flex-between">
-                        <img src="images/header/flag-am.svg" alt="flag-am" />
-                        <p>Հայերեն</p>
-                    </div>
-
-                    <div className="lang flex-between">
-                        <img src="images/header/flag-ru.svg" alt="flag-ru" />
-                        <p>Русский</p>
-                    </div>
+                    {languages
+                        .filter(lang => lang.code !== selectedLang.code)
+                        .map((lang) => (
+                            <div
+                                key={lang.id}
+                                className="lang flex-between"
+                                onClick={() => handleLanguageChange(lang.code)}
+                            >
+                                <img src={lang.image} alt={`flag-${lang.code}`} />
+                                <p>{lang.title}</p>
+                            </div>
+                        ))}
                 </div>
             )}
         </div>

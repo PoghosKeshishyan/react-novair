@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import './FlightDateSlider.css';
 
-export function FlightDateSlider() {
+export function FlightDateSlider({ departure_flights} ) {
   const [startDate, setStartDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [daysVisible, setDaysVisible] = useState(getDaysVisible());
@@ -41,13 +41,12 @@ export function FlightDateSlider() {
   const goRight = () => {
     setStartDate(startDate.add(1, 'day'));
   };
-
+  
   return (
     <div className="FlightDateSlider">
       <div className="flight-header">
         <img src="/images/plane-flight.svg" alt="plane-flight" />
-        {/* {departure.from_here} - {departure.to_there} */}
-        YEREVAN - JAKARTA
+        {departure_flights[0].from_here} - {departure_flights[0].to_there}
       </div>
 
       <div className="flight-slider">

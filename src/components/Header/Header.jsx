@@ -3,16 +3,16 @@ import { Navbar } from './Navbar';
 import { ChangeLanguage } from './ChangeLanguage';
 import './Header.css';
 
-export function Header() {
+export function Header({ headerData }) {
     return (
         <header>
             <div className="container">
                 <div className="row flex-between">
-                    <Logo />
+                    <Logo logo={headerData.logo} />
 
                     <div className="menu flex-between">
-                        <Navbar />
-                        <ChangeLanguage />
+                        <Navbar navbar={headerData.navbar} />
+                        <ChangeLanguage languages={headerData.languages} />
                     </div>
                 </div>
             </div>

@@ -12,11 +12,10 @@ export function BookingSearch({ bookingData, setBookingData }) {
   const handlerSearchBtn = async () => {
     try {
       const res = await axios.post('search-flights/', bookingData);
-      sessionStorage.setItem('bookingSearchResult', JSON.stringify(res.data));
-
-      console.log(res);
-
+      // sessionStorage.setItem('bookingSearchResult', JSON.stringify(res.data));
       // navigate('/booking')
+      console.log(res.data);
+      
     } catch (error) {
       alert(error.response.data['am']);
     }

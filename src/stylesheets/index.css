@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap');
 
+@font-face {
+  font-family: 'Arial Regular';
+  src: url('../../public/fonts/ARIAL.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +21,7 @@
 :root {
   --font-family: "Inter", sans-serif;
   --second-family: "Manrope", sans-serif;
-  --third-family: "Arial", sans-serif;
+  --third-family: 'Arial Regular';
 }
 
 *::selection {

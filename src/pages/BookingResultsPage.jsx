@@ -14,7 +14,7 @@ export function BookingResultsPage() {
     window.scrollTo(0, 0);
 
     const sessionData = JSON.parse(sessionStorage.getItem('bookingSearchResult'));
-    setBookingSearchResults(sessionData || {});
+    setBookingSearchResults(sessionData);
   }, []);
 
   const navigate = useNavigate();
@@ -23,19 +23,22 @@ export function BookingResultsPage() {
     <div className="BookingResultsPage container">
       <Guide />
 
+
       {/* flight information */}
-      <FlightDateSlider />
+      <FlightDateSlider departure_flights={bookingSearchResults.departure_flights} />
       <FlightTickets departure_flights={bookingSearchResults.departure_flights} />
 
+
+      {/* return related information */}
       {
-        bookingSearchResults.return && (
+        bookingSearchResults.return_flights && (
           <>
-            {/* return related information */}
-            <ReturnDateSlider />
-            <ReturnTickets />
+            <ReturnDateSlider return_flights={bookingSearchResults.return_flights} />
+            <ReturnTickets return_flights={bookingSearchResults.return_flights} />
           </>
         )
       }
+
 
       <div className="continue_btn" onClick={() => navigate('/booking/check-baggage')}>
         <button>Continue</button>

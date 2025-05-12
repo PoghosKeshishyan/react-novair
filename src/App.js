@@ -1,3 +1,5 @@
+import { useContext, useEffect, useState } from "react";
+import { LanguageContext } from "./context/LanguageContext";
 import { Route, Routes } from "react-router";
 import { Header } from "./components/Header/Header";
 import { HomePage } from "./pages/HomePage";
@@ -6,11 +8,33 @@ import { BookingCheckBaggagePage } from "./pages/BookingCheckBaggagePage";
 import { BookingClientInfoPage } from './pages/BookingClientInfoPage';
 import { BookingPaymentPage } from "./pages/BookingPaymentPage";
 import { Footer } from "./components/Footer/Footer";
+import axios from "./axios";
 
-export default function App() {
+export function App() {
+  const {currentLang} = useContext(LanguageContext);
+  const [headerData, setHeaderData] = useState(null);
+
+  useEffect(() => {
+    const loadingData = async () => {
+      const [resLogo, resNavbar, resLanguages] = await Promise.all([
+        axios.get('logo'),
+        axios.get(`navbars?lang=${currentLang}`),
+        axios.get('languages')
+      ]);
+
+      setHeaderData({
+        logo: resLogo.data.results[0],
+        navbar: resNavbar.data.results,
+        languages: resLanguages.data.results,
+      });
+    };
+
+    loadingData();
+  }, [currentLang])
+
   return (
     <div className="App">
-      <Header />
+      {headerData && <Header headerData={headerData} />}
 
       <Routes>
         <Route path="/" element={<HomePage />} />

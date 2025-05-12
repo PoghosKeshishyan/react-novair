@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import './ReturnDateSlider.css';
 
-export function ReturnDateSlider() {
+export function ReturnDateSlider({ return_flights }) {
   const [startDate, setStartDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [daysVisible, setDaysVisible] = useState(getDaysVisible());
@@ -11,11 +11,11 @@ export function ReturnDateSlider() {
     const width = window.innerWidth;
 
     if (width >= 1200) return 10;
-    if (width >= 930)  return 8;
-    if (width >= 740)  return 6;
-    if (width >= 640)  return 5;
-    if (width >= 530)  return 4;
-    if (width >= 400)  return 3;
+    if (width >= 930) return 8;
+    if (width >= 740) return 6;
+    if (width >= 640) return 5;
+    if (width >= 530) return 4;
+    if (width >= 400) return 3;
 
     return 2;
   }
@@ -40,13 +40,13 @@ export function ReturnDateSlider() {
 
   const goRight = () => {
     setStartDate(startDate.add(1, 'day'));
-  };
+  };  
 
   return (
     <div className="ReturnDateSlider">
       <div className="flight-header">
         <img src="/images/plane-arrive.svg" alt="plane-arrive" />
-        Jakarta - Yerevan
+        {return_flights[0].from_here} - {return_flights[0].to_there}
       </div>
 
       <div className="flight-slider">
