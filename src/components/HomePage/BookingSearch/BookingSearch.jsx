@@ -6,15 +6,15 @@ import { Passangers } from './Passangers';
 import axios from '../../../axios';
 import './BookingSearch.css';
 
-export function BookingSearch({ bookingData, setBookingData }) {
+export function BookingSearch({ }) {
   const navigate = useNavigate();
 
   const handlerSearchBtn = async () => {
     try {
-      const res = await axios.post('search-flights/', bookingData);
+      // const res = await axios.post('search-flights/', bookingData);
       // sessionStorage.setItem('bookingSearchResult', JSON.stringify(res.data));
       // navigate('/booking')
-      console.log(res.data);
+      // console.log(res.data);
       
     } catch (error) {
       alert(error.response.data['am']);
@@ -25,10 +25,10 @@ export function BookingSearch({ bookingData, setBookingData }) {
     <div className='BookingSearch'>
       <div className="container">
         <div className="row flex-between">
-          <From from={bookingData.from} setBookingData={setBookingData} />
-          <To to={bookingData.to} setBookingData={setBookingData} />
-          <Calendar bookingData={bookingData} setBookingData={setBookingData} />
-          <Passangers bookingData={bookingData} setBookingData={setBookingData} />
+          <From />
+          {/* <To /> */}
+          {/* <Calendar /> */}
+          {/* <Passangers /> */}
           <button className='btn' onClick={handlerSearchBtn}>Search</button>
         </div>
       </div>

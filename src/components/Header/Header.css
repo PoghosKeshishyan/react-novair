@@ -73,7 +73,7 @@ header .row .menu .change-language {
 }
 
 header .row .menu .change-language * {
-    font-family: var(--third-family);
+    font-family: 'Arial Regular';
 }
 
 header .row .menu .change-language .current-lang {

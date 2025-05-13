@@ -10,10 +10,11 @@ import '../stylesheets/HomePage.css';
 export function HomePage() {
   const { currentLang } = useContext(LanguageContext);
   const [introData, setIntroData] = useState(null);
+  const [bookingData, setBookingData] = useState(null);
   const [whyChooseUsData, setWhyChooseUsData] = useState(null);
   const [faqData, setFaqData] = useState(null);
 
-  const [bookingData, setBookingData] = useState({
+  const [bookingPostData, setBookingPostData] = useState({
     "from_here": "Erevan",
     "to_there": "Syuniq",
     "airport_name": "Զվարթնոց",
@@ -32,9 +33,12 @@ export function HomePage() {
       const resIntro = await axios.get(`homepage_intro/?lang=${currentLang}`);
       setIntroData(resIntro.data.results[0]);
 
-      /* =============================================== */
-      // booking search axios responses
-      /* =============================================== */
+      const resBooking = await axios.get(`homepage_booking_search/?lang=${currentLang}`);
+      const resFlightDirections = await axios.get('flight_direction/');
+      console.log(resBooking.data.results[0]);
+      console.log(resFlightDirections.data.results);
+      
+      
 
       const resWhyChooseUs = await axios.get(`homepage_why_choose_us/?lang=${currentLang}`);
       setWhyChooseUsData(resWhyChooseUs.data.results[0]);
@@ -50,7 +54,7 @@ export function HomePage() {
   return (
     <div className="HomePage">
       {introData && <Intro introData={introData} />}
-      <BookingSearch bookingData={bookingData} setBookingData={setBookingData} />
+      {bookingData && <BookingSearch />}
       {whyChooseUsData && <WhyChooseUs whyChooseUsData={whyChooseUsData} />}
       {faqData && <Faq faqData={faqData} />}
     </div>
