@@ -80,6 +80,10 @@
     margin-bottom: 22px;
 }
 
+.WhyChooseUs .content img {
+    width: 15px;
+}
+
 /* =========================== media queries =========================== */
 
 @media (max-width: 1120px) {

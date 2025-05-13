@@ -35,6 +35,10 @@
     color: #a2a2a2;
 }
 
+.Faq img {
+    width: 15px;
+}
+
 /* =========================== media queries =========================== */
 
 @media (max-width: 450px) {

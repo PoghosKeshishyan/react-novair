@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { LanguageContext } from '../context/LanguageContext';
 import { Intro } from '../components/HomePage/Intro/Intro';
 import { BookingSearch } from '../components/HomePage/BookingSearch/BookingSearch';
 import { WhyChooseUs } from '../components/HomePage/WhyChooseUs/WhyChooseUs';
@@ -7,6 +8,11 @@ import axios from '../axios';
 import '../stylesheets/HomePage.css';
 
 export function HomePage() {
+  const { currentLang } = useContext(LanguageContext);
+  const [introData, setIntroData] = useState(null);
+  const [whyChooseUsData, setWhyChooseUsData] = useState(null);
+  const [faqData, setFaqData] = useState(null);
+
   const [bookingData, setBookingData] = useState({
     "from_here": "Erevan",
     "to_there": "Syuniq",
@@ -22,15 +28,31 @@ export function HomePage() {
   });
 
   useEffect(() => {
+    const loadingData = async () => {
+      const resIntro = await axios.get(`homepage_intro/?lang=${currentLang}`);
+      setIntroData(resIntro.data.results[0]);
+
+      /* =============================================== */
+      // booking search axios responses
+      /* =============================================== */
+
+      const resWhyChooseUs = await axios.get(`homepage_why_choose_us/?lang=${currentLang}`);
+      setWhyChooseUsData(resWhyChooseUs.data.results[0]);
+
+      const resFaq = await axios.get(`homepage_faq/?lang=${currentLang}`);
+      setFaqData(resFaq.data.results[0]);
+    };
+
     window.scrollTo(0, 0);
-  }, []);
+    loadingData();
+  }, [currentLang]);
 
   return (
     <div className="HomePage">
-      <Intro />
+      {introData && <Intro introData={introData} />}
       <BookingSearch bookingData={bookingData} setBookingData={setBookingData} />
-      <WhyChooseUs />
-      <Faq />
+      {whyChooseUsData && <WhyChooseUs whyChooseUsData={whyChooseUsData} />}
+      {faqData && <Faq faqData={faqData} />}
     </div>
   )
 }

@@ -11,26 +11,37 @@ import { Footer } from "./components/Footer/Footer";
 import axios from "./axios";
 
 export function App() {
-  const {currentLang} = useContext(LanguageContext);
+  const { currentLang } = useContext(LanguageContext);
   const [headerData, setHeaderData] = useState(null);
+  const [footerData, setFooterData] = useState(null);
 
   useEffect(() => {
     const loadingData = async () => {
-      const [resLogo, resNavbar, resLanguages] = await Promise.all([
-        axios.get('logo'),
-        axios.get(`navbars?lang=${currentLang}`),
-        axios.get('languages')
-      ]);
+      try {
+        const [resLogo, resNavbar, resLanguages, resFooter] = await Promise.all([
+          axios.get('logo'),
+          axios.get(`navbars?lang=${currentLang}`),
+          axios.get('languages'),
+          axios.get(`footers?lang=${currentLang}`)
+        ]);
 
-      setHeaderData({
-        logo: resLogo.data.results[0],
-        navbar: resNavbar.data.results,
-        languages: resLanguages.data.results,
-      });
+        setHeaderData({
+          logo: resLogo.data.results[0],
+          navbar: resNavbar.data.results,
+          languages: resLanguages.data.results,
+        });
+
+        setFooterData({
+          logo: resLogo.data.results[0],
+          urls: resFooter.data.results[0],
+        }); 
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
     };
 
     loadingData();
-  }, [currentLang])
+  }, [currentLang]);
 
   return (
     <div className="App">
@@ -44,7 +55,7 @@ export function App() {
         <Route path="/booking/payment" element={<BookingPaymentPage />} />
       </Routes>
 
-      <Footer />
+      {footerData && <Footer footerData={footerData} />}
     </div>
-  )
+  );
 }

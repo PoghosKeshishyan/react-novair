@@ -15,12 +15,12 @@ export function ChangeLanguage({ languages }) {
         <div
             className="change-language"
             onMouseEnter={() => setShowDropdown(true)}
-            // onMouseLeave={() => setShowDropdown(false)}
+            onMouseLeave={() => setShowDropdown(false)}
         >
-            <div className="current-lang flex-between">
+            <div className="current-lang flex-center">
                 <img src={selectedLang.image} alt={`flag-${selectedLang.code}`} />
                 <p>{selectedLang.title}</p>
-                <img src="images/header/lang-arrow.svg" alt="lang-arrow" />
+                <img src="images/lang-arrow.svg" alt="lang-arrow" />
             </div>
 
             {showDropdown && (
@@ -30,7 +30,7 @@ export function ChangeLanguage({ languages }) {
                         .map((lang) => (
                             <div
                                 key={lang.id}
-                                className="lang flex-between"
+                                className="lang flex-center"
                                 onClick={() => handleLanguageChange(lang.code)}
                             >
                                 <img src={lang.image} alt={`flag-${lang.code}`} />
