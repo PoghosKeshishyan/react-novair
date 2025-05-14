@@ -44,7 +44,7 @@ export function App() {
   }, [currentLang]);
 
   return (
-    <div className="App">
+    <div className={`App ${currentLang === 'am' ? 'am-font' : ''}`}>
       {headerData && <Header headerData={headerData} />}
 
       <Routes>

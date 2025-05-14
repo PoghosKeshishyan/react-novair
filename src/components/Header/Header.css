@@ -25,7 +25,7 @@ header .row .menu .navbar li .nav-link {
     font-family: var(--third-family);
     font-weight: 500;
     color: #22292f;
-    padding-bottom: 5px;
+    cursor: pointer;
 }
 
 header .row .menu .navbar .sub-menu {

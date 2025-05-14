@@ -61,7 +61,7 @@
     color: #fff;
     cursor: pointer;
     cursor: pointer;
-    
+
     &:hover {
         transform: translateY(-2px);
     }
@@ -333,6 +333,18 @@
     color: #000;
 }
 
+.Calendar .clb {
+    text-align: center;
+    transform: translateY(-8px);
+    background-color: #fff;
+    padding-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 40px -16px rgba(0, 0, 0, 0.2);
+}
+
+.Calendar .btn.calendar {
+    width: 95%;
+}
 
 /* =========================== media queries =========================== */
 

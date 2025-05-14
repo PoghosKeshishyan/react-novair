@@ -14,31 +14,14 @@ export function HomePage() {
   const [whyChooseUsData, setWhyChooseUsData] = useState(null);
   const [faqData, setFaqData] = useState(null);
 
-  const [bookingPostData, setBookingPostData] = useState({
-    "from_here": "Erevan",
-    "to_there": "Syuniq",
-    "airport_name": "Զվարթնոց",
-    "ariport_short_name": "ԶՎԹ",
-    "arrival_airport_name": "Suniq",
-    "arrival_airport_short_name": "Syun",
-    "departure_date": "2025-05-09",
-    "return_date": null,
-    "adult_count": 1,
-    "child_count": 1,
-    "baby_count": 0
-  });
-
   useEffect(() => {
     const loadingData = async () => {
       const resIntro = await axios.get(`homepage_intro/?lang=${currentLang}`);
       setIntroData(resIntro.data.results[0]);
 
       const resBooking = await axios.get(`homepage_booking_search/?lang=${currentLang}`);
-      const resFlightDirections = await axios.get('flight_direction/');
-      console.log(resBooking.data.results[0]);
-      console.log(resFlightDirections.data.results);
-      
-      
+      const resFlightDirections = await axios.get('flight_direction/grouped/');
+      setBookingData({ directions: resFlightDirections.data, bookingFields: resBooking.data.results[0] })
 
       const resWhyChooseUs = await axios.get(`homepage_why_choose_us/?lang=${currentLang}`);
       setWhyChooseUsData(resWhyChooseUs.data.results[0]);
@@ -54,7 +37,7 @@ export function HomePage() {
   return (
     <div className="HomePage">
       {introData && <Intro introData={introData} />}
-      {bookingData && <BookingSearch />}
+      {bookingData && <BookingSearch bookingData={bookingData} />}
       {whyChooseUsData && <WhyChooseUs whyChooseUsData={whyChooseUsData} />}
       {faqData && <Faq faqData={faqData} />}
     </div>

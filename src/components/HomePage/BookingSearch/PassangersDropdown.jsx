@@ -1,5 +1,5 @@
 
-export function PassangersDropdown({ showDropdown, passangersCount, handlerPlusBtn, handlerMinusBtn, setShowDropdown }) {
+export function PassangersDropdown({ showDropdown, passangers_field_list, bookingPostData, handlerPlusBtn, handlerMinusBtn, setShowDropdown }) {
     return (
         <div className={`PassangersDropdown ${showDropdown ? 'show' : ''}`}>
 
@@ -8,15 +8,15 @@ export function PassangersDropdown({ showDropdown, passangersCount, handlerPlusB
                     <img src="/images/adult.svg" alt="adult-icon" />
 
                     <div className="info">
-                        <p className="passanger-title">Adult</p>
-                        <p className="passanger-descr">Above 12 years old</p>
+                        <p className="passanger-title">{passangers_field_list.adult_title}</p>
+                        <p className="passanger-descr">{passangers_field_list.adult_descr}</p>
                     </div>
                 </div>
 
                 <div className="controls">
-                <button className={`minus ${passangersCount[0].count > 1 && 'active'}`} onClick={() => handlerMinusBtn(0)}>-</button>
-                <p className="count active">{passangersCount[0].count}</p>
-                <button className="plus active" onClick={() => handlerPlusBtn(0)}>+</button>
+                    <button className={`minus ${bookingPostData.adult_count > 1 && 'active'}`} onClick={() => bookingPostData.adult_count > 1 && handlerMinusBtn('adult_count')}>-</button>
+                    <p className="count active">{bookingPostData.adult_count}</p>
+                    <button className="plus active" onClick={() => handlerPlusBtn('adult_count')}>+</button>
                 </div>
             </div>
 
@@ -25,15 +25,15 @@ export function PassangersDropdown({ showDropdown, passangersCount, handlerPlusB
                     <img src="/images/child.svg" alt="child-icon" />
 
                     <div className="info">
-                        <p className="passanger-title">Child</p>
-                        <p className="passanger-descr">From 2 to 12 years old</p>
+                        <p className="passanger-title">{passangers_field_list.child_text}</p>
+                        <p className="passanger-descr">{passangers_field_list.child_descr}</p>
                     </div>
                 </div>
 
                 <div className="controls">
-                    <button className={`minus ${passangersCount[1].count && 'active'}`} onClick={() => handlerMinusBtn(1)}>-</button>
-                    <p className={`count ${passangersCount[1].count && 'active'}`}>{passangersCount[1].count}</p>
-                    <button className="plus active" onClick={() => handlerPlusBtn(1)}>+</button>
+                    <button className={`minus ${bookingPostData.child_count && 'active'}`} onClick={() => bookingPostData.child_count > 0 && handlerMinusBtn('child_count')}>-</button>
+                    <p className={`count ${bookingPostData.child_count && 'active'}`}>{bookingPostData.child_count}</p>
+                    <button className="plus active" onClick={() => handlerPlusBtn('child_count')}>+</button>
                 </div>
             </div>
 
@@ -48,18 +48,18 @@ export function PassangersDropdown({ showDropdown, passangersCount, handlerPlusB
                 </div>
 
                 <div className="controls">
-                    <button className={`minus ${passangersCount[2].count && 'active'}`} onClick={() => handlerMinusBtn(2)}>-</button>
-                    <p className={`count ${passangersCount[2].count && 'active'}`}>{passangersCount[2].count}</p>
-                    <button className="plus active" onClick={() => handlerPlusBtn(2)}>+</button>
+                    <button className={`minus ${bookingPostData.baby_count && 'active'}`} onClick={() => bookingPostData.baby_count > 0 && handlerMinusBtn('baby_count')}>-</button>
+                    <p className={`count ${bookingPostData.baby_count && 'active'}`}>{bookingPostData.baby_count}</p>
+                    <button className="plus active" onClick={() => handlerPlusBtn('baby_count')}>+</button>
                 </div>
             </div>
 
             <div className="btn-box">
                 <button onClick={(e) => {
                     e.stopPropagation();
-                    setShowDropdown(prev => !prev)
+                    setShowDropdown(prev => !prev);
                 }}>
-                    Done
+                    {passangers_field_list.btn_text}
                 </button>
             </div>
 

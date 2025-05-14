@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Dropdown } from "./Dropdown";
+import { FromDropdown } from "./FromDropdown";
 
-export function From({ from, setFrom }) {
+export function From({ bookingPostData, from_directions, bookingFields, onChangeBookingPostData }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -15,22 +15,29 @@ export function From({ from, setFrom }) {
         setShowDropdown(false);
       }
     } catch { }
-  }
+  };
 
   return (
     <div className="From flex-between" ref={dropdownRef} onClick={() => setShowDropdown(true)}>
       <div className="left-side">
-        <p className="title">From</p>
+        <p className="title">{bookingFields.from_field_text}</p>
 
         <div className="info flex-center">
           <img src="/images/plane-flight.svg" alt="plane" />
-          {from ? <span>Yerevan-Jakarta</span> : <span>Select</span>}
+          {bookingPostData.from_here ? <span>{bookingPostData.from_here}</span> : <span>Select</span>}
         </div>
       </div>
 
-      <div className="right-side">EVN</div>
+      <div className="right-side">{bookingPostData.flight_airport_short_name}</div>
 
-      {showDropdown && <Dropdown showDropdown={showDropdown} from={from} setFrom={setFrom} />}
+      {showDropdown && (
+        <FromDropdown
+          showDropdown={showDropdown}
+          directions={from_directions}
+          setShowDropdown={setShowDropdown}
+          onChangeBookingPostData={onChangeBookingPostData}
+        />
+      )}
     </div>
-  )
+  );
 }

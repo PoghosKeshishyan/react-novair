@@ -7,6 +7,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Arial Regular';
+  src: url('../../public/fonts/ARIALBD.TTF') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -31,6 +38,10 @@
 
 body {
   background-color: #F5F7F9;
+}
+
+.am-font * {
+  font-family: 'Arial Regular' !important;
 }
 
 .container {

@@ -1,13 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { PassangersDropdown } from "./PassangersDropdown";
 
-export function Passangers({ bookingData, setBookingData }) {
-  const [passangersCount, setPassangersCount] = useState([
-    { id: 0, name: "adult_count", count: bookingData.adult_count || 1 },
-    { id: 1, name: "child_count", count: bookingData.child_count || 0 },
-    { id: 2, name: "baby_count", count: bookingData.baby_count || 0 },
-  ]);
-
+export function Passangers({ bookingFields, bookingPostData, calculatePassangersCount, onChangeBookingPostData }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -25,44 +19,16 @@ export function Passangers({ bookingData, setBookingData }) {
     }
   };
 
-  const updateBookingData = (key, count) => {
-    setBookingData((prev) => ({
-      ...prev,
-      [key]: count,
-    }));
-  };
-
-  const handlerPlusBtn = (id) => {
-    const newPassangersCount = [...passangersCount];
-    const index = newPassangersCount.findIndex((item) => item.id === id);
-    newPassangersCount[index].count++;
-    setPassangersCount(newPassangersCount);
-
-    updateBookingData(newPassangersCount[index].name, newPassangersCount[index].count);
-  };
-
-  const handlerMinusBtn = (id) => {
-    const newPassangersCount = [...passangersCount];
-    const index = newPassangersCount.findIndex((item) => item.id === id);
-
-    if (index === 0 && newPassangersCount[index].count === 1) {
-      return;
-    }
-
-    if (newPassangersCount[index].count > 0) {
-      newPassangersCount[index].count--;
-      setPassangersCount(newPassangersCount);
-
-      updateBookingData(newPassangersCount[index].name, newPassangersCount[index].count);
-    }
-  };
-
-  const countPassanger = () => {
-    let count = 0;
-    passangersCount.forEach((item) => {
-      count += item.count;
+  const handlerPlusBtn = (key) => {
+    onChangeBookingPostData({
+      ...bookingPostData, [key]: bookingPostData[key] + 1,
     });
-    return count;
+  };
+
+  const handlerMinusBtn = (key) => {
+    onChangeBookingPostData({
+      ...bookingPostData, [key]: bookingPostData[key] - 1,
+    });
   };
 
   return (
@@ -71,15 +37,17 @@ export function Passangers({ bookingData, setBookingData }) {
       ref={dropdownRef}
       onClick={() => setShowDropdown(true)}
     >
-      <p className="title">Passangers</p>
+      <p className="title">{bookingFields.passangers_field_text}</p>
+
       <div className="info">
-        <span>{countPassanger()} passenger</span>
+        <span>{calculatePassangersCount()} passenger</span>
       </div>
 
       {showDropdown && (
         <PassangersDropdown
           showDropdown={showDropdown}
-          passangersCount={passangersCount}
+          passangers_field_list={bookingFields.passangers_field_list[0]}
+          bookingPostData={bookingPostData}
           handlerPlusBtn={handlerPlusBtn}
           handlerMinusBtn={handlerMinusBtn}
           setShowDropdown={setShowDropdown}

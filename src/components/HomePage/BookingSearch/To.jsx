@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Dropdown } from "./Dropdown";
+import { ToDropdown } from "./ToDropdown";
 
-export function To() {
+export function To({ bookingPostData, to_directions, bookingFields, onChangeBookingPostData }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -20,17 +20,24 @@ export function To() {
   return (
     <div className="To flex-between" ref={dropdownRef} onClick={() => setShowDropdown(true)}>
       <div className="left-side">
-        <p className="title">To</p>
+        <p className="title">{bookingFields.to_field_text}</p>
 
         <div className="info flex-center">
           <img src="/images/plane-arrive.svg" alt="plane" />
-          <span>Jakarta-Indonesia</span>
+          {bookingPostData.to_there ? <span>{bookingPostData.to_there}</span> : <span>Select</span>}
         </div>
       </div>
 
-      <div className="right-side">JKT</div>
+      <div className="right-side">{bookingPostData.arrival_airport_short_name}</div>
 
-      {showDropdown && <Dropdown showDropdown={showDropdown} />}
+      {showDropdown && (
+        <ToDropdown
+          showDropdown={showDropdown}
+          directions={to_directions}
+          setShowDropdown={setShowDropdown}
+          onChangeBookingPostData={onChangeBookingPostData}
+        />
+      )}
     </div>
   )
 }
