@@ -1,11 +1,11 @@
 import './Guide.css';
 
-export function Guide() {
+export function Guide({ guide_label }) {
     return (
         <div className="Guide">
-            <span>Home</span>
+            <span>{guide_label.split('/')[0]}</span>
             <img src="/images/left-arrow.svg" alt="arrow" />
-            Results
+            {guide_label.split('/')[1]}
         </div>
     )
 }

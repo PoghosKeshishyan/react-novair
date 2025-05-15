@@ -46,13 +46,10 @@ export function BookingSearch({ bookingData }) {
         return alert(responseObject[currentLang]);
       }
 
-      console.log(bookingPostData);
       const res = await axios.post('search-flights/', bookingPostData);
-      console.log(res.data);
-      
-      // sessionStorage.setItem('bookingSearchResult', JSON.stringify(res.data));
-      // navigate('/booking')
-      // sessiayum nayev pahel vor passaigneri qanak@ aranc beybii
+      sessionStorage.setItem('bookingSearchResult', JSON.stringify(res.data));
+      sessionStorage.setItem('bookingPostData', JSON.stringify(bookingPostData));
+      navigate('/booking')
     } catch (error) {
       alert(error.response.data[currentLang]);
     }

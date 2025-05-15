@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import './FlightDateSlider.css';
 
-export function FlightDateSlider({ departure_flights} ) {
-  const [startDate, setStartDate] = useState(dayjs());
-  const [selectedDate, setSelectedDate] = useState(dayjs());
+export function FlightDateSlider({ departure_flights, handleCalendarDays }) {
+  const [startDate, setStartDate] = useState(() => dayjs(departure_flights[0]?.departure_date));
+  const [selectedDate, setSelectedDate] = useState(() => dayjs(departure_flights[0]?.departure_date));
   const [daysVisible, setDaysVisible] = useState(getDaysVisible());
 
   function getDaysVisible() {
@@ -30,6 +30,14 @@ export function FlightDateSlider({ departure_flights} ) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (departure_flights.length > 0) {
+      const flightDate = dayjs(departure_flights[0].departure_date);
+      setStartDate(flightDate);
+      setSelectedDate(flightDate);
+    }
+  }, [departure_flights]);
+
   const getDates = () => {
     return Array.from({ length: daysVisible }, (_, i) => startDate.add(i, 'day'));
   };
@@ -41,7 +49,7 @@ export function FlightDateSlider({ departure_flights} ) {
   const goRight = () => {
     setStartDate(startDate.add(1, 'day'));
   };
-  
+
   return (
     <div className="FlightDateSlider">
       <div className="flight-header">
@@ -57,7 +65,10 @@ export function FlightDateSlider({ departure_flights} ) {
             <div
               key={index}
               className={`date-item ${date.isSame(selectedDate, 'day') ? 'selected' : ''}`}
-              onClick={() => setSelectedDate(date)}
+              onClick={() => {
+                setSelectedDate(date);
+                handleCalendarDays('departure_date', date);
+              }}
             >
               <div className="day">{date.format('ddd')}</div>
               <div className="date">{date.format('DD/MM/YYYY')}</div>
