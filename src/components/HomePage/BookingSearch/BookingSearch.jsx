@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LanguageContext } from '../../../context/LanguageContext';
 import { From } from './From';
 import { To } from './To';
 import { Calendar } from './Calendar';
@@ -8,7 +9,8 @@ import axios from '../../../axios';
 import './BookingSearch.css';
 
 export function BookingSearch({ bookingData }) {
-  // console.log(bookingData);
+  const { currentLang } = useContext(LanguageContext);
+  const navigate = useNavigate();
 
   const [bookingPostData, setBookingPostData] = useState({
     "from_here": "",
@@ -24,29 +26,37 @@ export function BookingSearch({ bookingData }) {
     "baby_count": 0
   });
 
-  const navigate = useNavigate();
-
   const onChangeBookingPostData = (updates) => {
     setBookingPostData(prev => ({ ...prev, ...updates }));
   };
 
   const handlerSearchBtn = async () => {
+    const responseObject = {
+      en: "Please fill in all the fields.",
+      ru: "Пожалуйста, заполните все поля.",
+      am: "Խնդրում ենք լրացնել բոլոր դաշտերը։",
+    };
+
     try {
-      // const res = await axios.post('search-flights/', bookingData);
+      if (
+        !bookingPostData.from_here ||
+        !bookingPostData.to_there ||
+        !bookingPostData.departure_date
+      ) {
+        return alert(responseObject[currentLang]);
+      }
+
+      console.log(bookingPostData);
+      const res = await axios.post('search-flights/', bookingPostData);
+      console.log(res.data);
+      
       // sessionStorage.setItem('bookingSearchResult', JSON.stringify(res.data));
       // navigate('/booking')
-      // console.log(res.data);
       // sessiayum nayev pahel vor passaigneri qanak@ aranc beybii
     } catch (error) {
-      alert(error.response.data['am']);
+      alert(error.response.data[currentLang]);
     }
   };
-
-  const calculatePassangersCount = () => {
-    return bookingPostData.adult_count + bookingPostData.child_count + bookingPostData.baby_count;
-  };
-
-  // useEffect(() => { console.log(bookingPostData); }, [bookingPostData])
 
   return (
     <div className='BookingSearch'>
@@ -72,7 +82,6 @@ export function BookingSearch({ bookingData }) {
           />
 
           <Passangers
-            calculatePassangersCount={calculatePassangersCount}
             bookingFields={bookingData.bookingFields}
             bookingPostData={bookingPostData}
             onChangeBookingPostData={onChangeBookingPostData}

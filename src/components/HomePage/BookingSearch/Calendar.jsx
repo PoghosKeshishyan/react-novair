@@ -43,7 +43,7 @@ export function Calendar({ bookingFields, onChangeBookingPostData }) {
       <div className="info flex-center">
         <img src="/images/calendar.svg" alt="calendar" />
         <span>
-          {startDate ? startDate.toLocaleDateString() : "Select"}
+          {startDate ? startDate.toLocaleDateString() : bookingFields.select_field_text}
           {endDate && ` - ${endDate.toLocaleDateString()}`}
         </span>
       </div>

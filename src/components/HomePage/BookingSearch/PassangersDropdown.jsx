@@ -42,8 +42,8 @@ export function PassangersDropdown({ showDropdown, passangers_field_list, bookin
                     <img src="/images/baby.svg" alt="baby-icon" />
 
                     <div className="info">
-                        <p className="passanger-title">Baby</p>
-                        <p className="passanger-descr">Below 2 years old</p>
+                        <p className="passanger-title">{passangers_field_list.baby_title}</p>
+                        <p className="passanger-descr">{passangers_field_list.baby_descr}</p>
                     </div>
                 </div>
 

@@ -24,7 +24,7 @@ export function From({ bookingPostData, from_directions, bookingFields, onChange
 
         <div className="info flex-center">
           <img src="/images/plane-flight.svg" alt="plane" />
-          {bookingPostData.from_here ? <span>{bookingPostData.from_here}</span> : <span>Select</span>}
+          <span>{bookingPostData.from_here || bookingFields.select_field_text}</span>
         </div>
       </div>
 

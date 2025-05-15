@@ -24,7 +24,7 @@ export function To({ bookingPostData, to_directions, bookingFields, onChangeBook
 
         <div className="info flex-center">
           <img src="/images/plane-arrive.svg" alt="plane" />
-          {bookingPostData.to_there ? <span>{bookingPostData.to_there}</span> : <span>Select</span>}
+          <span>{bookingPostData.to_there || bookingFields.select_field_text}</span>
         </div>
       </div>
 
