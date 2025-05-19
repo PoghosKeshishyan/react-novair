@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import './ReturnDateSlider.css';
 
-export function ReturnDateSlider({ return_flights }) {
-  const [startDate, setStartDate] = useState(dayjs());
-  const [selectedDate, setSelectedDate] = useState(dayjs());
+export function ReturnDateSlider({ bookingPostData, handleReturnCalendarDays }) {
+  const [startDate, setStartDate] = useState(dayjs(bookingPostData.return_date));
+  const [selectedDate, setSelectedDate] = useState(dayjs(bookingPostData.return_date));
   const [daysVisible, setDaysVisible] = useState(getDaysVisible());
 
   function getDaysVisible() {
@@ -30,6 +30,14 @@ export function ReturnDateSlider({ return_flights }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (bookingPostData.length > 0) {
+      const flightDate = dayjs(bookingPostData.return_date);
+      setStartDate(flightDate);
+      setSelectedDate(flightDate);
+    }
+  }, [bookingPostData]);
+
   const getDates = () => {
     return Array.from({ length: daysVisible }, (_, i) => startDate.add(i, 'day'));
   };
@@ -40,13 +48,13 @@ export function ReturnDateSlider({ return_flights }) {
 
   const goRight = () => {
     setStartDate(startDate.add(1, 'day'));
-  };  
+  };
 
   return (
     <div className="ReturnDateSlider">
       <div className="flight-header">
         <img src="/images/plane-arrive.svg" alt="plane-arrive" />
-        {return_flights[0].from_here} - {return_flights[0].to_there}
+        {bookingPostData.to_there} - {bookingPostData.from_here}
       </div>
 
       <div className="flight-slider">
@@ -57,7 +65,10 @@ export function ReturnDateSlider({ return_flights }) {
             <div
               key={index}
               className={`date-item ${date.isSame(selectedDate, 'day') ? 'selected' : ''}`}
-              onClick={() => setSelectedDate(date)}
+              onClick={() => {
+                setSelectedDate(date);
+                handleReturnCalendarDays(date);
+              }}            
             >
               <div className="day">{date.format('ddd')}</div>
               <div className="date">{date.format('DD/MM/YYYY')}</div>

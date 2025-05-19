@@ -1,5 +1,9 @@
-.ReturnTickets .ticket {
+.ReturnTickets {
     margin-bottom: 72px;
+}
+
+.ReturnTickets .ticket {
+    margin-bottom: 20px;
     background: #fff;
     display: flex;
     align-items: center;
@@ -69,12 +73,12 @@
 
 .ReturnTickets .ticket .price .btn {
     border-radius: 10px;
-    padding: 10.5px 35px;
-    background: #0177fc;
+    background: #e1e0e0;
+    width: 120px;
+    height: 40px;
     font-family: var(--font-family);
     font-weight: 600;
     font-size: 16px;
-    color: #fff;
     cursor: pointer;
 
     &:hover {
@@ -84,6 +88,11 @@
     &:active {
         transform: translateY(2px);
     }
+}
+
+.ReturnTickets .ticket .price .btn.selected {
+    background: #0177fc;
+    color: #fff;
 }
 
 @media (max-width: 1100px) {

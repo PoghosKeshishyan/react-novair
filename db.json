@@ -1,0 +1,34 @@
+{
+    "booking_results_page_label": [
+        {
+            "id": 1,
+            "lang": "en",
+            "navigation": "Home/Results",
+            "hours_mins_text": "hours/mins",
+            "transit_text": "1 Transit",
+            "select_btn_text": "Select",
+            "selected_btn_text": "Selected",
+            "continue_btn_text": "Continue"
+        },
+        {
+            "id": 2,
+            "lang": "ru",
+            "navigation": "Главная/Результаты",
+            "hours_mins_text": "часы/минуты",
+            "transit_text": "1 пересадка",
+            "select_btn_text": "Выбрать",
+            "selected_btn_text": "Выбранный",
+            "continue_btn_text": "Продолжить"
+        },
+        {
+            "id": 3,
+            "lang": "am",
+            "navigation": "Գլխավոր/Արդյունքներ",
+            "hours_mins_text": "ժամ/րոպե",
+            "transit_text": "1 փոխադրություն",
+            "select_btn_text": "Ընտրել",
+            "selected_btn_text": "Ընտրված",
+            "continue_btn_text": "Շարունակել"
+        }
+    ]
+}

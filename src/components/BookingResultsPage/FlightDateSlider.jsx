@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import './FlightDateSlider.css';
 
-export function FlightDateSlider({ departure_flights, handleCalendarDays }) {
-  const [startDate, setStartDate] = useState(() => dayjs(departure_flights[0]?.departure_date));
-  const [selectedDate, setSelectedDate] = useState(() => dayjs(departure_flights[0]?.departure_date));
+export function FlightDateSlider({ bookingPostData, handleFlightCalendarDays }) {
+  const [startDate, setStartDate] = useState(() => dayjs(bookingPostData.departure_date));
+  const [selectedDate, setSelectedDate] = useState(() => dayjs(bookingPostData.departure_date));
   const [daysVisible, setDaysVisible] = useState(getDaysVisible());
 
   function getDaysVisible() {
@@ -31,12 +31,12 @@ export function FlightDateSlider({ departure_flights, handleCalendarDays }) {
   }, []);
 
   useEffect(() => {
-    if (departure_flights.length > 0) {
-      const flightDate = dayjs(departure_flights[0].departure_date);
+    if (bookingPostData.length > 0) {
+      const flightDate = dayjs(bookingPostData.departure_date);
       setStartDate(flightDate);
       setSelectedDate(flightDate);
     }
-  }, [departure_flights]);
+  }, [bookingPostData]);
 
   const getDates = () => {
     return Array.from({ length: daysVisible }, (_, i) => startDate.add(i, 'day'));
@@ -54,7 +54,7 @@ export function FlightDateSlider({ departure_flights, handleCalendarDays }) {
     <div className="FlightDateSlider">
       <div className="flight-header">
         <img src="/images/plane-flight.svg" alt="plane-flight" />
-        {departure_flights[0].from_here} - {departure_flights[0].to_there}
+        {bookingPostData.from_here} - {bookingPostData.to_there}
       </div>
 
       <div className="flight-slider">
@@ -67,7 +67,7 @@ export function FlightDateSlider({ departure_flights, handleCalendarDays }) {
               className={`date-item ${date.isSame(selectedDate, 'day') ? 'selected' : ''}`}
               onClick={() => {
                 setSelectedDate(date);
-                handleCalendarDays('departure_date', date);
+                handleFlightCalendarDays(date);
               }}
             >
               <div className="day">{date.format('ddd')}</div>

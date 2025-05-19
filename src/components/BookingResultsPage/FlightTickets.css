@@ -1,5 +1,9 @@
-.FlightTickets .ticket {
+.FlightTickets {
     margin-bottom: 72px;
+}
+
+.FlightTickets .ticket {
+    margin-bottom: 20px;
     background: #fff;
     display: flex;
     align-items: center;
@@ -69,12 +73,12 @@
 
 .FlightTickets .ticket .price .btn {
     border-radius: 10px;
-    padding: 10.5px 35px;
-    background: #0177fc;
+    width: 120px;
+    height: 40px;
+    background: #e1e0e0;
     font-family: var(--font-family);
     font-weight: 600;
     font-size: 16px;
-    color: #fff;
     cursor: pointer;
 
     &:hover {
@@ -84,6 +88,11 @@
     &:active {
         transform: translateY(2px);
     }
+}
+
+.FlightTickets .ticket .price .btn.selected {
+    background: #0177fc;
+    color: #fff;
 }
 
 @media (max-width: 1100px) {
