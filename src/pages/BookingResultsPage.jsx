@@ -149,17 +149,72 @@ export function BookingResultsPage() {
     <div className="BookingResultsPage container">
       <Guide guide_label={bookingResultsPageLabel.navigation} />
 
-      {bookingPostData && <FlightDateSlider bookingPostData={bookingPostData} handleFlightCalendarDays={handleFlightCalendarDays} />}
-      {bookingSearchResults?.departure_flights && <FlightTickets logo={logo} selectedFlights={selectedFlights} setSelectedFlights={setSelectedFlights} departure_flights={bookingSearchResults.departure_flights} bookingResultsPageLabel={bookingResultsPageLabel} />}
-      {flightShowNoTicketText && <p className="flightShowNoTicketText">{flightShowNoTicketText}</p>}
+      {/* ======================= Departure flights ======================= */}
 
-      {bookingPostData && <ReturnDateSlider bookingPostData={bookingPostData} handleReturnCalendarDays={handleReturnCalendarDays} />}
-      {bookingSearchResults?.return_flights && <ReturnTickets logo={logo} selectedFlights={selectedFlights} setSelectedFlights={setSelectedFlights} return_flights={bookingSearchResults.return_flights} bookingResultsPageLabel={bookingResultsPageLabel} />}
-      {returnShowNoTicketText && <p className="returnShowNoTicketText">{returnShowNoTicketText}</p>}
+      {
+        bookingPostData && (
+          <FlightDateSlider
+            bookingPostData={bookingPostData}
+            handleFlightCalendarDays={handleFlightCalendarDays}
+          />
+        )
+      }
 
-      {showContinueBtn && <div className="continue_btn" onClick={handleContineBtn}>
-        <button>Continue</button>
-      </div>}
+      {
+        bookingSearchResults?.departure_flights && (
+          <FlightTickets
+            logo={logo}
+            selectedFlights={selectedFlights}
+            setSelectedFlights={setSelectedFlights}
+            departure_flights={bookingSearchResults.departure_flights}
+            bookingResultsPageLabel={bookingResultsPageLabel}
+          />
+        )
+      }
+
+      {
+        flightShowNoTicketText && (
+          <p className="flightShowNoTicketText">{flightShowNoTicketText}</p>
+        )
+      }
+
+
+      {/* ======================= Return flights ======================= */}
+
+      {
+        bookingPostData && (
+          <ReturnDateSlider
+            bookingPostData={bookingPostData}
+            handleReturnCalendarDays={handleReturnCalendarDays}
+          />
+        )
+      }
+
+      {
+        bookingSearchResults?.return_flights && (
+          <ReturnTickets
+            logo={logo}
+            selectedFlights={selectedFlights}
+            setSelectedFlights={setSelectedFlights}
+            return_flights={bookingSearchResults.return_flights}
+            bookingResultsPageLabel={bookingResultsPageLabel}
+          />
+        )
+      }
+
+      {
+        returnShowNoTicketText && (
+          <p className="returnShowNoTicketText">{returnShowNoTicketText}</p>
+        )
+      }
+
+      {
+        showContinueBtn && (
+          <div className="continue_btn" onClick={handleContineBtn}>
+            <button>Continue</button>
+          </div>
+        )
+      }
     </div>
   )
 }
