@@ -182,7 +182,7 @@ export function BookingResultsPage() {
       {/* ======================= Return flights ======================= */}
 
       {
-        bookingPostData && (
+        bookingPostData?.return_date && (
           <ReturnDateSlider
             bookingPostData={bookingPostData}
             handleReturnCalendarDays={handleReturnCalendarDays}

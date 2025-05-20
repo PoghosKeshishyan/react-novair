@@ -1,10 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { LanguageContext } from '../context/LanguageContext';
 import { ClientInfoForm } from '../components/BookingClientInfoPage/ClientInfoForm';
 import { OrderSummary } from '../components/OrderSummary/OrderSummary';
 import { BookingNavigation } from '../components/BookingNavigation/BookingNavigation';
+import axios from 'axios';
 import '../stylesheets/BookingClientInfoPage.css';
 
 export function BookingClientInfoPage() {
+  const { currentLang } = useContext(LanguageContext);
+  const [bookingNavigation, setBookingNavigation] = useState(null);
+  const [orderSummary, setOrderSummary] = useState(null);
+
+  useEffect(() => {
+    const loadingData = async () => {
+      const resBookingNavigation = await axios.get(`http://localhost:8000/booking_navigation?lang=${currentLang}`);
+      setBookingNavigation(resBookingNavigation.data);
+
+      const resOrderSummary = await axios.get(`http://localhost:8000/order_summary?lang=${currentLang}`)
+      setOrderSummary(resOrderSummary.data[0]);
+    };
+
+    loadingData();
+    window.scrollTo(0, 0);
+  }, [currentLang]);
+
   const [flightSeats, setFlightSeats] = useState([
     { id: 'id-c1', seat_number: 'C1', is_taken: false },
     { id: 'id-c2', seat_number: 'C2', is_taken: false },
@@ -35,10 +54,10 @@ export function BookingClientInfoPage() {
     const newData = flightSeats.map(elem => {
       return {
         ...elem,
-        is_selected: elem.id === id, 
+        is_selected: elem.id === id,
       };
     });
-  
+
     setFlightSeats(newData);
   };
 
@@ -50,7 +69,7 @@ export function BookingClientInfoPage() {
 
   return (
     <div className="BookingClientInfoPage">
-      <BookingNavigation active_section={1} />
+      {bookingNavigation && <BookingNavigation active_section={1} bookingNavigation={bookingNavigation} />}
 
       <div className="page-row container">
         <ClientInfoForm
@@ -60,11 +79,12 @@ export function BookingClientInfoPage() {
           submitFlightSeatTaken={submitFlightSeatTaken}
         />
 
-        <OrderSummary
+        {/* {orderSummary && <OrderSummary
+          orderSummary={orderSummary}
           next_page={'/booking/payment'}
           action_btn={'go-to-next-page'}
           btn_text={'Continue'}
-        />
+        />} */}
       </div>
     </div>
   );
