@@ -5,6 +5,12 @@
     box-shadow: 0 24px 40px -16px rgba(0, 0, 0, 0.06);
     background: #fff;
     user-select: none;
+    margin-bottom: 26px;
+}
+
+.CheckBaggage .passanger-type {
+    margin-bottom: 18px;
+    font-family: var(--font-family);
 }
 
 .CheckBaggage .title {

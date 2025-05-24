@@ -32,6 +32,7 @@ export function HomePage() {
 
     window.scrollTo(0, 0);
     loadingData();
+    sessionStorage.clear();
   }, [currentLang]);
 
   return (

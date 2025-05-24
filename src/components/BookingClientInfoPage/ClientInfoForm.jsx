@@ -1,22 +1,36 @@
 import { useState } from "react";
+import { RenderRow } from './RenderRow';
 import ReactFlagsSelect from "react-flags-select";
 import PhoneInput from 'react-phone-input-2'
-import { RenderRow } from './RenderRow';
+import countries from "i18n-iso-countries";
+import enLocale from "i18n-iso-countries/langs/en.json";
 import 'react-phone-input-2/lib/style.css'
 import './ClientInfoForm.css';
 
-export function ClientInfoForm({ flightSeats, isAnySeatTaken, onChangeFlightSeats, submitFlightSeatTaken }) {
-    const currentSeat = flightSeats.find(elem => elem.is_taken === true) || false;
-    const [selected, setSelected] = useState("");
+export function ClientInfoForm({ elem, flightSeats, index, onChangePassangerListInput, clientInfoPageLabel, isAnySeatTaken, onChangeFlightSeats, submitFlightSeatTaken }) {
+    // const currentSeat = flightSeats.find(elem => elem.is_taken === true) || false;
+    countries.registerLocale(enLocale);
+
+    const passanger_types = {
+        adult: clientInfoPageLabel.passanger_types.split('/')[0],
+        child: clientInfoPageLabel.passanger_types.split('/')[1],
+        baby: clientInfoPageLabel.passanger_types.split('/')[2],
+    };
+
+    // console.log(elem);
 
     return (
         <form className='ClientInfoForm'>
-            <div className="box">
-                <h2 className="title">Order data</h2>
+            <h2 className='passanger-type'>
+                {index + 1}. {passanger_types[elem.passenger_type]}
+            </h2>
+
+            {elem.passenger_type !== 'baby' && <div className="box">
+                <h2 className="title">{clientInfoPageLabel.order_data_title}</h2>
 
                 <div className="fields">
                     <div className="input-box">
-                        <label htmlFor="tel">Phone number</label>
+                        <label htmlFor="tel">{clientInfoPageLabel.phone_text_field}</label>
                         <PhoneInput
                             country={'am'}
                             inputProps={{
@@ -25,60 +39,81 @@ export function ClientInfoForm({ flightSeats, isAnySeatTaken, onChangeFlightSeat
                                 required: true,
                                 autoFocus: false
                             }}
+                            value={elem.phone}
                             containerStyle={{ width: '100%' }}
+                            onChange={(phone) => onChangePassangerListInput(index, 'phone', phone)}
                         />
                     </div>
 
                     <div className="input-box">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" />
+                        <label htmlFor="email">{clientInfoPageLabel.email_text_field}</label>
+                        <input type="email" id="email" value={elem.email} onChange={(e) => onChangePassangerListInput(index, 'email', e.target.value)} />
                     </div>
                 </div>
-            </div>
+            </div>}
 
             <div className="box">
-                <h2 className="title">Visitor details</h2>
+                <h2 className="title">{clientInfoPageLabel.visitor_details_title}</h2>
 
                 <div className="fields">
                     <div className="input-box small">
-                        <label>Title</label>
-                        <select>
-                            <option value="Mrs">Mrs</option>
-                            <option value="Ms">Ms</option>
+                        <label>{clientInfoPageLabel.title_text_field}</label>
+                        <select
+                            value={elem.title}
+                            onChange={(e) => onChangePassangerListInput(index, 'title', e.target.value)}
+                        >
+                            <option value={clientInfoPageLabel.title_select.split('/')[0]}>
+                                {clientInfoPageLabel.title_select.split('/')[0]}
+                            </option>
+
+                            <option value={clientInfoPageLabel.title_select.split('/')[1]}>
+                                {clientInfoPageLabel.title_select.split('/')[1]}
+                            </option>
                         </select>
                     </div>
 
                     <div className="input-box small">
-                        <label htmlFor="full-name">Full name <span>*</span></label>
-                        <input type="text" required id="full-name" />
+                        <label htmlFor="full-name">{clientInfoPageLabel.full_name_text_field} <span>*</span></label>
+                        <input type="text" required id="full-name" value={elem.full_name} onChange={(e) => onChangePassangerListInput(index, 'full_name', e.target.value)} />
                     </div>
 
                     <div className="input-box small">
-                        <label htmlFor="birth">Date of birth <span>*</span></label>
-                        <input type="date-time" required id="birth" />
+                        <label htmlFor="birth">{clientInfoPageLabel.birth_text_field} <span>*</span></label>
+                        <input
+                            type="text"
+                            placeholder="DD.MM.YYYY"
+                            required id="birth"
+                            value={elem.date_of_birth}
+                            onChange={(e) => onChangePassangerListInput(index, 'date_of_birth', e.target.value)}
+                        />
                     </div>
 
                     <div className="input-box">
-                        <label htmlFor='citizenship'>Citizenship</label>
+                        <label htmlFor='citizenship'>{clientInfoPageLabel.citizenship_text_field}</label>
                         <ReactFlagsSelect
-                            selected={selected}
-                            onSelect={(code) => setSelected(code)}
+                            selected={elem.citizenship_code}
+                            onSelect={(code) => {
+                                const countryName = countries.getName(code, 'en');
+                                onChangePassangerListInput(index, 'citizenship', countryName);
+                                onChangePassangerListInput(index, 'citizenship_code', code);
+                            }}
                             searchable
                             id='citizenship'
                             placeholder=' '
                             className='citizenship-input'
                         />
+
                     </div>
 
                     <div className="input-box">
-                        <label htmlFor="passport_serial">Passport series and number</label>
-                        <input type="text" required id="passport_serial" />
+                        <label htmlFor="passport_serial">{clientInfoPageLabel.passport_text_field}</label>
+                        <input type="text" required id="passport_serial" value={elem.passport_serial} onChange={(e) => onChangePassangerListInput(index, 'passport_serial', e.target.value)} />
                     </div>
                 </div>
             </div>
 
-            <div className="box">
-                <h2 className="title">Select seat</h2>
+            {elem.passenger_type !== 'baby' && <div className="box plane">
+                <h2 className="title">{clientInfoPageLabel.seat_title}</h2>
 
                 <div className="airplane-board">
                     <RenderRow prefix={'C'} flightSeats={flightSeats} onChangeFlightSeats={onChangeFlightSeats} />
@@ -99,7 +134,7 @@ export function ClientInfoForm({ flightSeats, isAnySeatTaken, onChangeFlightSeat
 
                     <p className="seat-number">{currentSeat ? currentSeat.seat_number : '00'}</p>
                 </div>
-            </div>
+            </div>}
         </form>
     )
 }

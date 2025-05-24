@@ -22,7 +22,7 @@ export function ReturnTickets({ logo, selectedFlights, setSelectedFlights, retur
 
     const calculateSumOfTickets = (tickets) => {
         const sum = tickets.reduce((acc, elem) => acc + +elem.price, 0);
-        return sum;
+        return new Intl.NumberFormat('de-DE').format(sum);
     };
 
     return (

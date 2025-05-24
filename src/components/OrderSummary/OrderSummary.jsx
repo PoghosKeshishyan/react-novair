@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './OrderSummary.css';
 
-export function OrderSummary({ next_page, selectedFlights, action_btn, btn_text, orderSummary, baggage10kg }) {
+export function OrderSummary({ next_page, selectedFlights, action_btn, btn_text, orderSummary }) {
   const navigate = useNavigate();
 
   const calculateSumOfTickets = () => {
@@ -14,17 +14,12 @@ export function OrderSummary({ next_page, selectedFlights, action_btn, btn_text,
     }
 
     const sum = tickets.reduce((acc, elem) => acc + +elem.price, 0);
-    return sum;
-  };
 
-  calculateSumOfTickets();
+    return new Intl.NumberFormat('de-DE').format(sum);
+  };
 
   const handler_btn = () => {
     if (action_btn === 'go-to-next-page') {
-      if (next_page === '/booking/client-info') {
-        sessionStorage.setItem('baggage10kg', JSON.stringify(baggage10kg));
-      }
-
       navigate(next_page);
     } else if (action_btn === 'payment') {
       alert('Գնումը հաջողությամբ կատարվեց');
@@ -60,7 +55,8 @@ export function OrderSummary({ next_page, selectedFlights, action_btn, btn_text,
 
         <p className='flex-between'>
           <span className='text'>{orderSummary.quantity_text_field}</span>
-          <span className='result'>{selectedFlights.flight.tickets[0].price} ֏</span>
+          <span className='result'>{new Intl.NumberFormat('de-DE').format(selectedFlights.flight.tickets[0].price)} ֏</span>
+          
         </p>
 
         <p className='flex-between'>

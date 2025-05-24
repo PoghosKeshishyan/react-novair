@@ -20,7 +20,7 @@ export function ChangeLanguage({ languages }) {
             <div className="current-lang flex-center">
                 <img src={selectedLang.image} alt={`flag-${selectedLang.code}`} />
                 <p>{selectedLang.title}</p>
-                <img src="images/lang-arrow.svg" alt="lang-arrow" />
+                <img src="/images/lang-arrow.svg" alt="lang-arrow" />
             </div>
 
             {showDropdown && (

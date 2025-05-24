@@ -11,15 +11,43 @@ export function BookingCheckBaggagePage() {
     const [bookingNavigation, setBookingNavigation] = useState(null);
     const [baggagePageLabel, setBaggagePageLabel] = useState(null);
     const [orderSummary, setOrderSummary] = useState(null);
-    const [isSameForBothWays, setIsSameForBothWays] = useState(true);
-    const [selectedDirection, setSelectedDirection] = useState('both'); // 'first', 'second', or 'both'
     const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
     const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
 
-    const [baggage10kg, setBaggage10kg] = useState({
-        first: false,
-        second: bookingPostData.return_date === null ? null : false
+    const bookingSearchResult = JSON.parse(sessionStorage.getItem('bookingSearchResult'));
+    const ticketsInSession = bookingSearchResult.departure_flights[0].tickets;
+
+    const [passangerList, setPassangerList] = useState(() => {
+        return JSON.parse(sessionStorage.getItem('passangerList')) || ticketsInSession.map((ticket, index) => {
+            const isBaby = ticket.passenger_type === 'baby';
+
+            const baseTicket = {
+                ticket_id: ticket.id,
+                title: 'Mrs',
+                full_name: '',
+                date_of_birth: '',
+                citizenship: '',
+                citizenship_code: '',
+                passport_serial: '',
+                departure_baggage_weight: null,
+                return_baggage_weight: null,
+                passenger_type: ticket.passenger_type,
+            };
+
+            if (!isBaby) {
+                baseTicket.departure_seat_id = null;
+                baseTicket.return_seat_id = null;
+                baseTicket.email = '';
+                baseTicket.phone = '';
+            }
+
+            return baseTicket;
+        });
     });
+
+    useEffect(() => {
+        sessionStorage.setItem('passangerList', JSON.stringify(passangerList));
+    }, [passangerList])
 
     useEffect(() => {
         const loadingData = async () => {
@@ -37,41 +65,21 @@ export function BookingCheckBaggagePage() {
         window.scrollTo(0, 0);
     }, [currentLang]);
 
-    const toggleSameForBothWays = () => {
-        setIsSameForBothWays(!isSameForBothWays);
 
-        if (!isSameForBothWays) {
-            setBaggage10kg({
-                first: baggage10kg.first,
-                second: baggage10kg.first
-            });
+    const saveInSession10kgBaggage = (ticket_id, baggage_weights) => {
+        const newPassangerList = passangerList.map(elem => {
+            if (elem.ticket_id === ticket_id) {
+                elem.departure_baggage_weight = baggage_weights.first ? "10 kg" : null;
 
-            setSelectedDirection('both');
-        } else {
-            setSelectedDirection('first');
-        }
-    };
+                if (bookingPostData.return_date) {
+                    elem.return_baggage_weight = baggage_weights.second ? "10 kg" : null;
+                }
+            }
 
-    const add10kgFunc = () => {
-        if (isSameForBothWays) {
-            const newValue = !baggage10kg.first;
+            return elem;
+        });        
 
-            setBaggage10kg({
-                first: newValue,
-                second: baggage10kg.second === null ? null : newValue
-            });
-        } else {
-            if (selectedDirection === 'second' && baggage10kg.second === null) return;
-
-            setBaggage10kg(prev => ({
-                ...prev,
-                [selectedDirection]: !prev[selectedDirection]
-            }));
-        }
-    };
-
-    const handleDirectionSelect = (direction) => {
-        setSelectedDirection(direction);
+        setPassangerList(newPassangerList);
     };
 
     return (
@@ -79,16 +87,20 @@ export function BookingCheckBaggagePage() {
             {bookingNavigation && <BookingNavigation bookingNavigation={bookingNavigation} />}
 
             <div className="page-row container">
-                {baggagePageLabel && <CheckBaggage
-                    baggagePageLabel={baggagePageLabel}
-                    bookingPostData={bookingPostData}
-                    isSameForBothWays={isSameForBothWays}
-                    toggleSameForBothWays={toggleSameForBothWays}
-                    baggage10kg={baggage10kg}
-                    add10kgFunc={add10kgFunc}
-                    selectedDirection={selectedDirection}
-                    handleDirectionSelect={handleDirectionSelect}
-                />}
+                <div>
+                    {baggagePageLabel && passangerList.map((elem, index) => (
+                        elem.passenger_type !== 'baby' ? (
+                            <CheckBaggage
+                                key={Math.random() * 100000}
+                                elem={elem}
+                                index={index}
+                                baggagePageLabel={baggagePageLabel}
+                                bookingPostData={bookingPostData}
+                                saveInSession10kgBaggage={saveInSession10kgBaggage}
+                            />
+                        ) : null
+                    ))}
+                </div>
 
                 {orderSummary && <OrderSummary
                     orderSummary={orderSummary}
@@ -96,7 +108,6 @@ export function BookingCheckBaggagePage() {
                     next_page={'/booking/client-info'}
                     action_btn={'go-to-next-page'}
                     btn_text={'Continue'}
-                    baggage10kg={baggage10kg}
                 />}
             </div>
         </div>
