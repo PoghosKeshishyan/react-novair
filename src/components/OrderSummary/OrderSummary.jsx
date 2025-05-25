@@ -1,7 +1,19 @@
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './OrderSummary.css';
 
-export function OrderSummary({ next_page, selectedFlights, action_btn, btn_text, orderSummary }) {
+export function OrderSummary({
+  next_page,
+  selectedFlights,
+  orderSummary,
+  action_btn,
+  btn_text,
+  isClientInfoValid,
+  calculatePriceSumOfSeats,
+  currentLang,
+  passangerList,
+  paymentAgreements,
+}) {
   const navigate = useNavigate();
 
   const calculateSumOfTickets = () => {
@@ -15,15 +27,80 @@ export function OrderSummary({ next_page, selectedFlights, action_btn, btn_text,
 
     const sum = tickets.reduce((acc, elem) => acc + +elem.price, 0);
 
-    return new Intl.NumberFormat('de-DE').format(sum);
+    return new Intl.NumberFormat('de-DE').format(sum + sumSeats());
   };
 
-  const handler_btn = () => {
+  const handler_btn = async () => {
     if (action_btn === 'go-to-next-page') {
+      if (isClientInfoValid) {
+        const result = isClientInfoValid();
+
+        if (!result.success) {
+          return alert(result.message[currentLang]);
+        }
+      }
+
       navigate(next_page);
     } else if (action_btn === 'payment') {
-      alert('Գնումը հաջողությամբ կատարվեց');
+      if (!paymentAgreements.isCreditCartChecked || !paymentAgreements.isPrivacyNoticeTextChecked) {
+        const alertMessages = {
+          am: "Խնդրում ենք հաստատել վճարման եղանակը և ընդունել տվյալների գաղտնիության պայմանները։",
+          ru: "Пожалуйста, подтвердите способ оплаты и примите условия конфиденциальности.",
+          en: "Please confirm the payment method and accept the privacy policy."
+        };
+
+        return alert(alertMessages[currentLang]);
+      }
+
+      try {
+        // BANKI KTOR
+
+
+
+        // ===========================================================================
+
+        const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
+
+        let depSeat = null;
+        let retSeat = null;
+
+        const postData = passangerList.map((elem, index) => {
+          if (elem.passenger_type !== 'baby' && !elem.departure_seat_id) {
+            elem.departure_seat_id = selectedFlights.flight.flight_seats[index].id;
+            depSeat = selectedFlights.flight.flight_seats[index];
+          }
+
+          if (elem.passenger_type !== 'baby' && !elem.return_seat_id) {
+            elem.return_seat_id = selectedFlights.return.flight_seats[index].id;
+            retSeat = selectedFlights.return.flight_seats[index];
+          }
+
+          return elem;
+        });
+
+
+        try {
+
+          await axios.post(`http://46.182.172.161:8085/api/flights_seats/${depSeat.id}/set_taken/`);
+          await axios.post(`http://46.182.172.161:8085/api/flights_seats/${retSeat.id}/set_taken/`);
+
+        } catch (error) {
+          console.log(error);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+
     }
+  };
+
+  const sumSeats = () => {
+    if (calculatePriceSumOfSeats) {
+      return calculatePriceSumOfSeats();
+    }
+
+    return 0;
   };
 
   return (
@@ -56,12 +133,12 @@ export function OrderSummary({ next_page, selectedFlights, action_btn, btn_text,
         <p className='flex-between'>
           <span className='text'>{orderSummary.quantity_text_field}</span>
           <span className='result'>{new Intl.NumberFormat('de-DE').format(selectedFlights.flight.tickets[0].price)} ֏</span>
-          
+
         </p>
 
         <p className='flex-between'>
           <span className='text'>{orderSummary.seat_text_field}</span>
-          <span className='result'>0 ֏</span>
+          <span className='result'>{sumSeats()} ֏</span>
         </p>
       </div>
 

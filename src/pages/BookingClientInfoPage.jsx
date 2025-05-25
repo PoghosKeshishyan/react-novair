@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { LanguageContext } from '../context/LanguageContext';
-// import { ClientInfoForm } from '../components/BookingClientInfoPage/ClientInfoForm';
-// import { OrderSummary } from '../components/OrderSummary/OrderSummary';
-// import { BookingNavigation } from '../components/BookingNavigation/BookingNavigation';
+import { BookingNavigation } from '../components/BookingNavigation/BookingNavigation';
+import { ClientInfoForm } from '../components/BookingClientInfoPage/ClientInfoForm';
+import { OrderSummary } from '../components/OrderSummary/OrderSummary';
 import axios from 'axios';
 import '../stylesheets/BookingClientInfoPage.css';
 
@@ -11,14 +11,18 @@ export function BookingClientInfoPage() {
   const [bookingNavigation, setBookingNavigation] = useState(null);
   const [orderSummary, setOrderSummary] = useState(null);
   const [clientInfoPageLabel, setClientInfoPageLabel] = useState(null);
-  const [isAnySeatTaken, setIsAnySeatTaken] = useState(false);
   const [flightSeats, setFlightSeats] = useState(null);
+  const [holdSeats, setHoldSeats] = useState({
+    departureSeats: [],
+    returnSeats: [],
+  });
 
   const [passangerList, setPassangerList] = useState(() => {
     return JSON.parse(sessionStorage.getItem('passangerList')) || [];
   });
 
   const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
+  const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,9 +39,17 @@ export function BookingClientInfoPage() {
       const resBookingClientInfoPageLabel = await axios.get(`http://localhost:8000/booking_client_info_page_label?lang=${currentLang}`);
       setClientInfoPageLabel(resBookingClientInfoPageLabel.data[0]);
 
+      /* =============================== flight seats =============================== */
       const resFlightSeatsForFlight = await axios.get(`http://46.182.172.161:8085/api/flights_seats/?flight_id=${selectedFlights.flight.id}`);
-      console.log(resFlightSeatsForFlight);
+      const onlyDepartureSeats = resFlightSeatsForFlight.data.filter(seat => seat.seat_type === 'departure');
+      const onlyReturnSeats = resFlightSeatsForFlight.data.filter(seat => seat.seat_type === 'return');
+      setFlightSeats({ departureSeats: onlyDepartureSeats });
 
+      if (bookingPostData.return_date) {
+        setFlightSeats((prev) => {
+          return { ...prev, returnSeats: onlyReturnSeats }
+        })
+      }
     };
 
     loadingData();
@@ -56,74 +68,139 @@ export function BookingClientInfoPage() {
     );
   };
 
-  const onChangeFlightSeats = (id) => {
-    const newData = flightSeats.map(elem => {
-      return {
-        ...elem,
-        is_selected: elem.id === id,
-      };
-    });
+  const submitFlightSeatTaken = async (currentSeat, ticket_id) => {
 
-    setFlightSeats(newData);
+    if (!currentSeat.departureSeats || !currentSeat.returnSeats) {
+      return;
+    }
+
+    try {
+      await axios.post(`http://46.182.172.161:8085/api/flights_seats/${currentSeat.departureSeats.id}/hold/`)
+
+      const newPassangerList = passangerList.map(elem => {
+        if (elem.ticket_id === ticket_id) {
+          elem.departure_seat_id = currentSeat.departureSeats.id;
+
+          setHoldSeats(prev => ({
+            ...prev,
+            departureSeats: [...prev.departureSeats, currentSeat.departureSeats.seat_number]
+          }));
+        }
+
+        return elem;
+      });
+
+      setPassangerList(newPassangerList)
+    } catch (error) {
+      alert(error.response.data[currentLang]);
+    }
+
+    try {
+      if (bookingPostData.return_date) {
+        await axios.post(`http://46.182.172.161:8085/api/flights_seats/${currentSeat.returnSeats.id}/hold/`)
+
+        const newPassangerList = passangerList.map(elem => {
+          if (elem.ticket_id === ticket_id) {
+            elem.return_seat_id = currentSeat.departureSeats.id;
+
+            setHoldSeats(prev => ({
+              ...prev,
+              returnSeats: [...prev.returnSeats, currentSeat.returnSeats.seat_number]
+            }));
+          }
+
+          return elem;
+        });
+
+        setPassangerList(newPassangerList)
+      }
+    } catch (error) {
+      alert(error.response.data[currentLang]);
+    }
+
   };
 
-  const submitFlightSeatTaken = (currentSeat) => {
-    alert(`Duq hajoxutyamb amragreciq ${currentSeat.seat_number} նստատեղը:`);
-    setIsAnySeatTaken(true);
-    window.location.reload();
+  const calculatePriceSumOfSeats = () => {
+    const sum = passangerList.reduce((total, elem) => {
+      if (elem.departure_seat_id) total += 2000;
+      if (elem.return_seat_id) total += 2000;
+      return total;
+    }, 0);
+
+    return sum;
   };
 
-  // ==================================================
-  // const [flightSeats, setFlightSeats] = useState([
-  //   { id: 'id-c1', seat_number: 'C1', is_taken: false },
-  //   { id: 'id-c2', seat_number: 'C2', is_taken: false },
-  //   { id: 'id-c3', seat_number: 'C3', is_taken: true },
-  //   { id: 'id-c4', seat_number: 'C4', is_taken: false },
-  //   { id: 'id-c5', seat_number: 'C5', is_taken: false },
-  //   { id: 'id-c6', seat_number: 'C6', is_taken: false },
-  //   { id: 'id-b1', seat_number: 'B1', is_taken: true },
-  //   { id: 'id-b2', seat_number: 'B2', is_taken: false },
-  //   { id: 'id-b3', seat_number: 'B3', is_taken: false },
-  //   { id: 'id-b4', seat_number: 'B4', is_taken: false },
-  //   { id: 'id-b5', seat_number: 'B5', is_taken: true },
-  //   { id: 'id-b6', seat_number: 'B6', is_taken: false },
-  //   { id: 'id-a1', seat_number: 'A1', is_taken: false },
-  //   { id: 'id-a2', seat_number: 'A2', is_taken: false },
-  //   { id: 'id-a3', seat_number: 'A3', is_taken: false },
-  //   { id: 'id-a4', seat_number: 'A4', is_taken: true },
-  //   { id: 'id-a5', seat_number: 'A5', is_taken: false },
-  // ]);
-  // ==================================================
+  const isClientInfoValid = () => {
+    for (const passenger of passangerList) {
+      if (passenger.passenger_type === 'baby') continue;
+
+      const requiredFields = [
+        'title',
+        'full_name',
+        'date_of_birth',
+        'citizenship',
+        'passport_serial',
+        'phone',
+        'email',
+      ];
+
+      for (const field of requiredFields) {
+        if (!passenger[field] || passenger[field].toString().trim() === '') {
+          return {
+            success: false,
+            message: {
+              en: 'Please fill in all required fields.',
+              ru: 'Пожалуйста, заполните все обязательные поля.',
+              am: 'Խնդրում ենք լրացնել բոլոր դաշտերը։'
+            }
+          };
+        }
+      }
+    }
+
+    return {
+      success: true,
+      message: {
+        en: 'All fields are filled.',
+        ru: 'Все поля заполнены.',
+        am: 'Բոլոր դաշտերը լրացված են։'
+      }
+    };
+  };
 
   return (
     <div className="BookingClientInfoPage">
-      {/* {bookingNavigation && <BookingNavigation active_section={1} bookingNavigation={bookingNavigation} />} */}
+      {bookingNavigation && <BookingNavigation active_section={1} bookingNavigation={bookingNavigation} />}
 
       <div className="page-row container">
         <div>
-          {/* {
+          {
             clientInfoPageLabel && passangerList.map((elem, index) => (
               <ClientInfoForm
                 key={index}
                 elem={elem}
                 index={index}
+                holdSeats={holdSeats}
+                bookingPostData={bookingPostData}
                 onChangePassangerListInput={onChangePassangerListInput}
                 clientInfoPageLabel={clientInfoPageLabel}
                 flightSeats={flightSeats}
-                isAnySeatTaken={isAnySeatTaken}
-                onChangeFlightSeats={onChangeFlightSeats}
                 submitFlightSeatTaken={submitFlightSeatTaken}
               />
             ))
-          } */}
+          }
         </div>
 
-        {/* {orderSummary && <OrderSummary
+        {orderSummary && <OrderSummary
           orderSummary={orderSummary}
+          currentLang={currentLang}
           next_page={'/booking/payment'}
           action_btn={'go-to-next-page'}
           btn_text={'Continue'}
-        />} */}
+          selectedFlights={selectedFlights}
+          calculatePriceSumOfSeats={calculatePriceSumOfSeats}
+          isClientInfoValid={isClientInfoValid}
+        />}
       </div>
     </div>
   );

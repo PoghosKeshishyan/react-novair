@@ -23,7 +23,6 @@
 }
 
 .ClientInfoForm .box.plane {
-    height: 482px;
     position: relative;
 }
 
@@ -85,6 +84,8 @@
 .ClientInfoForm .box .fields .input-box.small select {
     width: 200px;
 }
+
+
 
 /* ======================= telephone-input ======================= */
 
@@ -242,6 +243,7 @@
     align-items: center;
     justify-content: end;
     gap: 24px;
+    margin-bottom: 20px;
 }
 
 .ClientInfoForm .box .price-seat .price {
@@ -258,12 +260,21 @@
     font-family: var(--second-family);
     font-weight: 600;
     font-size: 16px;
+    cursor: not-allowed;
 }
 
 .ClientInfoForm .box .price-seat .select-seat-btn.active {
     background: #0177fc;
     cursor: pointer;
     color: #fff;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
 }
 
 
@@ -277,13 +288,40 @@
 }
 
 
+.ClientInfoForm .box .directions {
+    gap: 10px;
+}
+
+.ClientInfoForm .box .directions .dir {
+    border: 1px solid #f2f4f8;
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    height: 48px;
+    background: #f2f4f8;
+    gap: 15px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 20px;
+    color: #22292f;
+    cursor: pointer;
+}
+
+.ClientInfoForm .box .directions .dir.active {
+    border-color: #0177fc;
+}
+
 @media (max-width: 766px) {
     .ClientInfoForm .box {
         width: 100%;
+    }
 
-        &:last-child {
-            height: 790px;
-        }
+    .ClientInfoForm .box.plane {
+        height: 915px !important;
+    }
+
+    .ClientInfoForm .box.plane.only-departure {
+        height: 800px !important;
     }
 
     .ClientInfoForm .box .fields .input-box,
@@ -318,6 +356,10 @@
         &:last-child {
             left: 33% !important;
         }
+    }
+
+    .ClientInfoForm .box .directions {
+        flex-direction: column;
     }
 }
 

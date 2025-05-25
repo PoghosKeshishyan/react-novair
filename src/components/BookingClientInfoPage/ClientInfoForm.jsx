@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RenderRow } from './RenderRow';
 import ReactFlagsSelect from "react-flags-select";
 import PhoneInput from 'react-phone-input-2'
@@ -7,9 +7,37 @@ import enLocale from "i18n-iso-countries/langs/en.json";
 import 'react-phone-input-2/lib/style.css'
 import './ClientInfoForm.css';
 
-export function ClientInfoForm({ elem, flightSeats, index, onChangePassangerListInput, clientInfoPageLabel, isAnySeatTaken, onChangeFlightSeats, submitFlightSeatTaken }) {
-    // const currentSeat = flightSeats.find(elem => elem.is_taken === true) || false;
+export function ClientInfoForm({
+    elem,
+    flightSeats,
+    index,
+    onChangePassangerListInput,
+    clientInfoPageLabel,
+    bookingPostData,
+    holdSeats,
+    submitFlightSeatTaken
+}) {
     countries.registerLocale(enLocale);
+
+    const [selectedDirection, setSelectedDirection] = useState('first');
+    const [actionSelectBtn, setActionSelectBtn] = useState(false);
+
+    const [selectedSeat, setSelectedSeat] = useState({
+        departureSeats: '',
+        returnSeats: bookingPostData.return_date ? '' : null
+    });
+
+    useEffect(() => {
+        if (selectedSeat.departureSeats === '' || selectedSeat.returnSeats === '') {
+            return;
+        }
+
+        if (bookingPostData.return_date && selectedSeat.returnSeats === '') {
+            return;
+        }
+
+        setActionSelectBtn(true);
+    }, [selectedSeat]);
 
     const passanger_types = {
         adult: clientInfoPageLabel.passanger_types.split('/')[0],
@@ -17,7 +45,9 @@ export function ClientInfoForm({ elem, flightSeats, index, onChangePassangerList
         baby: clientInfoPageLabel.passanger_types.split('/')[2],
     };
 
-    // console.log(elem);
+    const handleDirectionChange = (direction) => {
+        setSelectedDirection(direction);
+    };
 
     return (
         <form className='ClientInfoForm'>
@@ -112,29 +142,70 @@ export function ClientInfoForm({ elem, flightSeats, index, onChangePassangerList
                 </div>
             </div>
 
-            {elem.passenger_type !== 'baby' && <div className="box plane">
-                <h2 className="title">{clientInfoPageLabel.seat_title}</h2>
+            {
+                elem.passenger_type !== 'baby' && <div
+                    className={`box plane ${!bookingPostData.return_date ? 'only-departure' : ''}`}
+                    style={{ height: bookingPostData.return_date ? '555px' : '508px' }}
+                >
+                    <h2 className="title">{clientInfoPageLabel.seat_title}</h2>
 
-                <div className="airplane-board">
-                    <RenderRow prefix={'C'} flightSeats={flightSeats} onChangeFlightSeats={onChangeFlightSeats} />
-                    <RenderRow prefix={'B'} flightSeats={flightSeats} onChangeFlightSeats={onChangeFlightSeats} />
-                    <RenderRow prefix={'A'} flightSeats={flightSeats} onChangeFlightSeats={onChangeFlightSeats} />
+                    <div className="airplane-board">
+                        {flightSeats && <RenderRow prefix={'C'} holdSeats={holdSeats} setSelectedSeat={setSelectedSeat} selectedSeat={selectedSeat} flightSeats={flightSeats} direction={selectedDirection === 'first' ? 'departureSeats' : 'returnSeats'} />}
+                        {flightSeats && <RenderRow prefix={'B'} holdSeats={holdSeats} setSelectedSeat={setSelectedSeat} selectedSeat={selectedSeat} flightSeats={flightSeats} direction={selectedDirection === 'first' ? 'departureSeats' : 'returnSeats'} />}
+                        {flightSeats && <RenderRow prefix={'A'} holdSeats={holdSeats} setSelectedSeat={setSelectedSeat} selectedSeat={selectedSeat} flightSeats={flightSeats} direction={selectedDirection === 'first' ? 'departureSeats' : 'returnSeats'} />}
+                    </div>
+
+                    <div className="price-seat">
+                        {selectedDirection === 'first' && selectedSeat.departureSeats && (
+                            <p className="price">+ 2000 AMD</p>
+                        )}
+
+                        {selectedDirection === 'second' && selectedSeat.returnSeats && (
+                            <p className="price">+ 2000 AMD</p>
+                        )}
+
+                        <button
+                            type="button"
+                            className={`select-seat-btn ${actionSelectBtn ? 'active' : ''}`}
+                            onClick={() => submitFlightSeatTaken(selectedSeat, elem.ticket_id)}
+                        >
+
+                                { 
+                                    elem.departure_seat_id 
+                                      ? clientInfoPageLabel.selected_btn_text 
+                                      : clientInfoPageLabel.select_btn_text
+                                }
+
+                        </button>
+
+                        {selectedDirection === 'first' && (
+                            <p className="seat-number">{selectedSeat.departureSeats.seat_number || '00'}</p>
+                        )}
+
+                        {selectedDirection === 'second' && (
+                            <p className="seat-number">{selectedSeat.returnSeats.seat_number || '00'}</p>
+                        )}
+                    </div>
+
+                    {bookingPostData.return_date && <div className="directions flex-between">
+                        <div
+                            className={`dir flex-center ${selectedDirection === 'first' ? 'active' : ''}`}
+                            onClick={() => handleDirectionChange('first')}
+                        >
+                            <img src="/images/plane-flight.svg" alt="plane-flight" />
+                            <p>{bookingPostData.from_here} - {bookingPostData.to_there}</p>
+                        </div>
+
+                        <div
+                            className={`dir flex-center ${selectedDirection === 'second' ? 'active' : ''}`}
+                            onClick={() => handleDirectionChange('second')}
+                        >
+                            <img src="/images/plane-arrive.svg" alt="plane-arrive" />
+                            <p>{bookingPostData.to_there} - {bookingPostData.from_here}</p>
+                        </div>
+                    </div>}
                 </div>
-
-                <div className="price-seat">
-                    {currentSeat && <p className="price">+ 2000 AMD</p>}
-
-                    <button
-                        type="button"
-                        onClick={() => currentSeat && submitFlightSeatTaken(currentSeat)}
-                        className={`select-seat-btn ${currentSeat ? 'active' : ''}`}
-                    >
-                        {isAnySeatTaken ? 'Selected' : 'Select'}
-                    </button>
-
-                    <p className="seat-number">{currentSeat ? currentSeat.seat_number : '00'}</p>
-                </div>
-            </div>}
+            }
         </form>
     )
 }

@@ -15,14 +15,14 @@
     margin-bottom: 24px;
 }
 
-.Payment .box form * {
+.Payment .box .flex-center * {
     cursor: pointer;
 }
 
-.Payment .box form label {
+.Payment .box .flex-center label {
     font-family: var(--second-family);
-    font-weight: 600;
-    font-size: 16px;
+    font-weight: 500;
+    font-size: 15px;
     color: #22292f;
     margin-left: 10px;
 }

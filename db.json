@@ -32,15 +32,60 @@
         }
     ],
     "booking_navigation": [
-        { "id": 1, "lang": "en", "title": "Choose booking", "section_number": 1 },
-        { "id": 2, "lang": "en", "title": "Enter info", "section_number": 2 },
-        { "id": 3, "lang": "en", "title": "Payment", "section_number": 3 },
-        { "id": 4, "lang": "am", "title": "Ընտրել ամրագրումը", "section_number": 1 },
-        { "id": 5, "lang": "am", "title": "Մուտքագրել տվյալները", "section_number": 2 },
-        { "id": 6, "lang": "am", "title": "Վճարում", "section_number": 3 },
-        { "id": 7, "lang": "ru", "title": "Выбрать бронирование", "section_number": 1 },
-        { "id": 8, "lang": "ru", "title": "Ввести данные", "section_number": 2 },
-        { "id": 9, "lang": "ru", "title": "Оплата", "section_number": 3 }
+        {
+            "id": 1,
+            "lang": "en",
+            "title": "Choose booking",
+            "section_number": 1
+        },
+        {
+            "id": 2,
+            "lang": "en",
+            "title": "Enter info",
+            "section_number": 2
+        },
+        {
+            "id": 3,
+            "lang": "en",
+            "title": "Payment",
+            "section_number": 3
+        },
+        {
+            "id": 4,
+            "lang": "am",
+            "title": "Ընտրել ամրագրումը",
+            "section_number": 1
+        },
+        {
+            "id": 5,
+            "lang": "am",
+            "title": "Մուտքագրել տվյալները",
+            "section_number": 2
+        },
+        {
+            "id": 6,
+            "lang": "am",
+            "title": "Վճարում",
+            "section_number": 3
+        },
+        {
+            "id": 7,
+            "lang": "ru",
+            "title": "Выбрать бронирование",
+            "section_number": 1
+        },
+        {
+            "id": 8,
+            "lang": "ru",
+            "title": "Ввести данные",
+            "section_number": 2
+        },
+        {
+            "id": 9,
+            "lang": "ru",
+            "title": "Оплата",
+            "section_number": 3
+        }
     ],
     "order_summary": [
         {
@@ -157,6 +202,29 @@
             "passport_text_field": "Серия и номер паспорта",
             "select_btn_text": "Выбрать",
             "selected_btn_text": "Выбрано"
+        }
+    ],
+    "booking_payment_page_label": [
+        {
+            "id": 1,
+            "lang": "en",
+            "title": "Payment",
+            "credit_card_text": "Credit card",
+            "privacy_notice_text": "Your personal information is securely stored and will not be shared with third parties."
+        },
+        {
+            "id": 2,
+            "lang": "ru",
+            "title": "Оплата",
+            "credit_card_text": "Банковская карта",
+            "privacy_notice_text": "Ваша личная информация надёжно сохранена и не будет передана третьим лицам."
+        },
+        {
+            "id": 3,
+            "lang": "am",
+            "title": "Վճարում",
+            "credit_card_text": "Բանկային քարտ",
+            "privacy_notice_text": "Ձեր անձնական տվյալները անվտանգ պահպանվում են և չեն փոխանցվի երրորդ անձանց։"
         }
     ]
 }
