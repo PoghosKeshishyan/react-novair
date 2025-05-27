@@ -44,6 +44,6 @@
 
 @media (max-width: 668px) {
     .BookingResultsPage {
-        margin-top: 0;
+        margin-top: 0 !important;
     }
 }

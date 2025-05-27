@@ -7,6 +7,13 @@ import { BookingResultsPage } from "./pages/BookingResultsPage";
 import { BookingCheckBaggagePage } from "./pages/BookingCheckBaggagePage";
 import { BookingClientInfoPage } from './pages/BookingClientInfoPage';
 import { BookingPaymentPage } from "./pages/BookingPaymentPage";
+import { BaggagePage } from "./pages/BaggagePage";
+import { SeatChoicePage } from "./pages/SeatChoicePage";
+import { OnlineRegistarationPage } from "./pages/OnlineRegistarationPage";
+import { AirTransContact } from "./pages/AirTransContact";
+import { TransportationConditions } from "./pages/TransportationConditions";
+import { CertificatesPage } from "./pages/CertificatesPage";
+import { ContactPage } from "./pages/ContactPage";
 import { Footer } from "./components/Footer/Footer";
 import axios from "./axios";
 
@@ -34,7 +41,7 @@ export function App() {
         setFooterData({
           logo: resLogo.data.results[0],
           urls: resFooter.data.results[0],
-        }); 
+        });
       } catch (error) {
         console.error("An error occurred:", error);
       }
@@ -53,6 +60,13 @@ export function App() {
         <Route path="/booking/check-baggage" element={<BookingCheckBaggagePage />} />
         <Route path="/booking/client-info" element={<BookingClientInfoPage />} />
         <Route path="/booking/payment" element={<BookingPaymentPage />} />
+        <Route path="/services/baggage" element={<BaggagePage />} />
+        <Route path="/services/seat-choice" element={<SeatChoicePage />} />
+        <Route path="/services/online-registaration" element={<OnlineRegistarationPage />} />
+        <Route path="/information/air-trans-contact" element={<AirTransContact />} />
+        <Route path="/information/conditions" element={<TransportationConditions />} />
+        <Route path="/about/certificates" element={<CertificatesPage />} />
+        <Route path="/about/contact" element={<ContactPage />} />
       </Routes>
 
       {footerData && <Footer footerData={footerData} />}

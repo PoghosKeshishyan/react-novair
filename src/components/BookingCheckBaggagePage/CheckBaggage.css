@@ -102,8 +102,13 @@
 }
 
 @media (max-width: 730px) {
-    .CheckBaggage {
+    .parent {
         width: 98%;
+        margin: auto;
+    }
+
+    .CheckBaggage {
+        width: 100%;
     }
 
     .CheckBaggage .choose-direction .directions {

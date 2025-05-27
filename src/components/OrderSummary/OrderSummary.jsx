@@ -60,38 +60,100 @@ export function OrderSummary({
         // ===========================================================================
 
         const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
-
-        let depSeat = null;
-        let retSeat = null;
+        const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
 
         const postData = passangerList.map((elem, index) => {
           if (elem.passenger_type !== 'baby' && !elem.departure_seat_id) {
             elem.departure_seat_id = selectedFlights.flight.flight_seats[index].id;
-            depSeat = selectedFlights.flight.flight_seats[index];
           }
 
-          if (elem.passenger_type !== 'baby' && !elem.return_seat_id) {
+          if (bookingPostData.return_date && elem.passenger_type !== 'baby' && !elem.return_seat_id) {
             elem.return_seat_id = selectedFlights.return.flight_seats[index].id;
-            retSeat = selectedFlights.return.flight_seats[index];
           }
 
           return elem;
         });
 
-
+        /* ============================= for flight tickets ============================= */
         try {
+          postData.forEach(async elem => {
 
-          await axios.post(`http://46.182.172.161:8085/api/flights_seats/${depSeat.id}/set_taken/`);
-          await axios.post(`http://46.182.172.161:8085/api/flights_seats/${retSeat.id}/set_taken/`);
+            // gnum enq ticket@
+            let currentTicket = selectedFlights.flight.tickets.find(item => item.id === elem.ticket_id);
+            console.log('departure currentTicket', currentTicket);
+            console.log('deparuter elem', elem);
+
+
+            let www = await axios.post(`http://46.182.172.161:8085/api/tickets/${currentTicket.id}/set_sold/`);
+            console.log('Ticket@ sold enq sarqum', www);
+
+            // broni enq anum nstatex@
+            if (elem.passenger_type !== 'baby') {
+              let a = await axios.post(`http://46.182.172.161:8085/api/flights_seats/${elem.departure_seat_id}/set_taken/`);
+              console.log('Nstatexn enq broni anum', a);
+            }
+
+            // pasajiri tvyalner@ post em anum
+            let c = await axios.post(`http://46.182.172.161:8085/api/passangers/`, elem);
+            console.log('passanget Listn enq save anum', c);
+
+            console.log(elem);
+
+            console.log('----------------------------------------');
+
+          })
 
         } catch (error) {
           console.log(error);
         }
 
+        console.log('======================================================== return');
+
+
+        /* ============================= for return tickets ============================= */
+        if (bookingPostData.return_date) {
+          try {
+            postData.forEach(async elem => {
+              elem.ticket_id = elem.return_ticket_id;
+
+              // gnum enq ticket@
+              let currentTicket = selectedFlights.return.tickets.find(item => item.id === elem.return_ticket_id);
+              let www = await axios.post(`http://46.182.172.161:8085/api/tickets/${currentTicket.id}/set_sold/`);
+              console.log('Ticket@ sold enq sarqum', www);
+
+              // broni enq anum nstatex@
+              if (elem.passenger_type !== 'baby') {
+                let a = await axios.post(`http://46.182.172.161:8085/api/flights_seats/${elem.return_seat_id}/set_taken/`);
+                console.log('Nstatexn enq broni anum', a);
+              }
+
+
+              // pasajiri tvyalner@ post em anum
+              let c = await axios.post(`http://46.182.172.161:8085/api/passangers/`, elem);
+              console.log('passanget Listn enq save anum', c);
+
+              console.log('return ticket', currentTicket);
+              console.log('return elem', elem);
+
+              console.log('----------------------------------------');
+
+            })
+
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
+
+
+        alert('ԳՆՈՒՄԸ ԿԱՏԱՐՎԵՑ')
+
+
+
+        
       } catch (error) {
         console.log(error);
       }
-
     }
   };
 

@@ -70,7 +70,7 @@ export function BookingClientInfoPage() {
 
   const submitFlightSeatTaken = async (currentSeat, ticket_id) => {
 
-    if (!currentSeat.departureSeats || !currentSeat.returnSeats) {
+    if (!currentSeat.departureSeats && !currentSeat.returnSeats) {
       return;
     }
 
@@ -101,7 +101,7 @@ export function BookingClientInfoPage() {
 
         const newPassangerList = passangerList.map(elem => {
           if (elem.ticket_id === ticket_id) {
-            elem.return_seat_id = currentSeat.departureSeats.id;
+            elem.return_seat_id = currentSeat.returnSeats.id;
 
             setHoldSeats(prev => ({
               ...prev,

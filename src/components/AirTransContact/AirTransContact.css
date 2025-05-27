@@ -1,0 +1,90 @@
+
+.AirTransContact *{
+  font-family: var(--font-family);
+
+}
+
+.air_trans_contact_page_top_subheading{
+  padding-top: 27px;
+}
+
+
+.air_trans_contact_page_top_subheading .subheading_page_name {
+  font-size: 14px;
+  color: #000;
+  opacity: 0.5;
+}
+
+.air_trans_contact_page_top_subheading .img_div img {
+  width: 18px;
+  height: 11px;
+}
+
+.air_trans_contact_page_top_subheading .subheading_page_name_to {
+  font-size: 14px;
+  color: #000;
+}
+
+.air_trans_contact_page_row_box {
+  margin: 24px 0;
+  border-bottom: 1.4px solid #dfdfdf;
+  padding-bottom: 24px;
+}
+
+.air_trans_contact_page_row_box:last-child {
+  margin-bottom: 72px;
+}
+
+.air_trans_contact_page_list,
+.important_information {
+  padding-left: 20px;
+}
+
+.air_trans_contact_page_list li,
+.important_information li {
+  font-size: 16px;
+  color: #20242a;
+  line-height: 150%;
+}
+
+.air_trans_contact_page_heading {
+  padding-bottom: 24px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #20242a;
+}
+
+.online_registration_page_text {
+  font-size: 16px;
+  color: #20242a;
+  font-weight: 400px;
+  line-height: 158%;
+  padding-top: 16px;
+}
+
+.air_trans_contact_page_subheading{
+  font-weight: 600;
+  font-size: 16px;
+  color: #000;
+  padding: 16px 0;
+}
+
+/* _____________________________________________________ */
+
+@media (max-width: 800px) {
+  .AirTransContact .row {
+    padding: 0 3%;
+  }
+}
+
+@media (max-width: 400px) {
+.online_registration_page_heading{
+    font-size: 24px;
+}
+
+  .air_trans_contact_page_text,
+  .air_trans_contact_page_list li,
+  .important_information li {
+    font-size: 14px;
+  }
+}

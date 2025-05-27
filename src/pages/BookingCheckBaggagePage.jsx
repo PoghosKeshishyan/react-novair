@@ -12,33 +12,35 @@ export function BookingCheckBaggagePage() {
     const [baggagePageLabel, setBaggagePageLabel] = useState(null);
     const [orderSummary, setOrderSummary] = useState(null);
     const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
+
     const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
 
-    const bookingSearchResult = JSON.parse(sessionStorage.getItem('bookingSearchResult'));
-    const ticketsInSession = bookingSearchResult.departure_flights[0].tickets;
+    const ticketsInSession = selectedFlights.flight.tickets;
+
+    let returnTicketsInSession;
+
+    if (bookingPostData.return_date) {
+        returnTicketsInSession = selectedFlights.return.tickets;
+    }
 
     const [passangerList, setPassangerList] = useState(() => {
         return JSON.parse(sessionStorage.getItem('passangerList')) || ticketsInSession.map((ticket, index) => {
-            const isBaby = ticket.passenger_type === 'baby';
-
             const baseTicket = {
                 ticket_id: ticket.id,
+                return_ticket_id: bookingPostData.return_date && returnTicketsInSession[index].id,
                 title: 'Mrs',
                 full_name: '',
                 date_of_birth: '',
                 citizenship: '',
                 citizenship_code: '',
                 passport_serial: '',
+                passenger_type: ticket.passenger_type,
+                departure_seat_id: null,
+                return_seat_id: null,
+                email: null,
+                phone: null,
                 departure_baggage_weight: null,
                 return_baggage_weight: null,
-                passenger_type: ticket.passenger_type,
-            };
-
-            if (!isBaby) {
-                baseTicket.departure_seat_id = null;
-                baseTicket.return_seat_id = null;
-                baseTicket.email = '';
-                baseTicket.phone = '';
             }
 
             return baseTicket;
@@ -77,7 +79,7 @@ export function BookingCheckBaggagePage() {
             }
 
             return elem;
-        });        
+        });
 
         setPassangerList(newPassangerList);
     };
@@ -87,7 +89,7 @@ export function BookingCheckBaggagePage() {
             {bookingNavigation && <BookingNavigation bookingNavigation={bookingNavigation} />}
 
             <div className="page-row container">
-                <div>
+                <div className='parent'>
                     {baggagePageLabel && passangerList.map((elem, index) => (
                         elem.passenger_type !== 'baby' ? (
                             <CheckBaggage
