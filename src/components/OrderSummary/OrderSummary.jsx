@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../axios';
 import './OrderSummary.css';
 
 export function OrderSummary({
@@ -84,17 +84,18 @@ export function OrderSummary({
             console.log('deparuter elem', elem);
 
 
-            let www = await axios.post(`http://46.182.172.161:8085/api/tickets/${currentTicket.id}/set_sold/`);
+            let www = await axios.post(`tickets/${currentTicket.id}/set_sold/`);
             console.log('Ticket@ sold enq sarqum', www);
+
 
             // broni enq anum nstatex@
             if (elem.passenger_type !== 'baby') {
-              let a = await axios.post(`http://46.182.172.161:8085/api/flights_seats/${elem.departure_seat_id}/set_taken/`);
+              let a = await axios.post(`flights_seats/${elem.departure_seat_id}/set_taken/`);
               console.log('Nstatexn enq broni anum', a);
             }
 
             // pasajiri tvyalner@ post em anum
-            let c = await axios.post(`http://46.182.172.161:8085/api/passangers/`, elem);
+            let c = await axios.post(`passangers/`, elem);
             console.log('passanget Listn enq save anum', c);
 
             console.log(elem);
@@ -118,18 +119,18 @@ export function OrderSummary({
 
               // gnum enq ticket@
               let currentTicket = selectedFlights.return.tickets.find(item => item.id === elem.return_ticket_id);
-              let www = await axios.post(`http://46.182.172.161:8085/api/tickets/${currentTicket.id}/set_sold/`);
+              let www = await axios.post(`tickets/${currentTicket.id}/set_sold/`);
               console.log('Ticket@ sold enq sarqum', www);
 
               // broni enq anum nstatex@
               if (elem.passenger_type !== 'baby') {
-                let a = await axios.post(`http://46.182.172.161:8085/api/flights_seats/${elem.return_seat_id}/set_taken/`);
+                let a = await axios.post(`flights_seats/${elem.return_seat_id}/set_taken/`);
                 console.log('Nstatexn enq broni anum', a);
               }
 
 
               // pasajiri tvyalner@ post em anum
-              let c = await axios.post(`http://46.182.172.161:8085/api/passangers/`, elem);
+              let c = await axios.post(`passangers/`, elem);
               console.log('passanget Listn enq save anum', c);
 
               console.log('return ticket', currentTicket);

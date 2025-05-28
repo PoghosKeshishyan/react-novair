@@ -3,7 +3,7 @@ import { LanguageContext } from '../context/LanguageContext';
 import { BookingNavigation } from '../components/BookingNavigation/BookingNavigation';
 import { CheckBaggage } from '../components/BookingCheckBaggagePage/CheckBaggage';
 import { OrderSummary } from '../components/OrderSummary/OrderSummary';
-import axios from 'axios';
+import axios from '../axios';
 import '../stylesheets/BookingCheckBaggagePage.css';
 
 export function BookingCheckBaggagePage() {
@@ -53,14 +53,14 @@ export function BookingCheckBaggagePage() {
 
     useEffect(() => {
         const loadingData = async () => {
-            const resBookingNavigation = await axios.get(`http://localhost:8000/booking_navigation?lang=${currentLang}`);
-            setBookingNavigation(resBookingNavigation.data);
+            const resBookingNavigation = await axios.get(`booking_navigation?lang=${currentLang}`);
+            setBookingNavigation(resBookingNavigation.data.results);
+            
+            const resOrderSummary = await axios.get(`order_summary?lang=${currentLang}`);
+            setOrderSummary(resOrderSummary.data.results[0]);
 
-            const resOrderSummary = await axios.get(`http://localhost:8000/order_summary?lang=${currentLang}`)
-            setOrderSummary(resOrderSummary.data[0]);
-
-            const resBaggageLabel = await axios.get(`http://localhost:8000/booking_check_baggage_page_label?lang=${currentLang}`);
-            setBaggagePageLabel(resBaggageLabel.data[0]);
+            const resBaggageLabel = await axios.get(`booking_check_baggage_page_label?lang=${currentLang}`);
+            setBaggagePageLabel(resBaggageLabel.data.results[0]);
         };
 
         loadingData();

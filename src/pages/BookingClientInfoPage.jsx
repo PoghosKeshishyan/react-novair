@@ -3,7 +3,7 @@ import { LanguageContext } from '../context/LanguageContext';
 import { BookingNavigation } from '../components/BookingNavigation/BookingNavigation';
 import { ClientInfoForm } from '../components/BookingClientInfoPage/ClientInfoForm';
 import { OrderSummary } from '../components/OrderSummary/OrderSummary';
-import axios from 'axios';
+import axios from '../axios';
 import '../stylesheets/BookingClientInfoPage.css';
 
 export function BookingClientInfoPage() {
@@ -30,26 +30,30 @@ export function BookingClientInfoPage() {
 
   useEffect(() => {
     const loadingData = async () => {
-      const resBookingNavigation = await axios.get(`http://localhost:8000/booking_navigation?lang=${currentLang}`);
-      setBookingNavigation(resBookingNavigation.data);
+      const resBookingNavigation = await axios.get(`booking_navigation?lang=${currentLang}`);
+      setBookingNavigation(resBookingNavigation.data.results);
 
-      const resOrderSummary = await axios.get(`http://localhost:8000/order_summary?lang=${currentLang}`)
-      setOrderSummary(resOrderSummary.data[0]);
+      const resOrderSummary = await axios.get(`order_summary?lang=${currentLang}`);
+      setOrderSummary(resOrderSummary.data.results[0]);
 
-      const resBookingClientInfoPageLabel = await axios.get(`http://localhost:8000/booking_client_info_page_label?lang=${currentLang}`);
-      setClientInfoPageLabel(resBookingClientInfoPageLabel.data[0]);
+      const resBookingClientInfoPageLabel = await axios.get(`booking_client_info_page_label?lang=${currentLang}`);
+      setClientInfoPageLabel(resBookingClientInfoPageLabel.data.results[0]);
 
       /* =============================== flight seats =============================== */
-      const resFlightSeatsForFlight = await axios.get(`http://46.182.172.161:8085/api/flights_seats/?flight_id=${selectedFlights.flight.id}`);
-      const onlyDepartureSeats = resFlightSeatsForFlight.data.filter(seat => seat.seat_type === 'departure');
-      const onlyReturnSeats = resFlightSeatsForFlight.data.filter(seat => seat.seat_type === 'return');
-      setFlightSeats({ departureSeats: onlyDepartureSeats });
-
       if (bookingPostData.return_date) {
-        setFlightSeats((prev) => {
-          return { ...prev, returnSeats: onlyReturnSeats }
+        const resDepartureSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.flight.id}`);
+        const resReturnSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.return.id}`);
+
+        setFlightSeats(prev => {
+          return { ...prev, departureSeats: resDepartureSeats.data, returnSeats: resReturnSeats.data };
         })
-      }
+      } else {
+        const resDepartureSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.flight.id}`);
+
+        setFlightSeats(prev => {
+          return { ...prev, departureSeats: resDepartureSeats.data };
+        })
+      };
     };
 
     loadingData();
@@ -75,7 +79,7 @@ export function BookingClientInfoPage() {
     }
 
     try {
-      await axios.post(`http://46.182.172.161:8085/api/flights_seats/${currentSeat.departureSeats.id}/hold/`)
+      await axios.post(`flights_seats/${currentSeat.departureSeats.id}/hold/`)
 
       const newPassangerList = passangerList.map(elem => {
         if (elem.ticket_id === ticket_id) {
@@ -97,7 +101,7 @@ export function BookingClientInfoPage() {
 
     try {
       if (bookingPostData.return_date) {
-        await axios.post(`http://46.182.172.161:8085/api/flights_seats/${currentSeat.returnSeats.id}/hold/`)
+        await axios.post(`flights_seats/${currentSeat.returnSeats.id}/hold/`)
 
         const newPassangerList = passangerList.map(elem => {
           if (elem.ticket_id === ticket_id) {

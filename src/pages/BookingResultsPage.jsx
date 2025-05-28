@@ -27,9 +27,8 @@ export function BookingResultsPage() {
 
   useEffect(() => {
     const loadingData = async () => {
-      const resBookingLabel = await fetch('http://localhost:8000/booking_results_page_label?lang=' + currentLang)
-      const res = await resBookingLabel.json();
-      setBookingResultsPageLabel(res[0]);
+      const resBookingLabel = await axios.get('booking_results_page_label?lang=' + currentLang);
+      setBookingResultsPageLabel(resBookingLabel.data.results[0]);
 
       const resLogo = await axios.get('logo/');
       setLogo(resLogo.data.results[0]);

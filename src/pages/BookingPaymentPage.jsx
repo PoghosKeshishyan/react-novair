@@ -3,7 +3,7 @@ import { LanguageContext } from "../context/LanguageContext";
 import { BookingNavigation } from "../components/BookingNavigation/BookingNavigation";
 import { Payment } from "../components/BookingPaymentPage/Payment";
 import { OrderSummary } from "../components/OrderSummary/OrderSummary";
-import axios from "axios";
+import axios from "../axios";
 import '../stylesheets/BookingPaymentPage.css';
 
 export function BookingPaymentPage() {
@@ -29,14 +29,14 @@ export function BookingPaymentPage() {
 
   useEffect(() => {
     const loadingData = async () => {
-      const resBookingNavigation = await axios.get(`http://localhost:8000/booking_navigation?lang=${currentLang}`);
-      setBookingNavigation(resBookingNavigation.data);
+      const resBookingNavigation = await axios.get(`booking_navigation?lang=${currentLang}`);
+      setBookingNavigation(resBookingNavigation.data.results);
+      
+      const resOrderSummary = await axios.get(`order_summary?lang=${currentLang}`);
+      setOrderSummary(resOrderSummary.data.results[0]);
 
-      const resOrderSummary = await axios.get(`http://localhost:8000/order_summary?lang=${currentLang}`)
-      setOrderSummary(resOrderSummary.data[0]);
-
-      const resBookingPaymentPageLabel = await axios.get(`http://localhost:8000/booking_payment_page_label?lang=${currentLang}`);
-      setBookingPaymentPageLabel(resBookingPaymentPageLabel.data[0]);
+      const resBookingPaymentPageLabel = await axios.get(`booking_payment_page_label?lang=${currentLang}`);
+      setBookingPaymentPageLabel(resBookingPaymentPageLabel.data.results[0]);
     };
 
     loadingData();

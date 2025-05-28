@@ -132,7 +132,6 @@ export function ClientInfoForm({
                             placeholder=' '
                             className='citizenship-input'
                         />
-
                     </div>
 
                     <div className="input-box">
