@@ -3,11 +3,13 @@ import { LanguageContext } from '../context/LanguageContext';
 import { BookingNavigation } from '../components/BookingNavigation/BookingNavigation';
 import { ClientInfoForm } from '../components/BookingClientInfoPage/ClientInfoForm';
 import { OrderSummary } from '../components/OrderSummary/OrderSummary';
+import { Loading } from '../components/Loading';
 import axios from '../axios';
 import '../stylesheets/BookingClientInfoPage.css';
 
 export function BookingClientInfoPage() {
   const { currentLang } = useContext(LanguageContext);
+  const [loading, setLoading] = useState(true);
   const [bookingNavigation, setBookingNavigation] = useState(null);
   const [orderSummary, setOrderSummary] = useState(null);
   const [clientInfoPageLabel, setClientInfoPageLabel] = useState(null);
@@ -39,6 +41,19 @@ export function BookingClientInfoPage() {
       const resBookingClientInfoPageLabel = await axios.get(`booking_client_info_page_label?lang=${currentLang}`);
       setClientInfoPageLabel(resBookingClientInfoPageLabel.data.results[0]);
 
+      /* =============================== passanger list =============================== */
+      
+      if (passangerList) {
+        for (let i = 0; i < passangerList.length; i++) {
+          if (passangerList[i].citizenship === '') {
+            passangerList[i].citizenship = 'Armenia';
+            passangerList[i].citizenship_code = "AM";
+          }
+        }
+      }
+
+      sessionStorage.setItem('passangerList', JSON.stringify(passangerList));
+
       /* =============================== flight seats =============================== */
       if (bookingPostData.return_date) {
         const resDepartureSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.flight.id}`);
@@ -54,6 +69,8 @@ export function BookingClientInfoPage() {
           return { ...prev, departureSeats: resDepartureSeats.data };
         })
       };
+
+      setLoading(false);
     };
 
     loadingData();
@@ -72,12 +89,7 @@ export function BookingClientInfoPage() {
     );
   };
 
-  const submitFlightSeatTaken = async (currentSeat, ticket_id) => {
-
-    if (!currentSeat.departureSeats && !currentSeat.returnSeats) {
-      return;
-    }
-
+  const submitFlightSeatTakenDeparture = async (currentSeat, ticket_id) => {
     try {
       await axios.post(`flights_seats/${currentSeat.departureSeats.id}/hold/`)
 
@@ -98,30 +110,29 @@ export function BookingClientInfoPage() {
     } catch (error) {
       alert(error.response.data[currentLang]);
     }
+  };
 
+  const submitFlightSeatTakenReturn = async (currentSeat, ticket_id) => {
     try {
-      if (bookingPostData.return_date) {
-        await axios.post(`flights_seats/${currentSeat.returnSeats.id}/hold/`)
+      await axios.post(`flights_seats/${currentSeat.returnSeats.id}/hold/`)
 
-        const newPassangerList = passangerList.map(elem => {
-          if (elem.ticket_id === ticket_id) {
-            elem.return_seat_id = currentSeat.returnSeats.id;
+      const newPassangerList = passangerList.map(elem => {
+        if (elem.return_ticket_id === ticket_id) {
+          elem.return_seat_id = currentSeat.returnSeats.id;
 
-            setHoldSeats(prev => ({
-              ...prev,
-              returnSeats: [...prev.returnSeats, currentSeat.returnSeats.seat_number]
-            }));
-          }
+          setHoldSeats(prev => ({
+            ...prev,
+            returnSeats: [...prev.returnSeats, currentSeat.returnSeats.seat_number]
+          }));
+        }
 
-          return elem;
-        });
+        return elem;
+      });
 
-        setPassangerList(newPassangerList)
-      }
+      setPassangerList(newPassangerList)
     } catch (error) {
       alert(error.response.data[currentLang]);
     }
-
   };
 
   const calculatePriceSumOfSeats = () => {
@@ -174,6 +185,7 @@ export function BookingClientInfoPage() {
 
   return (
     <div className="BookingClientInfoPage">
+      {loading && <Loading />}
       {bookingNavigation && <BookingNavigation active_section={1} bookingNavigation={bookingNavigation} />}
 
       <div className="page-row container">
@@ -189,7 +201,8 @@ export function BookingClientInfoPage() {
                 onChangePassangerListInput={onChangePassangerListInput}
                 clientInfoPageLabel={clientInfoPageLabel}
                 flightSeats={flightSeats}
-                submitFlightSeatTaken={submitFlightSeatTaken}
+                submitFlightSeatTakenDeparture={submitFlightSeatTakenDeparture}
+                submitFlightSeatTakenReturn={submitFlightSeatTakenReturn}
               />
             ))
           }

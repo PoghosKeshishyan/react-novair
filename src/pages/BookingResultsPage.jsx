@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LanguageContext } from '../context/LanguageContext';
+import { Loading } from "../components/Loading";
 import { Guide } from "../components/BookingResultsPage/Guide";
 import { FlightDateSlider } from "../components/BookingResultsPage/FlightDateSlider";
 import { FlightTickets } from '../components/BookingResultsPage/FlightTickets';
@@ -11,6 +12,7 @@ import dayjs from 'dayjs';
 import '../stylesheets/BookingResultsPage.css';
 
 export function BookingResultsPage() {
+  const [loading, setLoading] = useState(true);
   const [logo, setLogo] = useState(null);
   const [bookingPostData, setBookingPostData] = useState(null);
   const [bookingResultsPageLabel, setBookingResultsPageLabel] = useState(null);
@@ -39,6 +41,7 @@ export function BookingResultsPage() {
       const sessionDataBookingPost = JSON.parse(sessionStorage.getItem('bookingPostData'));
       setBookingPostData(sessionDataBookingPost);
       setSelectedFlights(prev => { return { ...prev, return: sessionDataBookingPost?.return_date ? {} : null } });
+      setLoading(false);
     }
 
     window.scrollTo(0, 0);
@@ -146,6 +149,7 @@ export function BookingResultsPage() {
 
   return bookingResultsPageLabel && (
     <div className="BookingResultsPage container">
+      {loading && <Loading />}
       <Guide guide_label={bookingResultsPageLabel.navigation} />
 
       {/* ======================= Departure flights ======================= */}
@@ -210,7 +214,7 @@ export function BookingResultsPage() {
       {
         showContinueBtn && (
           <div className="continue_btn" onClick={handleContineBtn}>
-            <button>Continue</button>
+            <button>{bookingResultsPageLabel.continue_btn_text}</button>
           </div>
         )
       }

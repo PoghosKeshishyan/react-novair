@@ -20,7 +20,7 @@ export function Footer({ footerData }) {
 
                         <div className="footer-social">
                             {footerData.urls.social.map((item, index) => (
-                                <a key={index} href={item.url}>{item.title}</a>
+                                <a key={index} href={item.url} target="_blank" rel="noreferrer">{item.title}</a>
                             ))}
                         </div>
                     </div>

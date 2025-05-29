@@ -3,11 +3,13 @@ import { LanguageContext } from "../context/LanguageContext";
 import { BookingNavigation } from "../components/BookingNavigation/BookingNavigation";
 import { Payment } from "../components/BookingPaymentPage/Payment";
 import { OrderSummary } from "../components/OrderSummary/OrderSummary";
+import { Loading } from "../components/Loading";
 import axios from "../axios";
 import '../stylesheets/BookingPaymentPage.css';
 
 export function BookingPaymentPage() {
   const { currentLang } = useContext(LanguageContext);
+  const [loading, setLoading] = useState(true);
   const [bookingNavigation, setBookingNavigation] = useState(null);
   const [orderSummary, setOrderSummary] = useState(null);
   const [bookingPaymentPageLabel, setBookingPaymentPageLabel] = useState(null);
@@ -37,6 +39,8 @@ export function BookingPaymentPage() {
 
       const resBookingPaymentPageLabel = await axios.get(`booking_payment_page_label?lang=${currentLang}`);
       setBookingPaymentPageLabel(resBookingPaymentPageLabel.data.results[0]);
+
+      setLoading(false);
     };
 
     loadingData();
@@ -55,6 +59,7 @@ export function BookingPaymentPage() {
 
   return (
     <div className="BookingPaymentPage">
+      {loading && <Loading />}
       {bookingNavigation && <BookingNavigation bookingNavigation={bookingNavigation} active_section={2} />}
 
       <div className="page-row container">

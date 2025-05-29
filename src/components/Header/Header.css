@@ -12,7 +12,7 @@ header .row {
 }
 
 header .row .menu .navbar {
-    gap: 24px;
+    /* gap: 24px; */
     padding-right: 20px;
     border-right: 1px solid #b3b3b3;
 }
@@ -26,6 +26,7 @@ header .row .menu .navbar li .nav-link {
     font-weight: 500;
     color: #22292f;
     cursor: pointer;
+    padding: 12px;
 }
 
 header .row .menu .navbar .sub-menu {
@@ -35,7 +36,7 @@ header .row .menu .navbar .sub-menu {
     background: #fff;
     width: max-content;
     position: absolute;
-    top: 110%;
+    top: 100%;
 }
 
 header .row .menu .sub-menu .sub-menu-link {

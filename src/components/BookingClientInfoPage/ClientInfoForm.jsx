@@ -12,15 +12,17 @@ export function ClientInfoForm({
     flightSeats,
     index,
     onChangePassangerListInput,
+    submitFlightSeatTakenDeparture,
+    submitFlightSeatTakenReturn,
     clientInfoPageLabel,
     bookingPostData,
     holdSeats,
-    submitFlightSeatTaken
 }) {
     countries.registerLocale(enLocale);
 
     const [selectedDirection, setSelectedDirection] = useState('first');
-    const [actionSelectBtn, setActionSelectBtn] = useState(false);
+    const [firstActionSelectBtn, setFirstActionSelectBtn] = useState(false);
+    const [secondActionSelectBtn, setSecondActionSelectBtn] = useState(false);
 
     const [selectedSeat, setSelectedSeat] = useState({
         departureSeats: '',
@@ -28,15 +30,13 @@ export function ClientInfoForm({
     });
 
     useEffect(() => {
-        if (selectedSeat.departureSeats === '' || selectedSeat.returnSeats === '') {
-            return;
+        if (selectedSeat.departureSeats) {
+            setFirstActionSelectBtn(true);
         }
 
-        if (bookingPostData.return_date && selectedSeat.returnSeats === '') {
-            return;
+        if (selectedSeat.returnSeats) {
+            setSecondActionSelectBtn(true);
         }
-
-        setActionSelectBtn(true);
     }, [selectedSeat]);
 
     const passanger_types = {
@@ -159,31 +159,50 @@ export function ClientInfoForm({
                             <p className="price">+ 2000 AMD</p>
                         )}
 
+                        {selectedDirection === 'first' && (
+                            <>
+                                <button
+                                    type="button"
+                                    className={`select-seat-btn ${firstActionSelectBtn ? 'active' : ''}`}
+                                    onClick={() => submitFlightSeatTakenDeparture(selectedSeat, elem.ticket_id)}
+                                >
+
+                                    {
+                                        elem.departure_seat_id
+                                            ? clientInfoPageLabel.selected_btn_text
+                                            : clientInfoPageLabel.select_btn_text
+                                    }
+
+                                </button>
+
+                                <p className="seat-number">{selectedSeat.departureSeats.seat_number || '00'}</p>
+                            </>
+                        )}
+
                         {selectedDirection === 'second' && selectedSeat.returnSeats && (
                             <p className="price">+ 2000 AMD</p>
                         )}
 
-                        <button
-                            type="button"
-                            className={`select-seat-btn ${actionSelectBtn ? 'active' : ''}`}
-                            onClick={() => submitFlightSeatTaken(selectedSeat, elem.ticket_id)}
-                        >
-
-                                { 
-                                    elem.departure_seat_id 
-                                      ? clientInfoPageLabel.selected_btn_text 
-                                      : clientInfoPageLabel.select_btn_text
-                                }
-
-                        </button>
-
-                        {selectedDirection === 'first' && (
-                            <p className="seat-number">{selectedSeat.departureSeats.seat_number || '00'}</p>
-                        )}
-
                         {selectedDirection === 'second' && (
-                            <p className="seat-number">{selectedSeat.returnSeats.seat_number || '00'}</p>
+                            <>
+                                <button
+                                    type="button"
+                                    className={`select-seat-btn ${secondActionSelectBtn ? 'active' : ''}`}
+                                    onClick={() => submitFlightSeatTakenReturn(selectedSeat, elem.return_ticket_id)}
+                                >
+
+                                    {
+                                        elem.return_seat_id
+                                            ? clientInfoPageLabel.selected_btn_text
+                                            : clientInfoPageLabel.select_btn_text 
+                                    }
+
+                                </button>
+
+                                <p className="seat-number">{selectedSeat.returnSeats.seat_number || '00'}</p>
+                            </>
                         )}
+
                     </div>
 
                     {bookingPostData.return_date && <div className="directions flex-between">

@@ -83,8 +83,8 @@ export function BookingSearch({ bookingData }) {
             bookingPostData={bookingPostData}
             onChangeBookingPostData={onChangeBookingPostData}
           />
-
-          <button className='btn' onClick={handlerSearchBtn}>Search</button>
+          
+          <button className='btn' onClick={handlerSearchBtn}>{bookingData.bookingFields.search_btn_text}</button>
         </div>
       </div>
     </div>

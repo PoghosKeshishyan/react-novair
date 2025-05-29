@@ -9,9 +9,7 @@ import { BookingClientInfoPage } from './pages/BookingClientInfoPage';
 import { BookingPaymentPage } from "./pages/BookingPaymentPage";
 import { BaggagePage } from "./pages/BaggagePage";
 import { SeatChoicePage } from "./pages/SeatChoicePage";
-import { OnlineRegistarationPage } from "./pages/OnlineRegistarationPage";
 import { AirTransContact } from "./pages/AirTransContact";
-import { TransportationConditions } from "./pages/TransportationConditions";
 import { CertificatesPage } from "./pages/CertificatesPage";
 import { ContactPage } from "./pages/ContactPage";
 import { Footer } from "./components/Footer/Footer";
@@ -62,9 +60,7 @@ export function App() {
         <Route path="/booking/payment" element={<BookingPaymentPage />} />
         <Route path="/services/baggage" element={<BaggagePage />} />
         <Route path="/services/seat-choice" element={<SeatChoicePage />} />
-        <Route path="/services/online-registaration" element={<OnlineRegistarationPage />} />
         <Route path="/information/air-trans-contact" element={<AirTransContact />} />
-        <Route path="/information/conditions" element={<TransportationConditions />} />
         <Route path="/about/certificates" element={<CertificatesPage />} />
         <Route path="/about/contact" element={<ContactPage />} />
       </Routes>

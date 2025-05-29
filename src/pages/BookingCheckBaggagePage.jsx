@@ -3,11 +3,13 @@ import { LanguageContext } from '../context/LanguageContext';
 import { BookingNavigation } from '../components/BookingNavigation/BookingNavigation';
 import { CheckBaggage } from '../components/BookingCheckBaggagePage/CheckBaggage';
 import { OrderSummary } from '../components/OrderSummary/OrderSummary';
+import { Loading } from '../components/Loading';
 import axios from '../axios';
 import '../stylesheets/BookingCheckBaggagePage.css';
 
 export function BookingCheckBaggagePage() {
     const { currentLang } = useContext(LanguageContext);
+    const [loading, setLoading] = useState(true);
     const [bookingNavigation, setBookingNavigation] = useState(null);
     const [baggagePageLabel, setBaggagePageLabel] = useState(null);
     const [orderSummary, setOrderSummary] = useState(null);
@@ -61,6 +63,8 @@ export function BookingCheckBaggagePage() {
 
             const resBaggageLabel = await axios.get(`booking_check_baggage_page_label?lang=${currentLang}`);
             setBaggagePageLabel(resBaggageLabel.data.results[0]);
+            
+            setLoading(false);
         };
 
         loadingData();
@@ -86,6 +90,7 @@ export function BookingCheckBaggagePage() {
 
     return (
         <div className="BookingCheckBaggagePage">
+            {loading && <Loading />}
             {bookingNavigation && <BookingNavigation bookingNavigation={bookingNavigation} />}
 
             <div className="page-row container">

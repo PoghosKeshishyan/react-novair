@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { LanguageContext } from '../context/LanguageContext';
+import { Loading } from '../components/Loading';
 import { Intro } from '../components/HomePage/Intro/Intro';
 import { BookingSearch } from '../components/HomePage/BookingSearch/BookingSearch';
 import { WhyChooseUs } from '../components/HomePage/WhyChooseUs/WhyChooseUs';
@@ -13,6 +14,7 @@ export function HomePage() {
   const [bookingData, setBookingData] = useState(null);
   const [whyChooseUsData, setWhyChooseUsData] = useState(null);
   const [faqData, setFaqData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadingData = async () => {
@@ -28,6 +30,7 @@ export function HomePage() {
 
       const resFaq = await axios.get(`homepage_faq/?lang=${currentLang}`);
       setFaqData(resFaq.data.results[0]);
+      setLoading(false);
     };
 
     window.scrollTo(0, 0);
@@ -37,6 +40,7 @@ export function HomePage() {
 
   return (
     <div className="HomePage">
+      {loading && <Loading />}
       {introData && <Intro introData={introData} />}
       {bookingData && <BookingSearch bookingData={bookingData} />}
       {whyChooseUsData && <WhyChooseUs whyChooseUsData={whyChooseUsData} />}
