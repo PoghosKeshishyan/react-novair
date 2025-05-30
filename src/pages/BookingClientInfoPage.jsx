@@ -42,7 +42,7 @@ export function BookingClientInfoPage() {
       setClientInfoPageLabel(resBookingClientInfoPageLabel.data.results[0]);
 
       /* =============================== passanger list =============================== */
-      
+
       if (passangerList) {
         for (let i = 0; i < passangerList.length; i++) {
           if (passangerList[i].citizenship === '') {
@@ -147,28 +147,49 @@ export function BookingClientInfoPage() {
 
   const isClientInfoValid = () => {
     for (const passenger of passangerList) {
-      if (passenger.passenger_type === 'baby') continue;
+      if (passenger.passenger_type === 'baby' || passenger.passenger_type === 'child') {
+        const requiredFields = [
+          'title',
+          'full_name',
+          'date_of_birth',
+          'citizenship',
+          'passport_serial',
+        ];
 
-      const requiredFields = [
-        'title',
-        'full_name',
-        'date_of_birth',
-        'citizenship',
-        'passport_serial',
-        'phone',
-        'email',
-      ];
+        for (const field of requiredFields) {
+          if (!passenger[field] || passenger[field].toString().trim() === '') {
+            return {
+              success: false,
+              message: {
+                en: 'Please fill in all required fields.',
+                ru: 'Пожалуйста, заполните все обязательные поля.',
+                am: 'Խնդրում ենք լրացնել բոլոր դաշտերը։'
+              }
+            };
+          }
+        }
+      } else {
+        const requiredFields = [
+          'title',
+          'full_name',
+          'date_of_birth',
+          'citizenship',
+          'passport_serial',
+          'phone',
+          'email',
+        ];
 
-      for (const field of requiredFields) {
-        if (!passenger[field] || passenger[field].toString().trim() === '') {
-          return {
-            success: false,
-            message: {
-              en: 'Please fill in all required fields.',
-              ru: 'Пожалуйста, заполните все обязательные поля.',
-              am: 'Խնդրում ենք լրացնել բոլոր դաշտերը։'
-            }
-          };
+        for (const field of requiredFields) {
+          if (!passenger[field] || passenger[field].toString().trim() === '') {
+            return {
+              success: false,
+              message: {
+                en: 'Please fill in all required fields.',
+                ru: 'Пожалуйста, заполните все обязательные поля.',
+                am: 'Խնդրում ենք լրացնել բոլոր դաշտերը։'
+              }
+            };
+          }
         }
       }
     }

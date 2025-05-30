@@ -145,15 +145,30 @@ export function OrderSummary({
           }
         }
 
+        // alert('ԳՆՈՒՄԸ ԿԱՏԱՐՎԵՑ');
 
+        const responseObj = {
+          "am": "Գնումը հաջողությամբ կատարվեց։/Ստուգեք ձեր էլեկտրոնային փոստը։",
+          "ru": "Покупка успешно завершена./Проверьте вашу электронную почту.",
+          "en": "The purchase was successful./Please check your email."
+        };
 
-        alert('ԳՆՈՒՄԸ ԿԱՏԱՐՎԵՑ')
+        localStorage.setItem('prise_res', JSON.stringify({ ok: true, responseObj }));
+        navigate('/');
 
-
-
-        
       } catch (error) {
+
+        const responseObj = {
+          "am": "Տեղի ունեցավ սխալ։/Խնդրում ենք փորձել կրկին։",
+          "ru": "Произошла ошибка./Пожалуйста, попробуйте снова.",
+          "en": "An error occurred./Please try again."
+        };
+
+        localStorage.setItem('price_res', JSON.stringify({ ok: false, responseObj }));
+        navigate('/');
+        
         console.log(error);
+
       }
     }
   };
@@ -210,7 +225,9 @@ export function OrderSummary({
         <p className="result">{calculateSumOfTickets()} ֏</p>
       </div>
 
-      <button onClick={handler_btn} className='order-summary-btn'>{btn_text}</button>
+      <button onClick={handler_btn} className='order-summary-btn'>
+        {btn_text !== 'Pay' ? orderSummary.btn_text.split('/')[0] : orderSummary.btn_text.split('/')[1]}
+      </button>
     </div>
   )
 }

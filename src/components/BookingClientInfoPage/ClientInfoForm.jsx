@@ -55,35 +55,37 @@ export function ClientInfoForm({
                 {index + 1}. {passanger_types[elem.passenger_type]}
             </h2>
 
-            {elem.passenger_type !== 'baby' && <div className="box">
-                <h2 className="title">{clientInfoPageLabel.order_data_title}</h2>
+            {(elem.passenger_type !== 'baby' && elem.passenger_type !== 'child') && 
+                <div className="box">
+                    <h2 className="title">{clientInfoPageLabel.order_data_title}</h2>
 
-                <div className="fields">
-                    <div className="input-box">
-                        <label htmlFor="tel">{clientInfoPageLabel.phone_text_field}</label>
-                        <PhoneInput
-                            country={'am'}
-                            inputProps={{
-                                name: 'phone',
-                                id: 'tel',
-                                required: true,
-                                autoFocus: false
-                            }}
-                            value={elem.phone}
-                            containerStyle={{ width: '100%' }}
-                            onChange={(phone) => onChangePassangerListInput(index, 'phone', phone)}
-                        />
-                    </div>
+                    <div className="fields">
+                        <div className="input-box">
+                            <label htmlFor="tel">{clientInfoPageLabel.phone_text_field}</label>
+                            <PhoneInput
+                                country={'am'}
+                                inputProps={{
+                                    name: 'phone',
+                                    id: 'tel',
+                                    required: true,
+                                    autoFocus: false
+                                }}
+                                value={elem.phone}
+                                containerStyle={{ width: '100%' }}
+                                onChange={(phone) => onChangePassangerListInput(index, 'phone', phone)}
+                            />
+                        </div>
 
-                    <div className="input-box">
-                        <label htmlFor="email">{clientInfoPageLabel.email_text_field}</label>
-                        <input type="email" id="email" value={elem.email} onChange={(e) => onChangePassangerListInput(index, 'email', e.target.value)} />
+                        <div className="input-box">
+                            <label htmlFor="email">{clientInfoPageLabel.email_text_field}</label>
+                            <input type="email" id="email" value={elem.email} onChange={(e) => onChangePassangerListInput(index, 'email', e.target.value)} />
+                        </div>
                     </div>
                 </div>
-            </div>}
+            }
 
             <div className="box">
-                <h2 className="title">{clientInfoPageLabel.visitor_details_title}</h2>
+                <h2 className="title_plane">{clientInfoPageLabel.visitor_details_title}</h2>
 
                 <div className="fields">
                     <div className="input-box small">
@@ -194,7 +196,7 @@ export function ClientInfoForm({
                                     {
                                         elem.return_seat_id
                                             ? clientInfoPageLabel.selected_btn_text
-                                            : clientInfoPageLabel.select_btn_text 
+                                            : clientInfoPageLabel.select_btn_text
                                     }
 
                                 </button>

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { LanguageContext } from '../context/LanguageContext';
 import { Loading } from '../components/Loading';
+import { ModalPriceRes } from '../components/HomePage/ModalPriceRes';
 import { Intro } from '../components/HomePage/Intro/Intro';
 import { BookingSearch } from '../components/HomePage/BookingSearch/BookingSearch';
 import { WhyChooseUs } from '../components/HomePage/WhyChooseUs/WhyChooseUs';
@@ -15,6 +16,19 @@ export function HomePage() {
   const [whyChooseUsData, setWhyChooseUsData] = useState(null);
   const [faqData, setFaqData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [showModal, setShowModal] = useState(() => {
+    return JSON.parse(localStorage.getItem('price_res')) || false;
+  });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    
+    setTimeout(() => {
+      localStorage.removeItem('price_res');
+      setShowModal(false);
+    }, 6000);
+  }, [])
 
   useEffect(() => {
     const loadingData = async () => {
@@ -33,7 +47,6 @@ export function HomePage() {
       setLoading(false);
     };
 
-    window.scrollTo(0, 0);
     loadingData();
     sessionStorage.clear();
   }, [currentLang]);
@@ -41,6 +54,7 @@ export function HomePage() {
   return (
     <div className="HomePage">
       {loading && <Loading />}
+      {showModal && <ModalPriceRes />}
       {introData && <Intro introData={introData} />}
       {bookingData && <BookingSearch bookingData={bookingData} />}
       {whyChooseUsData && <WhyChooseUs whyChooseUsData={whyChooseUsData} />}
