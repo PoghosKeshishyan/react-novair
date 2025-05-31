@@ -153,7 +153,7 @@ export function OrderSummary({
           "en": "The purchase was successful./Please check your email."
         };
 
-        localStorage.setItem('prise_res', JSON.stringify({ ok: true, responseObj }));
+        localStorage.setItem('price_res', JSON.stringify({ ok: true, responseObj }));
         navigate('/');
 
       } catch (error) {

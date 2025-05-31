@@ -44,9 +44,7 @@ export function BookingClientInfoPage() {
         return_seat_id: null,
         email: '',
         phone: '',
-        departure_baggage_weight: null,
-        return_baggage_weight: null,
-      }
+      };
 
       return baseTicket;
     });
