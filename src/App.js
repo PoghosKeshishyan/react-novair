@@ -4,7 +4,6 @@ import { Route, Routes } from "react-router";
 import { Header } from "./components/Header/Header";
 import { HomePage } from "./pages/HomePage";
 import { BookingResultsPage } from "./pages/BookingResultsPage";
-import { BookingCheckBaggagePage } from "./pages/BookingCheckBaggagePage";
 import { BookingClientInfoPage } from './pages/BookingClientInfoPage';
 import { BookingPaymentPage } from "./pages/BookingPaymentPage";
 import { BaggagePage } from "./pages/BaggagePage";
@@ -55,7 +54,6 @@ export function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/booking" element={<BookingResultsPage />} />
-        <Route path="/booking/check-baggage" element={<BookingCheckBaggagePage />} />
         <Route path="/booking/client-info" element={<BookingClientInfoPage />} />
         <Route path="/booking/payment" element={<BookingPaymentPage />} />
         <Route path="/services/baggage" element={<BaggagePage />} />

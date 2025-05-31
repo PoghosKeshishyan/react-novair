@@ -144,7 +144,7 @@ export function BookingResultsPage() {
     }
 
     sessionStorage.setItem('selectedFlights', JSON.stringify(selectedFlights));
-    navigate('/booking/check-baggage');
+    navigate('/booking/client-info');
   };
 
   return bookingResultsPageLabel && (

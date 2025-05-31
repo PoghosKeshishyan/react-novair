@@ -8,10 +8,10 @@
 }
 
 @font-face {
-  font-family: 'Arial Regular';
+  /* font-family: 'Arial Regular';
   src: url('../../public/fonts/ARIALBD.TTF') format('truetype');
   font-weight: bold;
-  font-style: normal;
+  font-style: normal; */
 }
 
 * {

@@ -9,6 +9,11 @@
     padding-top: 20px;
 }
 
+.ClientInfoForm .passanger-type p {
+    font-size: 17px;
+    margin-top: 8px;
+}
+
 .ClientInfoForm:first-child .passanger-type {
     border-top: 0;
 }

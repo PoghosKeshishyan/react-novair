@@ -53,6 +53,9 @@ export function ClientInfoForm({
         <form className='ClientInfoForm'>
             <h2 className='passanger-type'>
                 {index + 1}. {passanger_types[elem.passenger_type]}
+                {
+                    elem.passenger_type !== 'baby' && <p>{clientInfoPageLabel.baggage_airport_info}</p>
+                }
             </h2>
 
             {(elem.passenger_type !== 'baby' && elem.passenger_type !== 'child') && 

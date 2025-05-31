@@ -19,12 +19,39 @@ export function BookingClientInfoPage() {
     returnSeats: [],
   });
 
+  const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
+  const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
+  const ticketsInSession = selectedFlights.flight.tickets;
+  let returnTicketsInSession;
+
+  if (bookingPostData.return_date) {
+    returnTicketsInSession = selectedFlights.return.tickets;
+  }
+
   const [passangerList, setPassangerList] = useState(() => {
-    return JSON.parse(sessionStorage.getItem('passangerList')) || [];
+    return JSON.parse(sessionStorage.getItem('passangerList')) || ticketsInSession.map((ticket, index) => {
+      const baseTicket = {
+        ticket_id: ticket.id,
+        return_ticket_id: bookingPostData.return_date && returnTicketsInSession[index].id,
+        title: 'Mrs',
+        full_name: '',
+        date_of_birth: '',
+        citizenship: 'Armenia',
+        citizenship_code: 'AM',
+        passport_serial: '',
+        passenger_type: ticket.passenger_type,
+        departure_seat_id: null,
+        return_seat_id: null,
+        email: '',
+        phone: '',
+        departure_baggage_weight: null,
+        return_baggage_weight: null,
+      }
+
+      return baseTicket;
+    });
   });
 
-  const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
-  const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,19 +67,6 @@ export function BookingClientInfoPage() {
 
       const resBookingClientInfoPageLabel = await axios.get(`booking_client_info_page_label?lang=${currentLang}`);
       setClientInfoPageLabel(resBookingClientInfoPageLabel.data.results[0]);
-
-      /* =============================== passanger list =============================== */
-
-      if (passangerList) {
-        for (let i = 0; i < passangerList.length; i++) {
-          if (passangerList[i].citizenship === '') {
-            passangerList[i].citizenship = 'Armenia';
-            passangerList[i].citizenship_code = "AM";
-          }
-        }
-      }
-
-      sessionStorage.setItem('passangerList', JSON.stringify(passangerList));
 
       /* =============================== flight seats =============================== */
       if (bookingPostData.return_date) {
