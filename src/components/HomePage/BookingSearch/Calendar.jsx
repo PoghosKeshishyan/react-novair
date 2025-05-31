@@ -20,7 +20,15 @@ export function Calendar({ bookingFields, onChangeBookingPostData }) {
         setShowDropdown(false);
       }
     } catch { }
-  }
+  };
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
 
   const handleChange = (dates) => {
     const [start, end] = dates;
@@ -29,8 +37,8 @@ export function Calendar({ bookingFields, onChangeBookingPostData }) {
     setEndDate(end instanceof Date ? end : null);
 
     const updatedDates = {
-      departure_date: start.toLocaleDateString().split('.').reverse().join('-'),
-      return_date: end ? end.toLocaleDateString().split('.').reverse().join('-') : null,
+      departure_date: start ? formatDate(start) : null,
+      return_date: end ? formatDate(end) : null,
     };
 
     onChangeBookingPostData(updatedDates);
@@ -38,7 +46,7 @@ export function Calendar({ bookingFields, onChangeBookingPostData }) {
 
   return (
     <div className="Calendar" ref={dropdownRef} onClick={() => setShowDropdown(true)}>
-      <p className="title">{ bookingFields.date_field_text }</p>
+      <p className="title">{bookingFields.date_field_text}</p>
 
       <div className="info flex-center">
         <img src="/images/calendar.svg" alt="calendar" />
@@ -70,9 +78,9 @@ export function Calendar({ bookingFields, onChangeBookingPostData }) {
           inline
           minDate={today}
         />
-        
+
         <div className="clb"><button className="btn calendar" onClick={() => setShowDropdown(false)}>
-          {calendarData.btn_text} 
+          {calendarData.btn_text}
         </button></div>
       </div>}
 
