@@ -1,5 +1,6 @@
 .ClientInfoForm {
-    margin-bottom: 40px;
+    margin-top: 90px;
+    margin-bottom: 180px;
 }
 
 .ClientInfoForm .passanger-type {
@@ -317,6 +318,12 @@
     border-color: #0177fc;
 }
 
+@media (max-width: 1500px) {
+    .ClientInfoForm {
+        margin-bottom: 0;
+    }
+}
+
 @media (max-width: 766px) {
     .ClientInfoForm .box {
         width: 100%;
@@ -381,6 +388,13 @@
     }
 }
 
+@media (max-width: 670px) {
+    .ClientInfoForm {
+        margin-top: 0;
+    }
+}
+
+
 @media (max-width: 600px) {
     .ClientInfoForm .box .airplane-board .seat-row {
         &:last-child {
@@ -396,6 +410,7 @@
         }
     }
 }
+
 
 @media (max-width: 480px) {
     .ClientInfoForm .box .airplane-board .seat-row {

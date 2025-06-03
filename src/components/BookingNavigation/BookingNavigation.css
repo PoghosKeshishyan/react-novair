@@ -5,6 +5,10 @@
     justify-content: center;
     gap: 10px;
     padding: 14px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 900;
 }
 
 .BookingNavigation .field {
@@ -27,6 +31,12 @@
 
 .BookingNavigation .line.active {
     background: #0177fc;
+}
+
+@media (max-width: 670px) {
+    .BookingNavigation {
+        position: static;
+    }
 }
 
 @media (max-width: 600px) {

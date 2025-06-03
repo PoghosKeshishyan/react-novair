@@ -3,6 +3,7 @@ import axios from '../../axios';
 import './OrderSummary.css';
 
 export function OrderSummary({
+  isFixedOrderSummary,
   next_page,
   selectedFlights,
   orderSummary,
@@ -166,7 +167,7 @@ export function OrderSummary({
 
         localStorage.setItem('price_res', JSON.stringify({ ok: false, responseObj }));
         navigate('/');
-        
+
         console.log(error);
 
       }
@@ -182,7 +183,7 @@ export function OrderSummary({
   };
 
   return (
-    <div className='OrderSummary'>
+    <div className={`OrderSummary ${isFixedOrderSummary ? 'fixed' : ''}`}>
       <h2 className='title'>{orderSummary.title}</h2>
 
       <div className="directions">

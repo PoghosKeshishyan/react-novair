@@ -19,6 +19,8 @@ export function BookingClientInfoPage() {
     returnSeats: [],
   });
 
+  const [isFixedOrderSummary, setIsFixedOrderSummary] = useState(true);
+
   const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
   const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
   const ticketsInSession = selectedFlights.flight.tickets;
@@ -50,9 +52,24 @@ export function BookingClientInfoPage() {
     });
   });
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const handleResize = () => {
+      if (window.innerWidth >= 1500) {
+        setIsFixedOrderSummary(true);
+      } else {
+        setIsFixedOrderSummary(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -242,6 +259,7 @@ export function BookingClientInfoPage() {
         </div>
 
         {orderSummary && <OrderSummary
+          isFixedOrderSummary={isFixedOrderSummary}
           orderSummary={orderSummary}
           currentLang={currentLang}
           next_page={'/booking/payment'}
