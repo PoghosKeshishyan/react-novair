@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../../context/LanguageContext';
 import { From } from './From';
 import { To } from './To';
-import { Calendar } from './Calendar';
+import { CalendarDeparture } from './CalendarDeparture';
+import { CalendarReturn } from './CalendarReturn';
 import { Passangers } from './Passangers';
 import axios from '../../../axios';
 import './BookingSearch.css';
@@ -31,6 +32,8 @@ export function BookingSearch({ bookingData }) {
   };
 
   const handlerSearchBtn = async () => {
+    return console.log(bookingPostData);
+    
     const responseObject = {
       en: "Please fill in all the fields.",
       ru: "Пожалуйста, заполните все поля.",
@@ -73,7 +76,13 @@ export function BookingSearch({ bookingData }) {
             onChangeBookingPostData={onChangeBookingPostData}
           />
 
-          <Calendar
+          <CalendarDeparture
+            bookingFields={bookingData.bookingFields}
+            onChangeBookingPostData={onChangeBookingPostData}
+          />
+
+          <CalendarReturn
+            departureDate={bookingPostData.departure_date}
             bookingFields={bookingData.bookingFields}
             onChangeBookingPostData={onChangeBookingPostData}
           />
