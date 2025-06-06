@@ -21,6 +21,8 @@ export function BookingClientInfoPage() {
 
   const [isFixedOrderSummary, setIsFixedOrderSummary] = useState(true);
 
+  const [validationErrors, setValidationErrors] = useState({});
+
   const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
   const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
   const ticketsInSession = selectedFlights.flight.tickets;
@@ -41,6 +43,7 @@ export function BookingClientInfoPage() {
         citizenship: 'Armenia',
         citizenship_code: 'AM',
         passport_serial: '',
+        passport_validity_period: '',
         passenger_type: ticket.passenger_type,
         departure_seat_id: null,
         return_seat_id: null,
@@ -175,62 +178,177 @@ export function BookingClientInfoPage() {
   };
 
   const isClientInfoValid = () => {
-    for (const passenger of passangerList) {
-      if (passenger.passenger_type === 'baby' || passenger.passenger_type === 'child') {
-        const requiredFields = [
-          'title',
-          'full_name',
-          'date_of_birth',
-          'citizenship',
-          'passport_serial',
-        ];
+    const errors = {};
+    let isValid = true;
 
-        for (const field of requiredFields) {
-          if (!passenger[field] || passenger[field].toString().trim() === '') {
-            return {
-              success: false,
-              message: {
-                en: 'Please fill in all required fields.',
-                ru: 'Пожалуйста, заполните все обязательные поля.',
-                am: 'Խնդրում ենք լրացնել բոլոր դաշտերը։'
-              }
-            };
-          }
-        }
-      } else {
-        const requiredFields = [
-          'title',
-          'full_name',
-          'date_of_birth',
-          'citizenship',
-          'passport_serial',
-          'phone',
-          'email',
-        ];
+    for (const [index, passenger] of passangerList.entries()) {
+      const passengerErrors = {};
+      const requiredFields = passenger.passenger_type === 'baby' || passenger.passenger_type === 'child'
+        ? ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period',]
+        : ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period', 'phone', 'email'];
 
-        for (const field of requiredFields) {
-          if (!passenger[field] || passenger[field].toString().trim() === '') {
-            return {
-              success: false,
-              message: {
-                en: 'Please fill in all required fields.',
-                ru: 'Пожалуйста, заполните все обязательные поля.',
-                am: 'Խնդրում ենք լրացնել բոլոր դաշտերը։'
-              }
-            };
-          }
+      for (const field of requiredFields) {
+        if (!passenger[field] || passenger[field].toString().trim() === '') {
+          passengerErrors[field] = true;
+          isValid = false;
         }
+      }
+
+      if (Object.keys(passengerErrors).length > 0) {
+        errors[index] = passengerErrors;
       }
     }
 
+    setValidationErrors(errors);
+
     return {
-      success: true,
+      success: isValid,
       message: {
-        en: 'All fields are filled.',
-        ru: 'Все поля заполнены.',
-        am: 'Բոլոր դաշտերը լրացված են։'
-      }
+        en: isValid ? 'All fields are filled.' : 'Please fill in all required fields.',
+        ru: isValid ? 'Все поля заполнены.' : 'Пожалуйста, заполните все обязательные поля.',
+        am: isValid ? 'Բոլոր դաշտերը լրացված են։' : 'Խնդրում ենք լրացնել բոլոր դաշտերը։'
+      },
+      errors
     };
+  };
+
+  const checkPassportValidity = () => {
+    const expiredPassengers = [];
+
+    const flightDate = new Date(bookingPostData.departure_date);
+    flightDate.setHours(0, 0, 0, 0);
+
+    passangerList.forEach((passenger, index) => {
+      if (passenger.passport_validity_period) {
+        try {
+          let expiryDate;
+
+          if (passenger.passport_validity_period.includes('.')) {
+            const [day, month, year] = passenger.passport_validity_period.split('.');
+            expiryDate = new Date(`${year}-${month}-${day}`);
+          } else {
+            expiryDate = new Date(passenger.passport_validity_period);
+          }
+
+          expiryDate.setHours(0, 0, 0, 0);
+
+          if (expiryDate < flightDate) {
+            expiredPassengers.push({
+              index,
+              fullName: passenger.full_name,
+              expiryDate: passenger.passport_validity_period
+            });
+          }
+        } catch (e) {
+          console.error('Invalid date format', e);
+        }
+      }
+    });
+
+    if (expiredPassengers.length > 0) {
+      const message = expiredPassengers.map(p =>
+        `${p.fullName} - ${p.expiryDate}`
+      ).join('\n');
+
+      const alertMessage = {
+        en: `Passport expired for:\n${message}\n\nPlease update passport information.`,
+        ru: `Срок действия паспорта истек для:\n${message}\n\nПожалуйста, обновите данные паспорта.`,
+        am: `Անձնագրի ժամկետը լրացել է:\n${message}\n\nԽնդրում ենք թարմացնել անձնագրի տվյալները։`
+      };
+
+      alert(alertMessage[currentLang]);
+      return false;
+    }
+
+    return true;
+  };
+
+  const validatePassengerAges = () => {
+    const today = new Date();
+    const flightDate = new Date(bookingPostData.departure_date);
+    flightDate.setHours(0, 0, 0, 0);
+
+    const errors = [];
+
+    passangerList.forEach((passenger, index) => {
+      if (!passenger.date_of_birth) return;
+
+      try {
+        let birthDate;
+
+        if (passenger.date_of_birth.includes('.')) {
+          const [day, month, year] = passenger.date_of_birth.split('.');
+          birthDate = new Date(`${year}-${month}-${day}`);
+        } else {
+          birthDate = new Date(passenger.date_of_birth);
+        }
+
+        birthDate.setHours(0, 0, 0, 0);
+
+        // Calculate age in years
+        let age = flightDate.getFullYear() - birthDate.getFullYear();
+        const monthDiff = flightDate.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && flightDate.getDate() < birthDate.getDate())) {
+          age--;
+        }
+
+        // Calculate age in days for more precise validation
+        const ageInDays = Math.floor((flightDate - birthDate) / (1000 * 60 * 60 * 24));
+
+        if (passenger.passenger_type === 'baby' && ageInDays >= 730) { // 730 days = 2 years
+          errors.push({
+            index,
+            fullName: passenger.full_name,
+            ageType: 'baby',
+            maxAge: 2,
+            actualAge: age
+          });
+        }
+
+        if (passenger.passenger_type === 'child' && (ageInDays < 730 || age >= 12)) {
+          errors.push({
+            index,
+            fullName: passenger.full_name,
+            ageType: 'child',
+            minAge: 2,
+            maxAge: 12,
+            actualAge: age
+          });
+        }
+      } catch (e) {
+        console.error('Invalid date format', e);
+      }
+    });
+
+    if (errors.length > 0) {
+      const message = errors.map(err => {
+        if (err.ageType === 'baby') {
+          return {
+            en: `${err.fullName} - Age ${err.actualAge} (Baby must be under 2 years old)`,
+            ru: `${err.fullName} - Возраст ${err.actualAge} (Младенец должен быть младше 2 лет)`,
+            am: `${err.fullName} - Տարիք ${err.actualAge} (Մանուկը պետք է լինի 2 տարեկանից փոքր)`
+          };
+        } else {
+          return {
+            en: `${err.fullName} - Age ${err.actualAge} (Child must be between 2-12 years old)`,
+            ru: `${err.fullName} - Возраст ${err.actualAge} (Ребенок должен быть в возрасте 2-12 лет)`,
+            am: `${err.fullName} - Տարիք ${err.actualAge} (Երեխան պետք է լինի 2-12 տարեկան)`
+          };
+        }
+      }).map(msg => msg[currentLang]).join('\n');
+
+      const alertMessage = {
+        en: `Age validation failed:\n${message}\n\nPlease correct passenger ages.`,
+        ru: `Ошибка проверки возраста:\n${message}\n\nПожалуйста, исправьте возраст пассажиров.`,
+        am: `Տարիքի ստուգումը ձախողվել է:\n${message}\n\nԽնդրում ենք ուղղել ուղևորների տարիքը:`
+      };
+
+      alert(alertMessage[currentLang]);
+      return false;
+    }
+
+    return true;
   };
 
   return (
@@ -246,7 +364,9 @@ export function BookingClientInfoPage() {
                 key={index}
                 elem={elem}
                 index={index}
+                validationErrors={validationErrors}
                 holdSeats={holdSeats}
+                currentLang={currentLang}
                 bookingPostData={bookingPostData}
                 onChangePassangerListInput={onChangePassangerListInput}
                 clientInfoPageLabel={clientInfoPageLabel}
@@ -265,9 +385,11 @@ export function BookingClientInfoPage() {
           next_page={'/booking/payment'}
           action_btn={'go-to-next-page'}
           btn_text={'Continue'}
+          checkPassportValidity={checkPassportValidity}
           selectedFlights={selectedFlights}
           calculatePriceSumOfSeats={calculatePriceSumOfSeats}
           isClientInfoValid={isClientInfoValid}
+          validatePassengerAges={validatePassengerAges}
         />}
       </div>
     </div>

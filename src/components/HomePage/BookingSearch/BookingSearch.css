@@ -21,7 +21,7 @@
 }
 
 .BookingSearch .Passangers {
-    width: 138px;
+    width: 145px;
     padding: 11px 16px;
 }
 
@@ -238,7 +238,7 @@
 /* =========================== CALENDAR =========================== */
 
 .BookingSearch .Calendar {
-    width: 180px;
+    width: 220px;
 }
 
 .BookingSearch .Calendar .info input[type=date] {

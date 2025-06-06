@@ -4,6 +4,11 @@ import ReactFlagsSelect from "react-flags-select";
 import PhoneInput from 'react-phone-input-2'
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
+import Flatpickr from "react-flatpickr";
+import { Armenian } from "flatpickr/dist/l10n/hy.js";
+import { Russian } from "flatpickr/dist/l10n/ru.js";
+import { English } from "flatpickr/dist/l10n/default.js";
+import "flatpickr/dist/themes/material_blue.css";
 import 'react-phone-input-2/lib/style.css'
 import './ClientInfoForm.css';
 
@@ -14,6 +19,8 @@ export function ClientInfoForm({
     onChangePassangerListInput,
     submitFlightSeatTakenDeparture,
     submitFlightSeatTakenReturn,
+    validationErrors,
+    currentLang,
     clientInfoPageLabel,
     bookingPostData,
     holdSeats,
@@ -49,6 +56,18 @@ export function ClientInfoForm({
         setSelectedDirection(direction);
     };
 
+    const getLocale = () => {
+        switch (currentLang) {
+            case 'am':
+                return Armenian;
+            case 'ru':
+                return Russian;
+            case 'en':
+            default:
+                return English;
+        }
+    };
+
     return (
         <form className='ClientInfoForm'>
             <h2 className='passanger-type'>
@@ -58,15 +77,14 @@ export function ClientInfoForm({
                 }
             </h2>
 
-            {(elem.passenger_type !== 'baby' && elem.passenger_type !== 'child') && 
+            {(elem.passenger_type !== 'baby' && elem.passenger_type !== 'child') &&
                 <div className="box">
                     <h2 className="title">{clientInfoPageLabel.order_data_title}</h2>
 
                     <div className="fields">
-                        <div className="input-box">
-                            <label htmlFor="tel">{clientInfoPageLabel.phone_text_field}</label>
+                        <div className={`input-box ${validationErrors[index]?.phone ? 'error' : ''}`}>
+                            <label htmlFor="tel">{clientInfoPageLabel.phone_text_field} <span>*</span></label>
                             <PhoneInput
-                                country={'am'}
                                 inputProps={{
                                     name: 'phone',
                                     id: 'tel',
@@ -76,23 +94,24 @@ export function ClientInfoForm({
                                 value={elem.phone}
                                 containerStyle={{ width: '100%' }}
                                 onChange={(phone) => onChangePassangerListInput(index, 'phone', phone)}
+                                placeholder="+374 60 757-576"
                             />
                         </div>
 
-                        <div className="input-box">
-                            <label htmlFor="email">{clientInfoPageLabel.email_text_field}</label>
+                        <div className={`input-box ${validationErrors[index]?.email ? 'error' : ''}`}>
+                            <label htmlFor="email">{clientInfoPageLabel.email_text_field} <span>*</span></label>
                             <input type="email" id="email" value={elem.email} onChange={(e) => onChangePassangerListInput(index, 'email', e.target.value)} />
                         </div>
                     </div>
                 </div>
             }
 
-            <div className="box">
+            <div className="box visitor_details">
                 <h2 className="title_plane">{clientInfoPageLabel.visitor_details_title}</h2>
 
                 <div className="fields">
-                    <div className="input-box small">
-                        <label>{clientInfoPageLabel.title_text_field}</label>
+                    <div className={`input-box small ${validationErrors[index]?.title ? 'error' : ''}`}>
+                        <label>{clientInfoPageLabel.title_text_field} <span>*</span></label>
                         <select
                             value={elem.title}
                             onChange={(e) => onChangePassangerListInput(index, 'title', e.target.value)}
@@ -107,24 +126,34 @@ export function ClientInfoForm({
                         </select>
                     </div>
 
-                    <div className="input-box small">
+                    <div className={`input-box small ${validationErrors[index]?.full_name ? 'error' : ''}`}>
                         <label htmlFor="full-name">{clientInfoPageLabel.full_name_text_field} <span>*</span></label>
                         <input type="text" required id="full-name" value={elem.full_name} onChange={(e) => onChangePassangerListInput(index, 'full_name', e.target.value)} />
                     </div>
 
-                    <div className="input-box small">
+                    <div className={`input-box small ${validationErrors[index]?.date_of_birth ? 'error' : ''}`}>
                         <label htmlFor="birth">{clientInfoPageLabel.birth_text_field} <span>*</span></label>
-                        <input
-                            type="text"
-                            placeholder="DD.MM.YYYY"
-                            required id="birth"
-                            value={elem.date_of_birth}
-                            onChange={(e) => onChangePassangerListInput(index, 'date_of_birth', e.target.value)}
+                        <Flatpickr
+                            id="birth"
+                            options={{
+                                dateFormat: "d.m.Y",  // DD.MM.YYYY ձևաչափ
+                                allowInput: true,
+                                locale: getLocale() || English
+                            }}
+                            value={elem.date_of_birth ? new Date(elem.date_of_birth.split('.').reverse().join('-')) : null}
+                            placeholder="dd.mm.yyyy"
+                            onChange={([date]) => {
+                                const formattedDate = date
+                                    ? date.toLocaleDateString('en-GB').replace(/\//g, '.')
+                                    : '';
+                                onChangePassangerListInput(index, 'date_of_birth', formattedDate);
+                            }}
+                            className="flatpickr-input"
                         />
                     </div>
 
-                    <div className="input-box">
-                        <label htmlFor='citizenship'>{clientInfoPageLabel.citizenship_text_field}</label>
+                    <div className="input-box small">
+                        <label htmlFor='citizenship'>{clientInfoPageLabel.citizenship_text_field} <span>*</span></label>
                         <ReactFlagsSelect
                             selected={elem.citizenship_code}
                             onSelect={(code) => {
@@ -139,9 +168,31 @@ export function ClientInfoForm({
                         />
                     </div>
 
-                    <div className="input-box">
-                        <label htmlFor="passport_serial">{clientInfoPageLabel.passport_text_field}</label>
+                    <div className={`input-box small ${validationErrors[index]?.passport_serial ? 'error' : ''}`}>
+                        <label htmlFor="passport_serial">{clientInfoPageLabel.passport_text_field} <span>*</span></label>
                         <input type="text" required id="passport_serial" value={elem.passport_serial} onChange={(e) => onChangePassangerListInput(index, 'passport_serial', e.target.value)} />
+                    </div>
+
+                    <div className={`input-box small ${validationErrors[index]?.passport_validity_period ? 'error' : ''}`}>
+                        <label htmlFor="passport_validity_period">{clientInfoPageLabel.passport_validity_period_field} <span>*</span></label>
+
+                        <Flatpickr
+                            id="passport_validity_period"
+                            options={{
+                                dateFormat: "d.m.Y",  // DD.MM.YYYY ձևաչափ
+                                allowInput: true,
+                                locale: getLocale() || English
+                            }}
+                            value={elem.passport_validity_period ? new Date(elem.passport_validity_period.split('.').reverse().join('-')) : null}
+                            placeholder="dd.mm.yyyy"
+                            onChange={([date]) => {
+                                const formattedDate = date
+                                    ? date.toLocaleDateString('en-GB').replace(/\//g, '.')
+                                    : '';
+                                onChangePassangerListInput(index, 'passport_validity_period', formattedDate);
+                            }}
+                            className="flatpickr-input"
+                        />
                     </div>
                 </div>
             </div>

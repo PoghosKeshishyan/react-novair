@@ -32,8 +32,6 @@ export function BookingSearch({ bookingData }) {
   };
 
   const handlerSearchBtn = async () => {
-    return console.log(bookingPostData);
-    
     const responseObject = {
       en: "Please fill in all the fields.",
       ru: "Пожалуйста, заполните все поля.",
@@ -55,6 +53,8 @@ export function BookingSearch({ bookingData }) {
       navigate('/booking')
     } catch (error) {
       alert(error.response.data[currentLang]);
+      console.log(error);
+      
     }
   };
 

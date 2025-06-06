@@ -7,13 +7,6 @@
   font-style: normal;
 }
 
-@font-face {
-  /* font-family: 'Arial Regular';
-  src: url('../../public/fonts/ARIALBD.TTF') format('truetype');
-  font-weight: bold;
-  font-style: normal; */
-}
-
 * {
   margin: 0;
   padding: 0;

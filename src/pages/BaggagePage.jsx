@@ -1,11 +1,10 @@
 import { TopHeading } from "../components/BaggagePage/TopHeading";
 import { BaggagePageRowBox } from "../components/BaggagePage/BaggagePageRowBox";
-import { BaggagePageDescr } from "../components/BaggagePage/BaggagePageDescr";
-import axios from "../axios";
 import { useContext, useEffect, useState } from "react";
-import "../components/BaggagePage/BaggagePage.css"
 import { Loading } from "../components/Loading";
 import { LanguageContext } from "../context/LanguageContext";
+import axios from "../axios";
+import "../components/BaggagePage/BaggagePage.css"
 
 
 
@@ -13,7 +12,6 @@ export function BaggagePage() {
 
   const [headingData, setHeadingData] = useState(null);
   const [baggageData, setBaggageData] = useState(null);
-  const [baggagePageDescr, setBaggagePageDescr] = useState(null);
   const [loading, setLoading] = useState(true);
   const {currentLang} = useContext(LanguageContext);
 
@@ -27,12 +25,10 @@ export function BaggagePage() {
         ] = await Promise.all([
           axios.get("baggage_row_box?lang="+currentLang),
           axios.get("top_heading_baggage?lang="+currentLang),
-          axios.get("baggage_descr?lang="+currentLang)
         ]);
 
         setBaggageData(resBaggage.data.results[0]);
         setHeadingData(resHeading.data.results[0]);
-        setBaggagePageDescr(resDescr.data.results[0]);
 
         setLoading(false);
 
@@ -51,7 +47,6 @@ export function BaggagePage() {
         {loading && <Loading />}
         {headingData && <TopHeading headingData={headingData} />}
         {baggageData && <BaggagePageRowBox baggageData={baggageData} />}
-        {baggagePageDescr && <BaggagePageDescr baggagePageDescr={baggagePageDescr} />}
       </div>
     </div>
   );

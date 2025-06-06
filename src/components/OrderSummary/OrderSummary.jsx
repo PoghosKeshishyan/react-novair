@@ -7,10 +7,12 @@ export function OrderSummary({
   next_page,
   selectedFlights,
   orderSummary,
+  validatePassengerAges,
   action_btn,
   btn_text,
   isClientInfoValid,
   calculatePriceSumOfSeats,
+  checkPassportValidity,
   currentLang,
   passangerList,
   paymentAgreements,
@@ -38,6 +40,21 @@ export function OrderSummary({
 
         if (!result.success) {
           return alert(result.message[currentLang]);
+        }
+      }
+
+      if (checkPassportValidity) {
+        const isPassportValid = checkPassportValidity();
+
+        if (!isPassportValid) {
+          return;
+        }
+      }
+
+      if (validatePassengerAges) {
+        const ageValidation = validatePassengerAges();
+        if (!ageValidation) {
+          return;
         }
       }
 

@@ -52,10 +52,19 @@
     flex-wrap: wrap;
 }
 
+.ClientInfoForm .box.visitor_details .fields {
+    gap: 10px;
+}
+
+.ClientInfoForm .box.visitor_details .fields .input-box {
+    width: 205px;
+}
+
 .ClientInfoForm .box .fields .input-box label {
     font-family: var(--font-family);
     font-weight: 400;
     color: #22292f;
+    font-size: 15px;
 }
 
 .ClientInfoForm .box .fields .input-box label span {
@@ -92,7 +101,34 @@
     width: 200px;
 }
 
+.flatpickr-calendar * {
+    font-family: 'Arial Regular', sans-serif !important;
+}
 
+.flatpickr-calendar .flatpickr-weekday {
+    color: #fff;
+    background: #0177FC;
+}
+
+.flatpickr-calendar .flatpickr-weekdays {
+    background: #0177FC;
+}
+
+.flatpickr-months * {
+    background: #0177FC;
+}
+
+.flatpickr-monthDropdown-months {
+    background: #0177FC !important;
+}
+
+.flatpickr-monthDropdown-month {
+    background: #0177FC !important;
+}
+
+.flatpickr-months .flatpickr-month {
+    background: #0177FC !important;
+}
 
 /* ======================= telephone-input ======================= */
 
@@ -129,7 +165,6 @@
 /* ======================= citizenship-input ======================= */
 .citizenship-input {
     margin-top: 12px;
-    width: 310px;
 }
 
 .citizenship-input .ReactFlagsSelect-module_selectBtn__19wW7 {
@@ -316,6 +351,17 @@
 
 .ClientInfoForm .box .directions .dir.active {
     border-color: #0177fc;
+}
+
+.ClientInfoForm .input-box.error input,
+.ClientInfoForm .input-box.error select,
+.ClientInfoForm .input-box.error .flatpickr-input,
+.ClientInfoForm .input-box.error .react-flags-select {
+    border: 1px solid #ff0000 !important;
+}
+
+.ClientInfoForm .input-box.error .flag-dropdown {
+    border: 1px solid #ff0000 !important;
 }
 
 @media (max-width: 1500px) {
