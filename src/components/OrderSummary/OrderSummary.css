@@ -6,12 +6,6 @@
     background: #fff;
 }
 
-.OrderSummary.fixed {
-    position: fixed;
-    left: 1170px;
-    top: 200px;
-}
-
 .OrderSummary .title {
     font-family: var(--font-family);
     font-weight: 600;
@@ -105,12 +99,6 @@
     .OrderSummary {
         width: 688px;
     }
-}
-
-@media (max-width: 1715px) {
-    .OrderSummary.fixed {
-        left: 1000px;
-    }    
 }
 
 @media (max-width: 1100px) {

@@ -19,8 +19,6 @@ export function BookingClientInfoPage() {
     returnSeats: [],
   });
 
-  const [isFixedOrderSummary, setIsFixedOrderSummary] = useState(true);
-
   const [validationErrors, setValidationErrors] = useState({});
 
   const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
@@ -57,22 +55,6 @@ export function BookingClientInfoPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    const handleResize = () => {
-      if (window.innerWidth >= 1500) {
-        setIsFixedOrderSummary(true);
-      } else {
-        setIsFixedOrderSummary(false);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
   }, []);
 
   useEffect(() => {
@@ -177,40 +159,45 @@ export function BookingClientInfoPage() {
     return sum;
   };
 
-  const isClientInfoValid = () => {
-    const errors = {};
-    let isValid = true;
+const isClientInfoValid = () => {
+  const errors = {};
+  let isValid = true;
 
-    for (const [index, passenger] of passangerList.entries()) {
-      const passengerErrors = {};
-      const requiredFields = passenger.passenger_type === 'baby' || passenger.passenger_type === 'child'
-        ? ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period',]
-        : ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period', 'phone', 'email'];
+  for (const [index, passenger] of passangerList.entries()) {
+    const passengerErrors = {};
+    const requiredFields = passenger.passenger_type === 'baby' || passenger.passenger_type === 'child'
+      ? ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period']
+      : ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period', 'phone', 'email'];
 
-      for (const field of requiredFields) {
-        if (!passenger[field] || passenger[field].toString().trim() === '') {
-          passengerErrors[field] = true;
-          isValid = false;
-        }
-      }
-
-      if (Object.keys(passengerErrors).length > 0) {
-        errors[index] = passengerErrors;
+    for (const field of requiredFields) {
+      if (!passenger[field] || passenger[field].toString().trim() === '') {
+        passengerErrors[field] = true;
+        isValid = false;
       }
     }
 
-    setValidationErrors(errors);
+    if (passenger.email && !passenger.email.includes('@')) {
+      passengerErrors.email = 'invalid';
+      isValid = false;
+    }
 
-    return {
-      success: isValid,
-      message: {
-        en: isValid ? 'All fields are filled.' : 'Please fill in all required fields.',
-        ru: isValid ? 'Все поля заполнены.' : 'Пожалуйста, заполните все обязательные поля.',
-        am: isValid ? 'Բոլոր դաշտերը լրացված են։' : 'Խնդրում ենք լրացնել բոլոր դաշտերը։'
-      },
-      errors
-    };
+    if (Object.keys(passengerErrors).length > 0) {
+      errors[index] = passengerErrors;
+    }
+  }
+
+  setValidationErrors(errors);
+
+  return {
+    success: isValid,
+    message: {
+      en: isValid ? 'All fields are filled.' : 'Please fill in all required fields correctly.',
+      ru: isValid ? 'Все поля заполнены.' : 'Пожалуйста, правильно заполните все обязательные поля.',
+      am: isValid ? 'Բոլոր դաշտերը լրացված են։' : 'Խնդրում ենք ճիշտ լրացնել բոլոր պարտադիր դաշտերը։'
+    },
+    errors
   };
+};
 
   const checkPassportValidity = () => {
     const expiredPassengers = [];
@@ -378,19 +365,20 @@ export function BookingClientInfoPage() {
           }
         </div>
 
-        {orderSummary && <OrderSummary
-          isFixedOrderSummary={isFixedOrderSummary}
-          orderSummary={orderSummary}
-          currentLang={currentLang}
-          next_page={'/booking/payment'}
-          action_btn={'go-to-next-page'}
-          btn_text={'Continue'}
-          checkPassportValidity={checkPassportValidity}
-          selectedFlights={selectedFlights}
-          calculatePriceSumOfSeats={calculatePriceSumOfSeats}
-          isClientInfoValid={isClientInfoValid}
-          validatePassengerAges={validatePassengerAges}
-        />}
+        <div className='bookingInfoOrderSummary'>
+          {orderSummary && <OrderSummary
+            orderSummary={orderSummary}
+            currentLang={currentLang}
+            next_page={'/booking/payment'}
+            action_btn={'go-to-next-page'}
+            btn_text={'Continue'}
+            checkPassportValidity={checkPassportValidity}
+            selectedFlights={selectedFlights}
+            calculatePriceSumOfSeats={calculatePriceSumOfSeats}
+            isClientInfoValid={isClientInfoValid}
+            validatePassengerAges={validatePassengerAges}
+          />}
+        </div>
       </div>
     </div>
   );

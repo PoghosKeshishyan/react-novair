@@ -12,6 +12,7 @@
 .BookingSearch .To,
 .BookingSearch .Calendar,
 .BookingSearch .Passangers {
+    text-wrap: nowrap;
     border-radius: 10px;
     padding: 8px 16px;
     width: 260px;
@@ -21,7 +22,7 @@
 }
 
 .BookingSearch .Passangers {
-    width: 145px;
+    width: 170px;
     padding: 11px 16px;
 }
 

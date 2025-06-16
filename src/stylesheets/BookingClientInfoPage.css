@@ -1,5 +1,6 @@
 .BookingClientInfoPage {
-    margin-top: 92px;
+    margin-top: 180px;
+    margin-bottom: 200px;
 }
 
 .BookingClientInfoPage .page-row {
@@ -10,12 +11,32 @@
     gap: 50px;
 }
 
+.bookingInfoOrderSummary {
+    margin-top: 30px;
+    position: relative;
+    width: 425px;
+}
+
+.BookingClientInfoPage .OrderSummary {
+    position: fixed;
+}
+
 @media (max-width: 1500px) {
     .BookingClientInfoPage .page-row {
         flex-direction: column;
         align-items: center;
         gap: 0;
         margin-bottom: 70px;
+    }
+
+    .BookingClientInfoPage .OrderSummary {
+        position: static;
+    }
+
+    .bookingInfoOrderSummary {
+        margin-top: 0;
+        position: static;
+        width: auto;
     }
 }
 

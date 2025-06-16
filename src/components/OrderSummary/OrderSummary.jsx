@@ -3,7 +3,6 @@ import axios from '../../axios';
 import './OrderSummary.css';
 
 export function OrderSummary({
-  isFixedOrderSummary,
   next_page,
   selectedFlights,
   orderSummary,
@@ -200,7 +199,7 @@ export function OrderSummary({
   };
 
   return (
-    <div className={`OrderSummary ${isFixedOrderSummary ? 'fixed' : ''}`}>
+    <div className={`OrderSummary`}>
       <h2 className='title'>{orderSummary.title}</h2>
 
       <div className="directions">
