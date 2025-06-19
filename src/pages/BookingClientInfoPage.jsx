@@ -159,45 +159,45 @@ export function BookingClientInfoPage() {
     return sum;
   };
 
-const isClientInfoValid = () => {
-  const errors = {};
-  let isValid = true;
+  const isClientInfoValid = () => {
+    const errors = {};
+    let isValid = true;
 
-  for (const [index, passenger] of passangerList.entries()) {
-    const passengerErrors = {};
-    const requiredFields = passenger.passenger_type === 'baby' || passenger.passenger_type === 'child'
-      ? ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period']
-      : ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period', 'phone', 'email'];
+    for (const [index, passenger] of passangerList.entries()) {
+      const passengerErrors = {};
+      const requiredFields = passenger.passenger_type === 'baby' || passenger.passenger_type === 'child'
+        ? ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period']
+        : ['title', 'full_name', 'date_of_birth', 'citizenship', 'passport_serial', 'passport_validity_period', 'phone', 'email'];
 
-    for (const field of requiredFields) {
-      if (!passenger[field] || passenger[field].toString().trim() === '') {
-        passengerErrors[field] = true;
+      for (const field of requiredFields) {
+        if (!passenger[field] || passenger[field].toString().trim() === '') {
+          passengerErrors[field] = true;
+          isValid = false;
+        }
+      }
+
+      if (passenger.email && !passenger.email.includes('@')) {
+        passengerErrors.email = 'invalid';
         isValid = false;
+      }
+
+      if (Object.keys(passengerErrors).length > 0) {
+        errors[index] = passengerErrors;
       }
     }
 
-    if (passenger.email && !passenger.email.includes('@')) {
-      passengerErrors.email = 'invalid';
-      isValid = false;
-    }
+    setValidationErrors(errors);
 
-    if (Object.keys(passengerErrors).length > 0) {
-      errors[index] = passengerErrors;
-    }
-  }
-
-  setValidationErrors(errors);
-
-  return {
-    success: isValid,
-    message: {
-      en: isValid ? 'All fields are filled.' : 'Please fill in all required fields correctly.',
-      ru: isValid ? 'Все поля заполнены.' : 'Пожалуйста, правильно заполните все обязательные поля.',
-      am: isValid ? 'Բոլոր դաշտերը լրացված են։' : 'Խնդրում ենք ճիշտ լրացնել բոլոր պարտադիր դաշտերը։'
-    },
-    errors
+    return {
+      success: isValid,
+      message: {
+        en: isValid ? 'All fields are filled.' : 'Please fill in all required fields correctly.',
+        ru: isValid ? 'Все поля заполнены.' : 'Пожалуйста, правильно заполните все обязательные поля.',
+        am: isValid ? 'Բոլոր դաշտերը լրացված են։' : 'Խնդրում ենք ճիշտ լրացնել բոլոր պարտադիր դաշտերը։'
+      },
+      errors
+    };
   };
-};
 
   const checkPassportValidity = () => {
     const expiredPassengers = [];

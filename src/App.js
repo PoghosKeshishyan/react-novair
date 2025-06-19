@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "./context/LanguageContext";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { Header } from "./components/Header/Header";
 import { HomePage } from "./pages/HomePage";
 import { BookingResultsPage } from "./pages/BookingResultsPage";
@@ -61,6 +61,7 @@ export function App() {
         <Route path="/information/air-trans-contact" element={<AirTransContact />} />
         <Route path="/about/certificates" element={<CertificatesPage />} />
         <Route path="/about/contact" element={<ContactPage />} />
+        <Route path="*" element={<Navigate to='/' />} />
       </Routes>
 
       {footerData && <Footer footerData={footerData} />}

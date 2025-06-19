@@ -29,4 +29,8 @@
     .BookingPaymentPage {
         margin-top: 0;
     }
+    
+    .BookingPaymentPage .page-row {
+        margin-top: 35px;
+    }
 }
