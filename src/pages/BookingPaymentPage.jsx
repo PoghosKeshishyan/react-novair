@@ -1,85 +1,91 @@
-import { useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../context/LanguageContext";
-import { BookingNavigation } from "../components/BookingNavigation/BookingNavigation";
-import { Payment } from "../components/BookingPaymentPage/Payment";
-import { OrderSummary } from "../components/OrderSummary/OrderSummary";
-import { Loading } from "../components/Loading";
-import axios from "../axios";
 import '../stylesheets/BookingPaymentPage.css';
+import { useState } from 'react';
 
 export function BookingPaymentPage() {
-  const { currentLang } = useContext(LanguageContext);
-  const [loading, setLoading] = useState(true);
-  const [bookingNavigation, setBookingNavigation] = useState(null);
-  const [orderSummary, setOrderSummary] = useState(null);
-  const [bookingPaymentPageLabel, setBookingPaymentPageLabel] = useState(null);
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [cardHolder, setCardHolder] = useState('');
+    const [cvv, setCvv] = useState('');
 
-  const [paymentAgreements, setPaymentAgreements] = useState({
-    isCreditCartChecked: false,
-    isPrivacyNoticeTextChecked: false
-  });
-
-  const [passangerList, setPassangerList] = useState(() => {
-    return JSON.parse(sessionStorage.getItem('passangerList')) || [];
-  });
-
-  const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    const loadingData = async () => {
-      const resBookingNavigation = await axios.get(`booking_navigation?lang=${currentLang}`);
-      setBookingNavigation(resBookingNavigation.data.results);
-      
-      const resOrderSummary = await axios.get(`order_summary?lang=${currentLang}`);
-      setOrderSummary(resOrderSummary.data.results[0]);
-
-      const resBookingPaymentPageLabel = await axios.get(`booking_payment_page_label?lang=${currentLang}`);
-      setBookingPaymentPageLabel(resBookingPaymentPageLabel.data.results[0]);
-
-      setLoading(false);
+    const formatCardNumber = (value) => {
+        return value
+            .replace(/\D/g, '')
+            .replace(/(.{4})/g, '$1 ')
+            .trim()
+            .slice(0, 19);
     };
 
-    loadingData();
-    window.scrollTo(0, 0);
-  }, [currentLang]);
+    const formatExpiry = (value) => {
+        return value
+            .replace(/\D/g, '')
+            .replace(/^(\d{2})(\d{0,2})/, (_, m1, m2) => (m2 ? `${m1} / ${m2}` : m1))
+            .slice(0, 7);
+    };
 
-  const calculatePriceSumOfSeats = () => {
-    const sum = passangerList.reduce((total, elem) => {
-      if (elem.departure_seat_id) total += 2000;
-      if (elem.return_seat_id) total += 2000;
-      return total;
-    }, 0);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Payment Submitted');
+    };
 
-    return sum;
-  };
+    return (
+        <div className="BookingPaymentPage">
+            <h2>Payment</h2>
 
-  return (
-    <div className="BookingPaymentPage">
-      {loading && <Loading />}
-      {bookingNavigation && <BookingNavigation bookingNavigation={bookingNavigation} active_section={2} />}
+            <div className='payment-container'>
 
-      <div className="page-row container">
-        {bookingPaymentPageLabel && <Payment
-          bookingPaymentPageLabel={bookingPaymentPageLabel}
-          paymentAgreements={paymentAgreements}
-          setPaymentAgreements={setPaymentAgreements}
-        />}
+                <div className="card-preview">
+                    <div className="card-chip"></div>
+                    <div className="card-number">{cardNumber || '**** **** **** ****'}</div>
+                    <div className="card-info">
+                        <div className="card-holder">
+                            <label>Cardholder</label>
+                            <div>{cardHolder || 'JOHN DOE'}</div>
+                        </div>
+                        <div>
+                            <label>CVV</label>
+                            <div>{cvv || '***'}</div>
+                        </div>
+                        <div className="card-expiry">
+                            <label>Expires</label>
+                            <div>{expiry || 'MM / YY'}</div>
+                        </div>
+                    </div>
+                </div>
 
-        {orderSummary && <OrderSummary
-          action_btn='payment'
-          btn_text='Pay'
-          orderSummary={orderSummary}
-          selectedFlights={selectedFlights}
-          calculatePriceSumOfSeats={calculatePriceSumOfSeats}
-          paymentAgreements={paymentAgreements}
-          currentLang={currentLang}
-          passangerList={passangerList}
-        />}
-      </div>
-    </div>
-  )
+                <form onSubmit={handleSubmit} className="payment-form">
+                    <input
+                        type="text"
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                        placeholder="Card Number"
+                        required
+                    />
+                    <input
+                        type="text"
+                        value={expiry}
+                        onChange={(e) => setExpiry(formatExpiry(e.target.value))}
+                        placeholder="MM / YY"
+                        required
+                    />
+                    <input
+                        type="text"
+                        value={cvv}
+                        onChange={(e) => setCvv(e.target.value)}
+                        placeholder="CVV"
+                        maxLength={3}
+                        required
+                    />
+                    <input
+                        type="text"
+                        value={cardHolder}
+                        onChange={(e) => setCardHolder(e.target.value.toUpperCase())}
+                        placeholder="Cardholder Name"
+                        required
+                    />
+                    <button type="submit">Pay</button>
+                </form>
+
+            </div>
+        </div>
+    );
 }

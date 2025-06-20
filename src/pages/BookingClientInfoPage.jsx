@@ -369,7 +369,7 @@ export function BookingClientInfoPage() {
           {orderSummary && <OrderSummary
             orderSummary={orderSummary}
             currentLang={currentLang}
-            next_page={'/booking/payment'}
+            next_page={'/booking/payment-terms'}
             action_btn={'go-to-next-page'}
             btn_text={'Continue'}
             checkPassportValidity={checkPassportValidity}
