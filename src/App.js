@@ -6,7 +6,6 @@ import { HomePage } from "./pages/HomePage";
 import { BookingResultsPage } from "./pages/BookingResultsPage";
 import { BookingClientInfoPage } from './pages/BookingClientInfoPage';
 import { BookingPaymentTermsPage } from "./pages/BookingPaymentTermsPage";
-import { BookingPaymentPage } from "./pages/BookingPaymentPage";
 import { BaggagePage } from "./pages/BaggagePage";
 import { SeatChoicePage } from "./pages/SeatChoicePage";
 import { AirTransContact } from "./pages/AirTransContact";
@@ -57,7 +56,6 @@ export function App() {
         <Route path="/booking" element={<BookingResultsPage />} />
         <Route path="/booking/client-info" element={<BookingClientInfoPage />} />
         <Route path="/booking/payment-terms" element={<BookingPaymentTermsPage />} />
-        <Route path="/booking/payment" element={<BookingPaymentPage />} />
         <Route path="/services/baggage" element={<BaggagePage />} />
         <Route path="/services/seat-choice" element={<SeatChoicePage />} />
         <Route path="/information/air-trans-contact" element={<AirTransContact />} />

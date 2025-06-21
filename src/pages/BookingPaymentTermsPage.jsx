@@ -70,8 +70,8 @@ export function BookingPaymentTermsPage() {
         />}
 
         {orderSummary && <OrderSummary
-          action_btn='payment'
-          btn_text='Pay'
+          action_btn='pay'
+          btn_text='pay'
           orderSummary={orderSummary}
           selectedFlights={selectedFlights}
           calculatePriceSumOfSeats={calculatePriceSumOfSeats}
