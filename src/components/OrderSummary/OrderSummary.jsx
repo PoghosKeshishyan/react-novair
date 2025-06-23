@@ -73,8 +73,8 @@ export function OrderSummary({
         return alert(alertMessages[currentLang]);
       }
 
+      // paymentMethod();
       postsAllInfo();
-      // navigate('/booking/payment')
     }
   };
 
@@ -111,6 +111,21 @@ export function OrderSummary({
     return result;
   };
 
+  const paymentMethod = () => {
+    fetch(`https://servicestest.ameriabank.am/VPOS/api/VPOS/InitPayment`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ClientID: 'abaddfd6-383f-482c-9bde-5a42e348950c',
+        Username: '3d19541048',
+        Password: 'lazY2k',
+        Description: 'Ticket payment',
+        OrderID: 1,
+        Amount: calculateSumOfTickets(),
+        BackURL: 'http://localhost:3000/',
+      }),
+    })
+  };
+
   const postsAllInfo = async () => {
     const selectedFlights = JSON.parse(sessionStorage.getItem('selectedFlights'));
     const bookingPostData = JSON.parse(sessionStorage.getItem('bookingPostData'));
@@ -130,71 +145,71 @@ export function OrderSummary({
 
     try {
       /* ============================= for flight tickets ============================= */
-      // try {
-      //   postData.forEach(async elem => {
-      //     // gnum enq ticket@
-      //     let currentTicket = selectedFlights.flight.tickets.find(item => item.id === elem.ticket_id);
-      //     console.log('departure currentTicket', currentTicket);
-      //     console.log('deparuter elem', elem);
+      try {
+        postData.forEach(async elem => {
+          // gnum enq ticket@
+          let currentTicket = selectedFlights.flight.tickets.find(item => item.id === elem.ticket_id);
+          console.log('departure currentTicket', currentTicket);
+          console.log('deparuter elem', elem);
 
 
-      //     let www = await axios.post(`tickets/${currentTicket.id}/set_sold/`);
-      //     console.log('Ticket@ sold enq sarqum', www);
+          let www = await axios.post(`tickets/${currentTicket.id}/set_sold/`);
+          console.log('Ticket@ sold enq sarqum', www);
 
 
-      //     // broni enq anum nstatex@
-      //     if (elem.passenger_type !== 'baby') {
-      //       let a = await axios.post(`flights_seats/${elem.departure_seat_id}/set_taken/`);
-      //       console.log('Nstatexn enq broni anum', a);
-      //     }
+          // broni enq anum nstatex@
+          if (elem.passenger_type !== 'baby') {
+            let a = await axios.post(`flights_seats/${elem.departure_seat_id}/set_taken/`);
+            console.log('Nstatexn enq broni anum', a);
+          }
 
-      //     // pasajiri tvyalner@ post em anum
-      //     let c = await axios.post(`passangers/`, elem);
-      //     console.log('passanget Listn enq save anum', c);
+          // pasajiri tvyalner@ post em anum
+          let c = await axios.post(`passangers/`, elem);
+          console.log('passanget Listn enq save anum', c);
 
-      //     console.log('elem', elem);
+          console.log('elem', elem);
 
-      //     console.log('----------------------------------------');
-      //   })
+          console.log('----------------------------------------');
+        })
 
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      } catch (error) {
+        console.log(error);
+      }
 
-      // console.log('======================================================== return');
+      console.log('======================================================== return');
       // /* ============================= for return tickets ============================= */
-      // if (bookingPostData.return_date) {
-      //   try {
-      //     postData.forEach(async elem => {
-      //       elem.ticket_id = elem.return_ticket_id;
+      if (bookingPostData.return_date) {
+        try {
+          postData.forEach(async elem => {
+            elem.ticket_id = elem.return_ticket_id;
 
-      //       // gnum enq ticket@
-      //       let currentTicket = selectedFlights.return.tickets.find(item => item.id === elem.return_ticket_id);
-      //       let www = await axios.post(`tickets/${currentTicket.id}/set_sold/`);
-      //       console.log('Ticket@ sold enq sarqum', www);
+            // gnum enq ticket@
+            let currentTicket = selectedFlights.return.tickets.find(item => item.id === elem.return_ticket_id);
+            let www = await axios.post(`tickets/${currentTicket.id}/set_sold/`);
+            console.log('Ticket@ sold enq sarqum', www);
 
-      //       // broni enq anum nstatex@
-      //       if (elem.passenger_type !== 'baby') {
-      //         let a = await axios.post(`flights_seats/${elem.return_seat_id}/set_taken/`);
-      //         console.log('Nstatexn enq broni anum', a);
-      //       }
+            // broni enq anum nstatex@
+            if (elem.passenger_type !== 'baby') {
+              let a = await axios.post(`flights_seats/${elem.return_seat_id}/set_taken/`);
+              console.log('Nstatexn enq broni anum', a);
+            }
 
 
-      //       // pasajiri tvyalner@ post em anum
-      //       let c = await axios.post(`passangers/`, elem);
-      //       console.log('passanget Listn enq save anum', c);
+            // pasajiri tvyalner@ post em anum
+            let c = await axios.post(`passangers/`, elem);
+            console.log('passanget Listn enq save anum', c);
 
-      //       console.log('return ticket', currentTicket);
-      //       console.log('return elem', elem);
+            console.log('return ticket', currentTicket);
+            console.log('return elem', elem);
 
-      //       console.log('----------------------------------------');
+            console.log('----------------------------------------');
 
-      //     })
+          })
 
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // }
+        } catch (error) {
+          console.log(error);
+        }
+      }
 
 
       /* ============================ archive data ============================ */
@@ -217,14 +232,13 @@ export function OrderSummary({
       }
 
       console.log(archiveData);
+      console.log(JSON.stringify(archiveData));
 
-      let abcd = await axios.post('/sold_archive', abcd);
-
-      return;
+      await axios.post('/sold_archive/', archiveData);
 
       /* ========================== end archive data ========================== */
 
-      alert('ԳՆՈՒՄԸ ԿԱՏԱՐՎԵՑ');
+      // alert('ԳՆՈՒՄԸ ԿԱՏԱՐՎԵՑ');
 
       const responseObj = {
         "am": "Գնումը հաջողությամբ կատարվեց։/Ստուգեք ձեր էլեկտրոնային փոստը։",
@@ -233,8 +247,8 @@ export function OrderSummary({
       };
 
       localStorage.setItem('price_res', JSON.stringify({ ok: true, responseObj }));
+      navigate('/')
     } catch (error) {
-      return
       const responseObj = {
         "am": "Տեղի ունեցավ սխալ։/Խնդրում ենք փորձել կրկին։",
         "ru": "Произошла ошибка./Пожалуйста, попробуйте снова.",
@@ -242,11 +256,10 @@ export function OrderSummary({
       };
 
       localStorage.setItem('price_res', JSON.stringify({ ok: false, responseObj }));
-      navigate('/');
-
       console.log(error);
+      navigate('/')
     }
-  }
+  };
 
   const sumSeats = () => {
     if (calculatePriceSumOfSeats) {

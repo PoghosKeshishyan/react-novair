@@ -59,32 +59,36 @@ export function BookingClientInfoPage() {
 
   useEffect(() => {
     const loadingData = async () => {
-      const resBookingNavigation = await axios.get(`booking_navigation?lang=${currentLang}`);
-      setBookingNavigation(resBookingNavigation.data.results);
+      try {
+        const resBookingNavigation = await axios.get(`booking_navigation?lang=${currentLang}`);
+        setBookingNavigation(resBookingNavigation.data.results);
 
-      const resOrderSummary = await axios.get(`order_summary?lang=${currentLang}`);
-      setOrderSummary(resOrderSummary.data.results[0]);
+        const resOrderSummary = await axios.get(`order_summary?lang=${currentLang}`);
+        setOrderSummary(resOrderSummary.data.results[0]);
 
-      const resBookingClientInfoPageLabel = await axios.get(`booking_client_info_page_label?lang=${currentLang}`);
-      setClientInfoPageLabel(resBookingClientInfoPageLabel.data.results[0]);
+        const resBookingClientInfoPageLabel = await axios.get(`booking_client_info_page_label?lang=${currentLang}`);
+        setClientInfoPageLabel(resBookingClientInfoPageLabel.data.results[0]);
 
-      /* =============================== flight seats =============================== */
-      if (bookingPostData.return_date) {
-        const resDepartureSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.flight.id}`);
-        const resReturnSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.return.id}`);
+        /* =============================== flight seats =============================== */
+        if (bookingPostData.return_date) {
+          const resDepartureSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.flight.id}`);
+          const resReturnSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.return.id}`);
 
-        setFlightSeats(prev => {
-          return { ...prev, departureSeats: resDepartureSeats.data, returnSeats: resReturnSeats.data };
-        })
-      } else {
-        const resDepartureSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.flight.id}`);
+          setFlightSeats(prev => {
+            return { ...prev, departureSeats: resDepartureSeats.data, returnSeats: resReturnSeats.data };
+          })
+        } else {
+          const resDepartureSeats = await axios.get(`flights_seats/?flight_id=${selectedFlights.flight.id}`);
 
-        setFlightSeats(prev => {
-          return { ...prev, departureSeats: resDepartureSeats.data };
-        })
-      };
+          setFlightSeats(prev => {
+            return { ...prev, departureSeats: resDepartureSeats.data };
+          })
+        };
 
-      setLoading(false);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     loadingData();
