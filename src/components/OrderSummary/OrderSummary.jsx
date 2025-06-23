@@ -218,6 +218,8 @@ export function OrderSummary({
 
       console.log(archiveData);
 
+      let abcd = await axios.post('/sold_archive', abcd);
+
       return;
 
       /* ========================== end archive data ========================== */
