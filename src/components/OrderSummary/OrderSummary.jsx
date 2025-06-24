@@ -73,8 +73,8 @@ export function OrderSummary({
         return alert(alertMessages[currentLang]);
       }
 
-      // paymentMethod();
-      postsAllInfo();
+      paymentMethod();
+      // postsAllInfo();
     }
   };
 
@@ -123,7 +123,7 @@ export function OrderSummary({
         Amount: calculateSumOfTickets(),
         BackURL: 'http://localhost:3000/',
       }),
-    })
+    }).then(console.log).catch(console.log)
   };
 
   const postsAllInfo = async () => {
