@@ -140,7 +140,7 @@ export function ClientInfoForm({
                                 allowInput: true,
                                 locale: getLocale() || English
                             }}
-                            value={elem.date_of_birth ? new Date(elem.date_of_birth.split('.').reverse().join('-')) : null}
+                            value={elem.date_of_birth ? new Date(elem.date_of_birth.split('.').reverse().join('-')) : ''}
                             placeholder="dd.mm.yyyy"
                             onChange={([date]) => {
                                 const formattedDate = date
@@ -183,7 +183,7 @@ export function ClientInfoForm({
                                 allowInput: true,
                                 locale: getLocale() || English
                             }}
-                            value={elem.passport_validity_period ? new Date(elem.passport_validity_period.split('.').reverse().join('-')) : null}
+                            value={elem.passport_validity_period ? new Date(elem.passport_validity_period.split('.').reverse().join('-')) : ''}
                             placeholder="dd.mm.yyyy"
                             onChange={([date]) => {
                                 const formattedDate = date

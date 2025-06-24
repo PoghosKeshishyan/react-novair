@@ -40,6 +40,16 @@
     }
 }
 
+@media (max-width: 734px) {
+    .bookingInfoOrderSummary {
+        width: 100%;
+    }
+
+    .bookingInfoOrderSummary .OrderSummary {
+        width: 100%;
+    }
+}
+
 @media (max-width: 668px) {
     .BookingClientInfoPage {
         margin-top: 0;

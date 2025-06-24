@@ -26,11 +26,11 @@
 }
 
 @media (max-width: 668px) {
-    .BookingPaymentPage {
+    .BookingPaymentTermsPage {
         margin-top: 0;
     }
     
-    .BookingPaymentPage .page-row {
+    .BookingPaymentTermsPage .page-row {
         margin-top: 35px;
     }
 }

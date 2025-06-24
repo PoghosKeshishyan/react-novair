@@ -114,11 +114,15 @@ export function OrderSummary({
   const paymentMethod = () => {
     fetch(`https://servicestest.ameriabank.am/VPOS/api/VPOS/InitPayment`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         ClientID: 'abaddfd6-383f-482c-9bde-5a42e348950c',
         Username: '3d19541048',
         Password: 'lazY2k',
         Description: 'Ticket payment',
+        Currency: "051",
         OrderID: 1,
         Amount: calculateSumOfTickets(),
         BackURL: 'http://localhost:3000/',

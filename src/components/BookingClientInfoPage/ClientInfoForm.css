@@ -419,6 +419,10 @@
     .ClientInfoForm .box .directions {
         flex-direction: column;
     }
+
+    .ClientInfoForm .box.visitor_details .fields .input-box {
+        width: 100%;
+    }
 }
 
 @media (max-width: 686px) {
