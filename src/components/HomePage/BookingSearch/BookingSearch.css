@@ -258,6 +258,18 @@
     }
 }
 
+.BookingSearch .Calendar .flatpickr-input,
+.BookingSearch .Calendar .flatpickr-input::placeholder {
+    font-size: 16px;
+    color: #000;
+    background: #F2F4F8;
+    width: 100%;
+}
+
+.BookingSearch .Calendar .clear-btn {
+    -webkit-text-stroke: 1px;
+}
+
 /* =========================== media queries =========================== */
 
 @media (max-width: 1240px) {

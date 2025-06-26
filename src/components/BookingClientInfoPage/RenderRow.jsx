@@ -1,5 +1,5 @@
 export function RenderRow({ prefix, flightSeats, holdSeats, selectedSeat, setSelectedSeat, direction }) {
-    const seatsInRow = flightSeats[direction].filter(seat => seat.seat_number.startsWith(prefix));
+    const seatsInRow = flightSeats[direction].results.filter(seat => seat.seat_number.startsWith(prefix));
 
     return (
         <div className="seat-row">

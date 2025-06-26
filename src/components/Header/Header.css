@@ -145,6 +145,10 @@ header .row .menu .change-language .sub-menu .lang {
         padding: 15px;
     }
 
+    header .row .menu .navbar .sub-menu.sub-menu-2 {
+        width: 180px;
+    }
+
     header .row .menu .navbar .sub-menu .sub-menu-link {
         font-size: 12px;
     }

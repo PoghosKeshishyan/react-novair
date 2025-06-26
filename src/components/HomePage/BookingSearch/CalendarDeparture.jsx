@@ -1,49 +1,91 @@
-import { useRef, useState } from "react";
+import { useContext, useState } from "react";
+import { LanguageContext } from "../../../context/LanguageContext";
+import Flatpickr from "react-flatpickr";
+import { Armenian } from "flatpickr/dist/l10n/hy.js";
+import { Russian } from "flatpickr/dist/l10n/ru.js";
+import { English } from "flatpickr/dist/l10n/default.js";
+import "flatpickr/dist/themes/material_blue.css";
 
 export function CalendarDeparture({ bookingFields, onChangeBookingPostData }) {
-    const [visibleDate, setVisibleDate] = useState('');
-    const dateInputRef = useRef(null);
-    const calendarData = bookingFields.calendar_field_list[0];
+    const { currentLang } = useContext(LanguageContext);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const calendarData = bookingFields?.calendar_field_list?.[0];
 
-    const handleClick = (e) => {
-        if (e.target.classList?.contains('departure') && dateInputRef.current) {
-            dateInputRef.current.showPicker?.();
-            dateInputRef.current.focus();
+    const getLocale = () => {
+        switch (currentLang) {
+            case "am":
+                return Armenian;
+            case "ru":
+                return Russian;
+            case "en":
+            default:
+                return English;
         }
     };
 
-    const handleChange = (e) => {
-        const value = e.target.value; // YYYY-MM-DD
-        const date = new Date(value);
+    const handleDateChange = ([date]) => {
+        if (date) {
+            const isoString = date.toISOString().split("T")[0];
 
-        const formatted = date.toLocaleDateString("hy-AM", {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
+            const formattedDate = date.toLocaleDateString(
+                currentLang === "am"
+                    ? "hy-AM"
+                    : currentLang === "ru"
+                        ? "ru-RU"
+                        : "en-GB",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                }
+            );
 
-        setVisibleDate(formatted); // DD.MM.YYYY
-        onChangeBookingPostData({ departure_date: value });
+            setSelectedDate(formattedDate);
+            onChangeBookingPostData({ departure_date: isoString });
+        }
+    };
+
+    const handleClear = () => {
+        setSelectedDate(null);
+        onChangeBookingPostData({ departure_date: "" });
     };
 
     return (
         <div className="Calendar">
-            <p className="title">{calendarData.departure_field_text}</p>
+            <p className="title">{calendarData?.departure_field_text}</p>
 
-            <div className="info flex-center" onClick={handleClick}>
-                <img src="/images/calendar.svg" alt="calendar" className="departure" />
+            <div className="info flex-center">
+                <img src="/images/calendar.svg" alt="calendar" className="calendar-icon" />
 
-                {/* Hidden real date input */}
-                <input
-                    type="date"
-                    className="departure"
-                    ref={dateInputRef}
-                    onChange={handleChange}
-                    min={new Date().toISOString().split("T")[0]}
+                <Flatpickr
+                    options={{
+                        dateFormat: "d.m.Y",
+                        minDate: "today",
+                        locale: getLocale(),
+                        disableMobile: true 
+                    }}
+                    value={
+                        selectedDate
+                            ? new Date(selectedDate.split(".").reverse().join("-"))
+                            : ''
+                    }
+                    placeholder={bookingFields.select_field_text}
+                    onChange={handleDateChange}
+                    className="flatpickr-input departure"
+                    readOnly 
                 />
 
-                {/* Visible display for user */}
-                <span className="departure">{visibleDate || bookingFields.select_field_text}</span>
+
+                {selectedDate && (
+                    <button
+                        type="button"
+                        className="clear-btn"
+                        onClick={handleClear}
+                        title="Clear date"
+                    >
+                        ✕
+                    </button>
+                )}
             </div>
         </div>
     );

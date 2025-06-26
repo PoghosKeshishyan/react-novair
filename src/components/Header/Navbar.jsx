@@ -25,7 +25,7 @@ export function Navbar({ navbar }) {
 
                         {
                             activeDropdown === index && (
-                                <ul className="sub-menu">
+                                <ul className={`sub-menu ${index === 1 ? 'sub-menu-2' : ''}`}>
                                     {
                                         elem.subnavbar_list.map(sub_elem => (
                                             <li key={sub_elem.id}>

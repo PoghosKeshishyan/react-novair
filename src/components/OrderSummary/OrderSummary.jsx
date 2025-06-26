@@ -73,8 +73,8 @@ export function OrderSummary({
         return alert(alertMessages[currentLang]);
       }
 
-      paymentMethod();
-      // postsAllInfo();
+      // paymentMethod();
+      postsAllInfo();
     }
   };
 
@@ -125,7 +125,7 @@ export function OrderSummary({
         Currency: "051",
         OrderID: 1,
         Amount: calculateSumOfTickets(),
-        BackURL: 'http://localhost:3000/',
+        BackURL: 'https://novair.am/',
       }),
     }).then(console.log).catch(console.log)
   };
@@ -318,7 +318,7 @@ export function OrderSummary({
       </div>
 
       <button onClick={handler_btn} className='order-summary-btn'>
-        {btn_text !== 'Pay' ? orderSummary.btn_text.split('/')[0] : orderSummary.btn_text.split('/')[1]}
+        {btn_text !== 'pay' ? orderSummary.btn_text.split('/')[0] : orderSummary.btn_text.split('/')[1]}
       </button>
     </div>
   )
