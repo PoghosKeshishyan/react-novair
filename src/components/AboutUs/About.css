@@ -1,0 +1,55 @@
+.AboutUs *{
+  font-family: var(--font-family);
+
+}
+
+.aboutHeading_page_top_subheading{
+    padding-top: 27px;
+  }
+  
+  
+  .aboutHeading_page_top_subheading .aboutHeading_page_name {
+    font-size: 14px;
+    color: #000;
+    opacity: 0.5;
+  }
+  
+  .aboutHeading_page_top_subheading .img_div img {
+    width: 18px;
+    height: 11px;
+  }
+  
+  .aboutHeading_page_top_subheading .subheading_page_name_to {
+    font-size: 14px;
+    color: #000;
+  }
+  
+
+  /* ________________________________________________ */
+
+
+.about_us{
+    padding:80px;
+}
+
+.about_us .heading{
+    font-size: 30px;
+    text-align: center;
+}
+
+
+.about_us .descr{
+    padding: 40px;
+    text-align: center;
+    line-height: 2;
+    font-size: 18px;
+}
+
+
+@media(max-width: 768px) {
+
+  .about_us{
+    padding:80px 20px;
+}
+
+}

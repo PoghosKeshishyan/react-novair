@@ -26,21 +26,7 @@ export function CalendarDeparture({ bookingFields, onChangeBookingPostData }) {
     const handleDateChange = ([date]) => {
         if (date) {
             const isoString = date.toISOString().split("T")[0];
-
-            const formattedDate = date.toLocaleDateString(
-                currentLang === "am"
-                    ? "hy-AM"
-                    : currentLang === "ru"
-                        ? "ru-RU"
-                        : "en-GB",
-                {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric"
-                }
-            );
-
-            setSelectedDate(formattedDate);
+            setSelectedDate(date); // Պահպանում ենք Date օբյեկտը
             onChangeBookingPostData({ departure_date: isoString });
         }
     };
@@ -64,17 +50,12 @@ export function CalendarDeparture({ bookingFields, onChangeBookingPostData }) {
                         locale: getLocale(),
                         disableMobile: true 
                     }}
-                    value={
-                        selectedDate
-                            ? new Date(selectedDate.split(".").reverse().join("-"))
-                            : ''
-                    }
+                    value={selectedDate || ''} 
                     placeholder={bookingFields.select_field_text}
                     onChange={handleDateChange}
                     className="flatpickr-input departure"
                     readOnly 
                 />
-
 
                 {selectedDate && (
                     <button

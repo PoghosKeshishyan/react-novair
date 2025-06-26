@@ -26,45 +26,75 @@
   }
   
 
-
-
   /* ________________________________________________________ */
-.contact_image {
-  margin: 30px 0;
+
+
+  .contact_intro{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     width: 100%;
-    height: auto;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+
+  .contact_intro .heading{
+    font-size: 40px;
+    color: white;
+
 }
 
+/* ______________________________________ */
 
-.contact_image img{
-  width: 100%;height: 100%;
-}
 
-/* _____________________________________________________________ */
-
-.ContactInfoPart{
-  text-align: center;
-  padding-bottom: 30px;
-}
-
-.ContactInfoPart p {
-  color: #333;
-  padding: 3px 0;
-}
-
-.ContactInfoPart .inner_box{
+.ContactInfo{
   display: flex;
-  justify-content: center;
-  gap: 2%;
+  align-items: center;
+  gap: 40px;
+  margin: 60px 0;
+  flex-wrap: wrap;
 }
 
-.ContactInfoPart  a{
-  color: black;
-  font-weight: bolder;
+.ContactInfo .box{
+  flex: 1 1 20rem;
+  background-color: rgba(255, 253, 253, 0.635);
+  box-shadow: 0 2px 4px rgba(128, 128, 128, 0.244);
+  border-radius: 10px;
+  padding: 40px;
 }
 
-.ContactInfoPart  .span{
- cursor: pointer;
- color: black;
- font-weight: bolder;
+
+.ContactInfo .box:hover img{
+  transform: scale(1.4);
+
+}
+
+
+.ContactInfo .box .inner span{
+  font-size: 25px;
+}
+
+
+
+.ContactInfo .box .inner img{
+width: 40px;
+height: 40px;
+ float: right;
+  color: rgb(172, 168, 168);
+  transition:transform 1.5s ease;
+}
+
+
+.ContactInfo .box p{
+  padding-top: 40px;
+  color: rgb(88, 86, 86);
+}
+  
+.contact_map iframe{
+  width: 100%;
+  height: 300px;
 }

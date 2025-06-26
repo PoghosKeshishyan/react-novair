@@ -9,7 +9,7 @@ import { BookingPaymentTermsPage } from "./pages/BookingPaymentTermsPage";
 import { BaggagePage } from "./pages/BaggagePage";
 import { SeatChoicePage } from "./pages/SeatChoicePage";
 import { AirTransContact } from "./pages/AirTransContact";
-import { CertificatesPage } from "./pages/CertificatesPage";
+import { AboutourCompany } from "./pages/AboutUurCompany";
 import { ContactPage } from "./pages/ContactPage";
 import { Footer } from "./components/Footer/Footer";
 import axios from "./axios";
@@ -59,7 +59,7 @@ export function App() {
         <Route path="/services/baggage" element={<BaggagePage />} />
         <Route path="/services/seat-choice" element={<SeatChoicePage />} />
         <Route path="/information/air-trans-contact" element={<AirTransContact />} />
-        <Route path="/about/certificates" element={<CertificatesPage />} />
+        <Route path="/about/company" element={<AboutourCompany />} />
         <Route path="/about/contact" element={<ContactPage />} />
         <Route path="*" element={<Navigate to='/' />} />
       </Routes>
