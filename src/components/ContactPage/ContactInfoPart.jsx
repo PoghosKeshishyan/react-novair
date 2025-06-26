@@ -1,5 +1,4 @@
 export function ContactInfoPart({ contactInfo }) {
-console.log(contactInfo);
 
   return (
     <div className="ContactInfo">
