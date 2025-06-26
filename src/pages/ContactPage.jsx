@@ -39,7 +39,7 @@ export function ContactPage() {
   }, [currentLang]);
 
   return (
-    <div className="ContactPage" style={{marginTop: '93px'}}>
+    <div className="ContactPage">
       {loading && <Loading />}
       {contactInrto && <ContactIntro contactInrto={contactInrto} />}
       <div className="container">

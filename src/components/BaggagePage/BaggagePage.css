@@ -1,5 +1,6 @@
 .BaggagePage *{
     font-family: var(--font-family);
+    padding-top: 20px;
 }
 
 

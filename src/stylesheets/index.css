@@ -57,3 +57,14 @@ body {
 .as-page {
   margin-top: 110px !important;
 }
+
+@media (max-width: 672px) {
+  .as-page {
+    user-select: none;
+    margin-top: 0 !important;
+  }
+
+  .ContactPage {
+    margin-top: 0 !important;
+  }
+}

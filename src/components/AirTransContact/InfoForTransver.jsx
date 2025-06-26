@@ -20,8 +20,8 @@ export function InfoForTransfer({transferContent}) {
         {transferContent.subheading}
       </h4>
       <ul className="air_trans_contact_page_list">
-        {transferContent?.list?.map(item => (
-          <li key={item.id}>{item.text}</li>
+        {transferContent?.list?.map((item,i) => (
+          <li key={i}>{item.text}</li>
         ))}
       </ul>
 

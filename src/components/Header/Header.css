@@ -5,6 +5,7 @@ header {
     left: 0;
     right: 0;
     z-index: 1000;
+    user-select: none;
 }
 
 header .row {
@@ -12,7 +13,6 @@ header .row {
 }
 
 header .row .menu .navbar {
-    /* gap: 24px; */
     padding-right: 20px;
     border-right: 1px solid #b3b3b3;
 }

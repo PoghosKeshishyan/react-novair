@@ -29,7 +29,7 @@ export function Navbar({ navbar }) {
                                     {
                                         elem.subnavbar_list.map(sub_elem => (
                                             <li key={sub_elem.id}>
-                                                <NavLink to={sub_elem.url} className="sub-menu-link">
+                                                <NavLink to={sub_elem.url} className="sub-menu-link" onClick={()=>setTimeout(() => handleMouseLeave())}>
                                                     {sub_elem.title}
                                                 </NavLink>
                                             </li>
